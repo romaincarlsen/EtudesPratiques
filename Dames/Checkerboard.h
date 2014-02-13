@@ -6,10 +6,14 @@ class Checkerboard
 {
 
 private:
-	Square square[NBCOLUMN][NBLINE] ;
-
+	int nbColumn ;
+	int nbLine ;
+	int** square ;
 public:
-	Checkerboard(void);
+	// create checkerboard with dimension parameters
+	Checkerboard(int nbLine, int nbColumn);
 	~Checkerboard(void);
+	// print checkerboard
+	void print() ;
 };
 

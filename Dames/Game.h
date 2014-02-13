@@ -11,9 +11,12 @@ class Game
 private:
 	Player P1 ;
 	Player P2 ;
-	Checkerboard checkerboard ;
+	Checkerboard* board ;
 public:
-	Game(void);
+	// create game with dimension parameters
+	Game(int nbLine, int nbColumn);
 	~Game(void);
+	// print game
+	void print() ;
 };
 

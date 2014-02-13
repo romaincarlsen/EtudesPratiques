@@ -8,8 +8,6 @@ class PlayerCP :
 
 private:
 
-	Piece piece[NBPIECESPLAYERS] ;
-
 public:
 	PlayerCP(void);
 	~PlayerCP(void);

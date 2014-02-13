@@ -7,8 +7,6 @@ class PlayerManual :
 
 private:
 
-	Piece piece[NBPIECESPLAYERS] ;
-
 public:
 	PlayerManual(void);
 	~PlayerManual(void);
