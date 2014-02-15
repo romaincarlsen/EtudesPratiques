@@ -80,6 +80,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Tools.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="PlayerManual.h" />
     <ClInclude Include="Player.h" />
@@ -97,6 +98,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Checkerboard.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="tools.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -105,6 +107,7 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram11.cd" />
     <None Include="ClassDiagram2.cd" />
     <None Include="ClassDiagram3.cd" />
   </ItemGroup>

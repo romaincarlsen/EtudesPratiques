@@ -2,7 +2,7 @@
 #include "PlayerCP.h"
 
 
-PlayerCP::PlayerCP(void)
+PlayerCP::PlayerCP(int nbLinePiece, Checkerboard* board, DIRECTION direction) : Player(nbLinePiece, board, direction)
 {
 }
 

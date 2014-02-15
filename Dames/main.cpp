@@ -1,24 +1,67 @@
 #include "stdafx.h"
-#include <iostream>
 #include "main.h"
+
 #include "Game.h"
 
-using namespace std;
+// parameters scan menu for custom game
+void customization(int & height, int & length, int & nbLinePiece1, int & nbLinePiece2) {
+		// init board size with user input
+		cout << "Board Size" << endl ;
+		cout << "length : " ;
+		do {
+			length = scanInt() ;
+		} while (length<MIN_LENGTH || !isEven(length)) ;
+		cout << "height : " ;
+		do {
+			height = scanInt() ;
+		} while (height<MIN_HEIGHT || !isEven(height)) ;
+		// init number of pieces with user input
+		cout << endl << "Number of pieces lines" << endl ;
+		cout << "for player1 : " ;
+		do {
+			nbLinePiece1 = scanInt() ;
+		} while (nbLinePiece1<=0 || nbLinePiece1>=height/2) ;
+		cout << "for player2 : " ;
+		do {
+			nbLinePiece2 = scanInt() ;
+		} while (nbLinePiece2<=0 || nbLinePiece2>=height/2) ;
+}
 
 // main for game developping
 int mainGame() {
+	char choice ;
+	int height = 10 ;
+	int length = 10 ;
+	int nbLinePiece1 = 4 ;
+	int nbLinePiece2 = 4;
+	Game* game ;
 
-	cout << "main Game" << endl ;
+	cout << "main Game" << endl << endl ;
+	
+	do {
+		// menu
+		cout << "1	classic game" << endl ;
+		cout << "2	custom game" << endl ;
+		cout << "3	quit" << endl ;
+		do {
+			cin >> choice ;
+		} while (choice!='1' && choice!='2' && choice!='3') ;
 
-	// game creation
-	Game game(10,10) ;
+		// if choice isn't quit
+		if (choice!='3') {
 
-	// game printing
-	game.print() ;
+			if (choice=='2')
+				customization(height, length, nbLinePiece1, nbLinePiece2) ;
 
-	// wait key press
-	getchar() ;
-	getchar() ;
+			// create game
+			game = new Game(height, length, nbLinePiece1, nbLinePiece2) ;
+
+			// launch game
+			game->launch() ;
+
+			delete game ;
+		}
+	} while (choice!='3') ;
 
 	return 0 ;
 
@@ -30,7 +73,7 @@ int mainGraphic() {
 	cout << "main Graphic" << endl ;
 
 	// game creation
-	Game game(10,10) ;
+	Game game(10,10,4,4) ;
 
 	// game printing
 	game.print() ;

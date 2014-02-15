@@ -1,6 +1,7 @@
-#pragma once
-#include "Square.h"
-#include "Tools.h"
+#ifndef CHECKERBOARD_H
+#define CHECKERBOARD_H
+
+#include "tools.h"
 
 class Checkerboard
 {
@@ -8,12 +9,22 @@ class Checkerboard
 private:
 	int nbColumn ;
 	int nbLine ;
-	int** square ;
+	SQUARE** square ;
 public:
 	// create checkerboard with dimension parameters
 	Checkerboard(int nbLine, int nbColumn);
 	~Checkerboard(void);
+
+	int getNbColumn() ;
+
+	int getNbLine();
+
+	SQUARE** getSquare() ;
+	// put Piece on the Checkerboard
+	bool putPiece(int x, int y, SQUARE piece) ;
+
 	// print checkerboard
 	void print() ;
 };
 
+#endif
