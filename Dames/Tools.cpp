@@ -16,6 +16,21 @@ bool isLocked(SQUARE square) {
 	return square == LOCK ;
 }
 
+// return if the square contain a king
+bool isKing(SQUARE square) {
+	return square == WHITE_KING || square ==BLACK_KING ;
+}
+
+// return if the square contain a piece
+bool isPiece(SQUARE square) {
+	return square == WHITE_PIECE || square ==BLACK_PIECE ;
+}
+
+// return if the square is occuped
+bool isNotEmpty(SQUARE square) {
+	return square != EMPTY && square !=LOCK ;
+}
+
 // return char corresponding to square type for consol printing
 char square_to_char(SQUARE square) {
 	switch (square) {

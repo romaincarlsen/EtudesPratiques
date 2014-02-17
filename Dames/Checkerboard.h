@@ -19,6 +19,8 @@ public:
 
 	int getNbLine();
 
+	void setSquare(int x, int y, SQUARE square);
+
 	SQUARE** getSquare() ;
 	// put Piece on the Checkerboard
 	bool putPiece(int x, int y, SQUARE piece) ;

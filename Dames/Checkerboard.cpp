@@ -38,6 +38,10 @@ int Checkerboard::getNbLine() {
 	return nbLine ;
 }
 
+void Checkerboard::setSquare(int x, int y, SQUARE square) {
+	this->square[x][y]= square ;
+}
+
 SQUARE** Checkerboard::getSquare() {
 	return square ;
 }

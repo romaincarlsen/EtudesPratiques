@@ -9,6 +9,15 @@ bool isEven(int val) ;
 // return if val is odd number
 bool isOdd(int val) ;
 
+// return if the square contain a king
+bool isKing(SQUARE square);
+
+// return if the square contain a piece
+bool isPiece(SQUARE square);
+
+// return if the square is occuped
+bool isNotEmpty(SQUARE square) ;
+
 // return if square is locked (white square)
 bool isLocked(SQUARE square) ;
 

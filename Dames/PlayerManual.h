@@ -11,14 +11,15 @@ class PlayerManual :
 
 private:
 
+	//Init x and y value with user input
+	void scanCoord(int & x, int & y) ;
+
 public:
 	//Create a manual player
 	PlayerManual(int nbLinePiece, Checkerboard* board, DIRECTION direction) ;
 	~PlayerManual(void);
 	//Launch a game turn of a manual player
 	bool play(void);
-	//Init x and y value with user input
-	void scanCoord(int & x, int & y) ;
 };
 
 #endif

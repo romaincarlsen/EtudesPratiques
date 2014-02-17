@@ -31,12 +31,9 @@ bool PlayerManual:: play(void)
 		do {
 			scanCoord(xDest, yDest) ;
 		} while (!destValid(xDest,yDest)) ;
-	} while (!moveValid(x,y,xDest,yDest)) ;
-	// move execution
-	move(x,y,xDest,yDest) ;
-
-	return false ;
-
+	} while (!isMoveValid(board->getSquare()[x][y],x,y,xDest,yDest)) ;
+	// move execution, return true if the player win the game
+	return move(x,y,xDest,yDest) ;
 }
 
 //Init x and y value with user input
