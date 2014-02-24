@@ -2,14 +2,18 @@
 #define CHECKERBOARD_H
 
 #include "tools.h"
+#include <vector>
+
+typedef vector< vector<SQUARE>> Damier;
 
 class Checkerboard
 {
 
 private:
-	int nbColumn ;
-	int nbLine ;
-	SQUARE** square ;
+	int _nbColumn ;
+	int _nbLine ;
+	//SQUARE** square ;
+	Damier _square;
 public:
 	// create checkerboard with dimension parameters
 	Checkerboard(int nbLine, int nbColumn);
@@ -21,7 +25,8 @@ public:
 
 	void setSquare(int x, int y, SQUARE square);
 
-	SQUARE** getSquare() ;
+	//SQUARE** getSquare() ;
+	const Damier& getSquare() const;
 	// put Piece on the Checkerboard
 	bool putPiece(int x, int y, SQUARE piece) ;
 

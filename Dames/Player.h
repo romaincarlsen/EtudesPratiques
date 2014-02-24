@@ -23,7 +23,7 @@ protected:
 	SQUARE oppPiece ;
 
 	//Verify if the square selected contains a player piece
-	bool selectValid(int x, int y) ;
+	bool selectValid(int x, int y) const;
 
 	//Verify if the destination square selected is empty
 	bool destValid(int x, int y) ;

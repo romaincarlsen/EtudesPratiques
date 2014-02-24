@@ -4,13 +4,15 @@
 #include "Checkerboard.h"
 
 // create checkerboard with dimension parameters
-Checkerboard::Checkerboard(int nbLine, int nbColumn)
+Checkerboard::Checkerboard(int nbLine, int nbColumn) : _nbColumn(nbColumn) 
 {
 	// init dimension
-	this->nbColumn = nbColumn ;
-	this->nbLine = nbLine ;
+	this->_nbColumn = nbColumn ;
+	this->_nbLine = nbLine ;
 	
+	_square.resize(nbLine,vector<SQUARE>(nbColumn,EMPTY));
 	// init squares with EMPTY and LOCK type
+	/*
 	square = new SQUARE*[this->nbColumn] ;
 	for (int x=0 ; x<this->nbColumn ; x++) {
 		square[x] = new SQUARE[this->nbLine] ;
@@ -20,6 +22,7 @@ Checkerboard::Checkerboard(int nbLine, int nbColumn)
 			else
 				square[x][y] = LOCK ;
 	}
+	/*
 }
 
 

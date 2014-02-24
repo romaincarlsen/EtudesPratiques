@@ -81,6 +81,7 @@
     <None Include="ClassDiagram2.cd" />
     <None Include="ClassDiagram3.cd" />
     <None Include="ClassDiagram11.cd" />
+    <None Include="ClassDiagram12.cd" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="JeuDeDames.rc">
