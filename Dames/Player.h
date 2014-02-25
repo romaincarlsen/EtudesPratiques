@@ -26,16 +26,16 @@ protected:
 	bool selectValid(int x, int y) const;
 
 	//Verify if the destination square selected is empty
-	bool destValid(int x, int y) ;
+	bool destValid(int x, int y) const;
 
 	//Verify if the square selected is at the player
-	bool isMine(SQUARE square) ;
+	bool isMine(SQUARE square) const;
 
 	//Verify if the square selected is at the opponent
-	bool isOpponent(SQUARE square) ;
+	bool isOpponent(SQUARE square) const;
 
 	//Verify if the move would take an opponent piece
-	bool isKill(int x,int y,int xDest,int yDest) ;
+	bool isKill(int x,int y,int xDest,int yDest) const;
 
 	//Count the number of differents types of pieces
 	void scanNumberOf(int & nbMinePiece, int & nbMineKing, int & nbOpponentPiece, int & nbOpponentKing) ;
@@ -44,22 +44,22 @@ protected:
 	void kill(int x,int y,int xDest,int yDest);
 	
 	//Verify it's a valid piece move
-	bool isPieceMove(SQUARE playerPiece, int x, int y, int xDest, int yDest) ;
+	bool isPieceMove(SQUARE playerPiece, int x, int y, int xDest, int yDest) const;
 
 	//Verify it's a valid piece kill
-	bool isPieceKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) ;
+	bool isPieceKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) const;
 
 	//Verify it's a valid king move
-	bool isKingMove(SQUARE playerPiece, int x, int y, int xDest, int yDest) ;
+	bool isKingMove(SQUARE playerPiece, int x, int y, int xDest, int yDest) const;
 
 	//Verify it's a valid king kill
-	bool isKingKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) ;
+	bool isKingKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) const;
 
 	//Verify if the move is valid
-	bool isMoveValid(SQUARE playerPiece, int x, int y, int xDest, int yDest) ;
+	bool isMoveValid(SQUARE playerPiece, int x, int y, int xDest, int yDest) const;
 
 	//Verify if the move is a kill
-	bool isKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) ;
+	bool isKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) const;
 
 
 	//Execute the move

@@ -11,6 +11,8 @@
 #include <tchar.h>
 #include <string>
 #include <iostream>
+#include "tools.h"
+#include "Checkerboard.h"
 
 using namespace std ;
 

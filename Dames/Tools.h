@@ -2,6 +2,7 @@
 #define TOOLS_H
 
 #include "main.h"
+#include <vector>
 
 // return if val is even number
 bool isEven(int val) ;

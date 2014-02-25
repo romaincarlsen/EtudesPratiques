@@ -6,7 +6,7 @@
 #include "Checkerboard.h"
 #include "Player.h"
 #include "PlayerManual.h"
-#include "PlayerCP.h" ;
+#include "PlayerCP.h"
 
 class Game
 {

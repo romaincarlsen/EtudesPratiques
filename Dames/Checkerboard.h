@@ -2,9 +2,9 @@
 #define CHECKERBOARD_H
 
 #include "tools.h"
-#include <vector>
 
-typedef vector< vector<SQUARE>> Damier;
+
+typedef std::vector< std::vector<SQUARE>> Damier;
 
 class Checkerboard
 {
@@ -19,9 +19,9 @@ public:
 	Checkerboard(int nbLine, int nbColumn);
 	~Checkerboard(void);
 
-	int getNbColumn() ;
+	int getNbColumn() const;
 
-	int getNbLine();
+	int getNbLine() const;
 
 	void setSquare(int x, int y, SQUARE square);
 

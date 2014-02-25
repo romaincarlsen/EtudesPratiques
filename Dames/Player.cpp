@@ -41,22 +41,22 @@ Player::~Player(void)
 }
 
 //Verify if the square selected contains a player piece
-bool Player::selectValid(int x, int y) {
+bool Player::selectValid(int x, int y) const{
 	return isMine(board->getSquare()[x][y]) ;
 }
 
 //Verify if the destination square selected is empty
-bool Player::destValid(int x, int y) {
+bool Player::destValid(int x, int y) const{
 	return board->getSquare()[x][y] == EMPTY ;
 }
 
 //Verify if the square selected is at the player
-bool Player::isMine(SQUARE square) {
+bool Player::isMine(SQUARE square) const{
 	return square == piece || square == king  ;
 }
 
 //Verify if the square selected is at the opponent
-bool Player::isOpponent(SQUARE square) {
+bool Player::isOpponent(SQUARE square) const{
 	return square == oppPiece || square == oppKing  ;
 }
 
@@ -82,7 +82,7 @@ void Player::kill(int x,int y,int xDest,int yDest) {
 }
 
 //Verify it's a valid piece move
-bool Player::isPieceMove(SQUARE playerPiece, int x, int y, int xDest, int yDest) {
+bool Player::isPieceMove(SQUARE playerPiece, int x, int y, int xDest, int yDest) const{
 	return isPiece(playerPiece) && (
 			this->direction == NORD && yDest==y+1 && (xDest == x+1 || xDest==x-1)
 			|| this->direction == SUD && yDest==y-1 && (xDest == x+1 || xDest==x-1)
@@ -90,14 +90,14 @@ bool Player::isPieceMove(SQUARE playerPiece, int x, int y, int xDest, int yDest)
 }
 
 //Verify it's a valid piece kill
-bool Player::isPieceKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) {
+bool Player::isPieceKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) const{
 	return isPiece(playerPiece) && (
 			(yDest==y+2 || yDest==y-2) && (xDest == x+2 || xDest==x-2) && isOpponent(board->getSquare()[(x+xDest)/2][(y+yDest)/2])
 			) ;
 }
 
 //Verify it's a valid king move
-bool Player::isKingMove(SQUARE playerPiece, int x, int y, int xDest, int yDest) {
+bool Player::isKingMove(SQUARE playerPiece, int x, int y, int xDest, int yDest) const{
 	if (!isKing(playerPiece))
 		return false ;	
 	int cpt = 0 ;
@@ -107,8 +107,8 @@ bool Player::isKingMove(SQUARE playerPiece, int x, int y, int xDest, int yDest) 
 	return cpt==0 ;
 }
 
-//Verify it's a valid king kill
-bool Player::isKingKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) {
+//Verify it's a valid king const
+bool Player::isKingKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) const{
 	if (!isKing(playerPiece))
 		return false ;
 	int cpt = 0 ;
@@ -122,13 +122,13 @@ bool Player::isKingKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) 
 }
 
 //Verify if the move is valid
-bool Player::isMoveValid(SQUARE playerPiece, int x, int y, int xDest, int yDest) {
+bool Player::isMoveValid(SQUARE playerPiece, int x, int y, int xDest, int yDest) const{
 	return  isPieceMove(playerPiece, x,y,xDest,yDest) || isPieceKill(playerPiece, x,y,xDest,yDest)
 			|| isKingMove(playerPiece,x,y,xDest,yDest) || isKingKill(playerPiece,x,y,xDest,yDest) ;
 }
 
 //Verify if the move is a kill
-bool Player::isKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) {
+bool Player::isKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) const{
 	return isPieceKill(playerPiece,x,y,xDest,yDest) || isKingKill(playerPiece,x,y,xDest,yDest) ;
 }
 
@@ -137,9 +137,12 @@ bool Player::move(int x, int y, int xDest, int yDest) {
 	bool win = false ;
 	int nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing ;
 	// swap selected piece square and destination square
+	
 	SQUARE playerPiece = board->getSquare()[x][y] ;
-	board->getSquare()[x][y] = board->getSquare()[xDest][yDest] ;
-	board->getSquare()[xDest][yDest] = playerPiece ;
+	//board->getSquare()[x][y] = board->getSquare()[xDest][yDest] ;
+	//board->getSquare()[xDest][yDest] = playerPiece ;
+	board->setSquare(xDest, yDest, playerPiece);
+	board->setSquare(x, y, EMPTY);
 	if (isKill(playerPiece,x,y,xDest,yDest)) {
 		kill (x, y, xDest, yDest) ;
 		scanNumberOf(nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing) ;
