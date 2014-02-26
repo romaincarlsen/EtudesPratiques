@@ -3,8 +3,7 @@
 
 #include "tools.h"
 
-
-typedef std::vector< std::vector<SQUARE>> Damier;
+typedef std::vector<std::vector<SQUARE>> Damier;
 
 class Checkerboard
 {

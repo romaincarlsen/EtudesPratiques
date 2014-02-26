@@ -40,6 +40,18 @@ Player::~Player(void)
 {
 }
 
+bool Player::isWin(Checkerboard board) {
+	return false ;
+}
+
+bool Player::isWhite() const {
+	return king == WHITE_KING && piece == WHITE_PIECE;
+}
+
+bool Player::isBlack() const {
+	return king == BLACK_KING && piece == BLACK_PIECE ;
+}
+
 //Verify if the square selected contains a player piece
 bool Player::selectValid(int x, int y) const{
 	return isMine(board->getSquare()[x][y]) ;

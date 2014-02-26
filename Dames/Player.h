@@ -22,6 +22,12 @@ protected:
 	//Indicate how is coded the opponent piece
 	SQUARE oppPiece ;
 
+	bool isWin(Checkerboard board) ;
+
+	bool isWhite() const ;
+
+	bool isBlack() const ;
+
 	//Verify if the square selected contains a player piece
 	bool selectValid(int x, int y) const;
 
