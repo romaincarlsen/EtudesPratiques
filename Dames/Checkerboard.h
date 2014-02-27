@@ -9,18 +9,15 @@ class Checkerboard
 {
 
 private:
-	int _nbColumn ;
-	int _nbLine ;
+	int _size ;
 	//SQUARE** square ;
 	Damier _square;
 public:
 	// create checkerboard with dimension parameters
-	Checkerboard(int nbLine, int nbColumn);
+	Checkerboard(int size);
 	~Checkerboard(void);
 
-	int getNbColumn() const;
-
-	int getNbLine() const;
+	int getSize() const;
 
 	void setSquare(int x, int y, SQUARE square);
 
@@ -28,6 +25,12 @@ public:
 	const Damier& getSquare() const;
 	// put Piece on the Checkerboard
 	bool putPiece(int x, int y, SQUARE piece) ;
+
+	// delete pieces which have been killed during last turn
+	void ghostBuster() ;
+
+	// indicate if the checkerboard have a winner (if one player haven't pieces)
+	bool isWin() const ;
 
 	// print checkerboard
 	void print() ;

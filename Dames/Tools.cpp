@@ -1,6 +1,14 @@
 ﻿#include "stdafx.h"
 #include "tools.h"
 
+bool isWhite(SQUARE square) {
+	return square == WHITE_KING || square == WHITE_PIECE;
+}
+
+bool isBlack(SQUARE square) {
+	return square == BLACK_KING || square == BLACK_PIECE ;
+}
+
 // return if val is even number
 bool isEven(int val) {
 	return val%2==0 ;

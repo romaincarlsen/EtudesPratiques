@@ -16,7 +16,11 @@ bool PlayerManual:: play(void)
 {
 
 	int x, y, xDest, yDest ;
-	
+	bool valid ;
+	bool haveKill = haveKillOn(*board) ;
+
+	cout << haveKill << endl ; 
+
 	// board printing
 	board->print() ;
 
@@ -25,13 +29,19 @@ bool PlayerManual:: play(void)
 		cout << "select (ex : A1) :   " ;
 		do {
 			scanCoord(x, y) ;
-		} while (!selectValid(x,y)) ;
+			valid = selectValid(x,y) ;
+		} while (!valid) ;
 		// destination square selection
 		cout << "destination : (ex : A1) :   " ;
 		do {
 			scanCoord(xDest, yDest) ;
-		} while (!destValid(xDest,yDest)) ;
-	} while (!isMoveValid(board->getSquare()[x][y],x,y,xDest,yDest)) ;
+			valid = destValid(xDest,yDest) ;
+		} while (!valid) ;
+		if(valid = isMoveValid(board->getSquare()[x][y],x,y,xDest,yDest))
+			if(!(valid=!(haveKill && !isKill(board->getSquare()[x][y],x,y,xDest,yDest))))
+					cout << endl << "You have to kill !" << endl << endl ;
+	} while (!valid) ;
+
 	// move execution, return true if the player win the game
 	return move(x,y,xDest,yDest) ;
 }
@@ -45,7 +55,7 @@ void PlayerManual::scanCoord(int & x, int & y) {
 		// convert input on x and y int values
 		x = letter_to_num_column(tmp[0]) ;
 		y = atoi(tmp.erase(0,1).c_str()) ;
-	} while (x<=0 || x>board->getNbColumn() || y<=0 || y>board->getNbLine()) ;
+	} while (x<=0 || x>board->getSize() || y<=0 || y>board->getSize()) ;
 	// transform x and y value for table indice
 	x-- ;
 	y-- ;

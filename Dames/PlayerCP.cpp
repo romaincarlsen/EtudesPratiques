@@ -23,7 +23,7 @@ std::vector<MOVE> PlayerCP::findMove(Checkerboard board, COLOR color) {
 }
 
 Checkerboard PlayerCP::applyMove(Checkerboard board, MOVE m) {
-	Checkerboard c(10,10) ;
+	Checkerboard c(10) ;
 	return c ;
 }
 
@@ -46,7 +46,7 @@ MOVEVALUE PlayerCP::negaMax(Checkerboard board, int depth, COLOR color) {
 
 	MOVEVALUE mv ;
 
-    if (depth = 0 || isWin(board)) {
+    if (depth = 0 || board.isWin()) {
 		MOVE m ;
 		m.x = m.y = m.xDest = m.yDest = -1 ;
 		mv.m = m ;

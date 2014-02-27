@@ -25,11 +25,11 @@ Player::Player(int nbLinePiece, Checkerboard* board, DIRECTION direction)
 	// put player pieces
 	int yy ;
 	for (int y=0 ; y<nbLinePiece ; y++)
-		for (int x=0 ; x<board->getNbColumn() ; x++) {
+		for (int x=0 ; x<board->getSize() ; x++) {
 			if (this->direction == NORD)
 				yy = y ;
 			else
-				yy = board->getNbLine()-1-y ;
+				yy = board->getSize()-1-y ;
 			board->putPiece(x, yy, this->piece);
 			 
 		}
@@ -40,8 +40,36 @@ Player::~Player(void)
 {
 }
 
-bool Player::isWin(Checkerboard board) {
-	return false ;
+bool Player::haveKillOn(Checkerboard board) const {
+	int xDest ;
+	int yDest ;
+	for (int x=0 ; x<board.getSize() ; x++)
+		for (int y=0 ; y<board.getSize() ; y++) {
+			if (isPiece(board.getSquare()[x][y])) {
+				for (int vx = -2 ; vx<=2 ; vx+=4)
+					for (int vy = -2 ; vy<=2 ; vy+=4) {
+						xDest = x+vx ;
+						yDest = y+vy ;
+						if (xDest>=0 && xDest<board.getSize() && yDest>=0 && yDest<board.getSize())
+							if (destValid(xDest, yDest) && isMoveValid(board.getSquare()[x][y], x, y, xDest, yDest) && isKill(board.getSquare()[x][y], x, y, xDest, yDest))
+								return true ;
+					}
+			}
+			if (isKing(board.getSquare()[x][y])) {
+				for (int vx=-1 ; vx<=1 ; vx+=2)
+					for (int vy=-1 ; vy<=1 ; vy+=2) {
+						xDest = x ;
+						yDest = y ;
+						do {
+							if (destValid(xDest, yDest) && isMoveValid(board.getSquare()[x][y], x, y, xDest, yDest) && isKill(board.getSquare()[x][y], x, y, xDest, yDest))
+								return true ;							
+							xDest+=vx ;
+							yDest+=vy ;
+						} while (xDest>=0 && xDest<board.getSize() && yDest>=0 && yDest<board.getSize()) ;
+					}
+			}
+		}
+	return false ;			 
 }
 
 bool Player::isWhite() const {
@@ -76,8 +104,8 @@ bool Player::isOpponent(SQUARE square) const{
 void Player::scanNumberOf(int & nbMinePiece, int & nbMineKing, int & nbOpponentPiece, int & nbOpponentKing) {
 	nbMinePiece = nbMineKing = nbOpponentPiece = nbOpponentKing = 0 ;
 	SQUARE tmp ;
-	for (int x=0 ; x<board->getNbColumn() ; x++)
-		for (int y=0 ; y<board->getNbLine() ; y++)
+	for (int x=0 ; x<board->getSize() ; x++)
+		for (int y=0 ; y<board->getSize() ; y++)
 			if ((isEven(x) && isEven(y)) || (isOdd(x) && isOdd(y))){
 				tmp = board->getSquare()[x][y] ;
 				nbMinePiece += tmp == piece ;
@@ -90,12 +118,12 @@ void Player::scanNumberOf(int & nbMinePiece, int & nbMineKing, int & nbOpponentP
 //Kill the opponent piece
 void Player::kill(int x,int y,int xDest,int yDest) {
 	for ( (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y-- ; x!=xDest && y!=yDest ; (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y--)
-		board->setSquare(x,y, EMPTY) ;
+		board->setSquare(x,y, GHOST) ;
 }
 
 //Verify it's a valid piece move
 bool Player::isPieceMove(SQUARE playerPiece, int x, int y, int xDest, int yDest) const{
-	return isPiece(playerPiece) && (
+	return isMine(playerPiece) && isPiece(playerPiece) && (
 			this->direction == NORD && yDest==y+1 && (xDest == x+1 || xDest==x-1)
 			|| this->direction == SUD && yDest==y-1 && (xDest == x+1 || xDest==x-1)
 			) ;
@@ -103,14 +131,14 @@ bool Player::isPieceMove(SQUARE playerPiece, int x, int y, int xDest, int yDest)
 
 //Verify it's a valid piece kill
 bool Player::isPieceKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) const{
-	return isPiece(playerPiece) && (
+	return isMine(playerPiece) && isPiece(playerPiece) && (
 			(yDest==y+2 || yDest==y-2) && (xDest == x+2 || xDest==x-2) && isOpponent(board->getSquare()[(x+xDest)/2][(y+yDest)/2])
 			) ;
 }
 
 //Verify it's a valid king move
 bool Player::isKingMove(SQUARE playerPiece, int x, int y, int xDest, int yDest) const{
-	if (!isKing(playerPiece))
+	if (!isKing(playerPiece) || !isMine(playerPiece))
 		return false ;	
 	int cpt = 0 ;
 	//Loop for each square from piece to destination
@@ -121,7 +149,7 @@ bool Player::isKingMove(SQUARE playerPiece, int x, int y, int xDest, int yDest) 
 
 //Verify it's a valid king const
 bool Player::isKingKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) const{
-	if (!isKing(playerPiece))
+	if (!isKing(playerPiece) || !isMine(playerPiece))
 		return false ;
 	int cpt = 0 ;
 	int cptOpp = 0 ;

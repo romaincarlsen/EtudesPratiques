@@ -4,34 +4,28 @@
 #include "Game.h"
 
 // parameters scan menu for custom game
-void customization(int & height, int & length, int & nbLinePiece1, int & nbLinePiece2) {
+void customization(int & size, int & nbLinePiece1, int & nbLinePiece2) {
 		// init board size with user input
-		cout << "Board Size" << endl ;
-		cout << "length : " ;
+		cout << "Board Size : " ;
 		do {
-			length = scanInt() ;
-		} while (length<MIN_LENGTH || !isEven(length)) ;
-		cout << "height : " ;
-		do {
-			height = scanInt() ;
-		} while (height<MIN_HEIGHT || !isEven(height)) ;
+			size = scanInt() ;
+		} while (size<MIN_SIZE || !isEven(size)) ;
 		// init number of pieces with user input
 		cout << endl << "Number of pieces lines" << endl ;
 		cout << "for player1 : " ;
 		do {
 			nbLinePiece1 = scanInt() ;
-		} while (nbLinePiece1<=0 || nbLinePiece1>=height/2) ;
+		} while (nbLinePiece1<=0 || nbLinePiece1>=size/2) ;
 		cout << "for player2 : " ;
 		do {
 			nbLinePiece2 = scanInt() ;
-		} while (nbLinePiece2<=0 || nbLinePiece2>=height/2) ;
+		} while (nbLinePiece2<=0 || nbLinePiece2>=size/2) ;
 }
 
 // main for game developping
 int mainGame() {
 	char choice ;
-	int height = 10 ;
-	int length = 10 ;
+	int size = 10 ;
 	int nbLinePiece1 = 4 ;
 	int nbLinePiece2 = 4;
 	Game* game ;
@@ -51,10 +45,10 @@ int mainGame() {
 		if (choice!='3') {
 
 			if (choice=='2')
-				customization(height, length, nbLinePiece1, nbLinePiece2) ;
+				customization(size, nbLinePiece1, nbLinePiece2) ;
 
 			// create game
-			game = new Game(height, length, nbLinePiece1, nbLinePiece2) ;
+			game = new Game(size, nbLinePiece1, nbLinePiece2) ;
 
 			// launch game
 			game->launch() ;
@@ -73,7 +67,7 @@ int mainGraphic() {
 	cout << "main Graphic" << endl ;
 
 	// game creation
-	Game game(10,10,4,4) ;
+	Game game(10,4,4) ;
 
 	// game printing
 	game.print() ;

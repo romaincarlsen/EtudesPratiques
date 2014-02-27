@@ -2,10 +2,11 @@
 #include "Game.h"
 
 // create game with dimension parameters
-Game::Game(int nbLine, int nbColumn, int nbLinePiece1, int nbLinePiece2)
+Game::Game(int size, int nbLinePiece1, int nbLinePiece2)
 {
 		// init board
-		board = new Checkerboard(nbLine, nbColumn) ;
+		board = new Checkerboard(size) ;
+
 		// init players
 		P1 = new PlayerManual(nbLinePiece1, board, NORD) ;
 		P2 = new PlayerManual(nbLinePiece2, board, SUD) ;
@@ -27,6 +28,8 @@ void Game::launch(void)
 			//Clean the terminal
 			system("cls");
 			cout << "Player1" << endl << endl ;
+			// delete pieces which have been killed during last turn
+			board->ghostBuster() ;
 			//Player 1 turn
 			if (P1->play())
 				//Indicate If the player 1 win
@@ -34,6 +37,8 @@ void Game::launch(void)
 			else {
 				system("cls");
 				cout << "Player2" << endl << endl ;
+				// delete pieces which have been killed during last turn
+				board->ghostBuster() ;
 				//Player 2 turn
 				if(P2->play())
 					//Indicate If the player 2 win

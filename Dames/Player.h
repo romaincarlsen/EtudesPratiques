@@ -22,7 +22,7 @@ protected:
 	//Indicate how is coded the opponent piece
 	SQUARE oppPiece ;
 
-	bool isWin(Checkerboard board) ;
+	bool haveKillOn(Checkerboard board) const ;
 
 	bool isWhite() const ;
 
@@ -39,9 +39,6 @@ protected:
 
 	//Verify if the square selected is at the opponent
 	bool isOpponent(SQUARE square) const;
-
-	//Verify if the move would take an opponent piece
-	bool isKill(int x,int y,int xDest,int yDest) const;
 
 	//Count the number of differents types of pieces
 	void scanNumberOf(int & nbMinePiece, int & nbMineKing, int & nbOpponentPiece, int & nbOpponentKing) ;

@@ -4,6 +4,10 @@
 #include "main.h"
 #include <vector>
 
+bool isWhite(SQUARE square) ;
+
+bool isBlack(SQUARE square) ;
+
 // return if val is even number
 bool isEven(int val) ;
 
