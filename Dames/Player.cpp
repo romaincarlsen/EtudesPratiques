@@ -40,35 +40,48 @@ Player::~Player(void)
 {
 }
 
-bool Player::haveKillOn(Checkerboard board) const {
+// indicate if y coordonate corresponde with king line of player
+bool Player::isOnKingLine(int yDest) {
+	if (direction==NORD)
+		return yDest==board->getSize()-1 ;
+	else
+		return yDest==0 ;
+}
+
+bool Player::canKillOn(SQUARE piece, int x, int y, Checkerboard board) const {
 	int xDest ;
 	int yDest ;
+	if (isPiece(piece)) {
+		for (int vx = -2 ; vx<=2 ; vx+=4)
+			for (int vy = -2 ; vy<=2 ; vy+=4) {
+				xDest = x+vx ;
+				yDest = y+vy ;
+				if (xDest>=0 && xDest<board.getSize() && yDest>=0 && yDest<board.getSize())
+					if (destValid(xDest, yDest) && isMoveValid(piece, x, y, xDest, yDest) && isKill(piece, x, y, xDest, yDest))
+						return true ;
+			}
+	}
+	if (isKing(piece)) {
+		for (int vx=-1 ; vx<=1 ; vx+=2)
+			for (int vy=-1 ; vy<=1 ; vy+=2) {
+				xDest = x ;
+				yDest = y ;
+				do {
+					if (destValid(xDest, yDest) && isMoveValid(piece, x, y, xDest, yDest) && isKill(piece, x, y, xDest, yDest))
+						return true ;							
+					xDest+=vx ;
+					yDest+=vy ;
+				} while (xDest>=0 && xDest<board.getSize() && yDest>=0 && yDest<board.getSize()) ;
+			}
+	}
+	return false ;
+}
+
+bool Player::haveKillOn(Checkerboard board) const {
 	for (int x=0 ; x<board.getSize() ; x++)
-		for (int y=0 ; y<board.getSize() ; y++) {
-			if (isPiece(board.getSquare()[x][y])) {
-				for (int vx = -2 ; vx<=2 ; vx+=4)
-					for (int vy = -2 ; vy<=2 ; vy+=4) {
-						xDest = x+vx ;
-						yDest = y+vy ;
-						if (xDest>=0 && xDest<board.getSize() && yDest>=0 && yDest<board.getSize())
-							if (destValid(xDest, yDest) && isMoveValid(board.getSquare()[x][y], x, y, xDest, yDest) && isKill(board.getSquare()[x][y], x, y, xDest, yDest))
-								return true ;
-					}
-			}
-			if (isKing(board.getSquare()[x][y])) {
-				for (int vx=-1 ; vx<=1 ; vx+=2)
-					for (int vy=-1 ; vy<=1 ; vy+=2) {
-						xDest = x ;
-						yDest = y ;
-						do {
-							if (destValid(xDest, yDest) && isMoveValid(board.getSquare()[x][y], x, y, xDest, yDest) && isKill(board.getSquare()[x][y], x, y, xDest, yDest))
-								return true ;							
-							xDest+=vx ;
-							yDest+=vy ;
-						} while (xDest>=0 && xDest<board.getSize() && yDest>=0 && yDest<board.getSize()) ;
-					}
-			}
-		}
+		for (int y=0 ; y<board.getSize() ; y++)
+			if (canKillOn(board.getSquare()[x][y], x, y, board))
+				return true ;
 	return false ;			 
 }
 

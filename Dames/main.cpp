@@ -25,9 +25,9 @@ void customization(int & size, int & nbLinePiece1, int & nbLinePiece2) {
 // main for game developping
 int mainGame() {
 	char choice ;
-	int size = 10 ;
-	int nbLinePiece1 = 4 ;
-	int nbLinePiece2 = 4;
+	int size ;
+	int nbLinePiece1 ;
+	int nbLinePiece2 ;
 	Game* game ;
 
 	cout << "main Game" << endl << endl ;
@@ -43,6 +43,12 @@ int mainGame() {
 
 		// if choice isn't quit
 		if (choice!='3') {
+
+			if (choice=='1') {
+				size = 10 ;
+				nbLinePiece1 = 4 ;
+				nbLinePiece2 = 4 ;
+			}
 
 			if (choice=='2')
 				customization(size, nbLinePiece1, nbLinePiece2) ;

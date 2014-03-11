@@ -17,10 +17,8 @@ bool PlayerManual:: play(void)
 
 	int x, y, xDest, yDest ;
 	bool valid ;
-	bool haveKill = haveKillOn(*board) ;
-
-	cout << haveKill << endl ; 
-
+	bool canKill = haveKillOn(*board) ;
+	bool wasKill ;
 	// board printing
 	board->print() ;
 
@@ -37,13 +35,32 @@ bool PlayerManual:: play(void)
 			scanCoord(xDest, yDest) ;
 			valid = destValid(xDest,yDest) ;
 		} while (!valid) ;
-		if(valid = isMoveValid(board->getSquare()[x][y],x,y,xDest,yDest))
-			if(!(valid=!(haveKill && !isKill(board->getSquare()[x][y],x,y,xDest,yDest))))
+		if(valid = isMoveValid(board->getSquare()[x][y],x,y,xDest,yDest)) {
+			wasKill = isKill(board->getSquare()[x][y],x,y,xDest,yDest) ;
+			if(!(valid=!(canKill && !wasKill)))
 					cout << endl << "You have to kill !" << endl << endl ;
+		}
 	} while (!valid) ;
 
 	// move execution, return true if the player win the game
-	return move(x,y,xDest,yDest) ;
+	if(move(x,y,xDest,yDest))
+		return true ;
+	else {
+		while (wasKill && canKillOn(board->getSquare()[xDest][yDest], xDest, yDest, *board)) {
+			x = xDest ;
+			y = yDest ;
+			cout << "next destination : (ex : A1) :   " ;
+			do {
+				scanCoord(xDest, yDest) ;
+				valid = destValid(xDest,yDest) && isMoveValid(board->getSquare()[x][y],x,y,xDest,yDest) && (wasKill = isKill(board->getSquare()[x][y],x,y,xDest,yDest)) ;
+			} while (!valid) ;
+			if(move(x,y,xDest,yDest))
+				return true ;
+		}
+		if (isPiece(board->getSquare()[xDest][yDest]) && isOnKingLine(yDest))
+			board->setSquare(xDest, yDest, king);
+	}
+	return false ;
 }
 
 //Init x and y value with user input

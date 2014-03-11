@@ -22,6 +22,11 @@ protected:
 	//Indicate how is coded the opponent piece
 	SQUARE oppPiece ;
 
+	// indicate if y coordonate corresponde with king line of player
+	bool isOnKingLine(int yDest) ;
+
+	bool canKillOn(SQUARE piece, int x, int y, Checkerboard board) const ;
+
 	bool haveKillOn(Checkerboard board) const ;
 
 	bool isWhite() const ;
