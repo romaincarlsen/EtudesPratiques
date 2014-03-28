@@ -3,11 +3,17 @@
 
 #pragma once
 
+#include <stdio.h>
+#include <iostream>
+
 #include <QApplication>
 #include <QtCore/QCoreApplication>
 #include <QMainWindow>
 #include <QDebug>
 #include <QString>
+#include <QLineEdit>
 #include <vector>
+
+using namespace std ;
 
 #endif // INCLUDE_H

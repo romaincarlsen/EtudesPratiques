@@ -12,24 +12,23 @@ TARGET = checkers
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
+SOURCES +=\
         mainwindow.cpp \
     Checkerboard.cpp \
-    Game.cpp \
     Player.cpp \
     PlayerCP.cpp \
     PlayerManual.cpp \
-    tools.cpp
+    tools.cpp \
+    game.cpp
 
 HEADERS  += mainwindow.h \
     Checkerboard.h \
-    Game.h \
-    main.h \
     Player.h \
     PlayerCP.h \
     PlayerManual.h \
     Tools.h \
     struct.h \
-    include.h
+    include.h \
+    game.h
 
 FORMS    += mainwindow.ui

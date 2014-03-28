@@ -2,10 +2,11 @@
 #define PLAYERCP_H
 
 #include "include.h"
-
+#include "Tools.h"
 #include "struct.h"
 #include "Checkerboard.h"
 #include "Player.h"
+
 
 class PlayerCP :
 	public Player
@@ -24,7 +25,7 @@ private:
 	
 public:
 	//create a CP player
-	PlayerCP(int nbLinePiece, Checkerboard* board, DIRECTION direction) ;
+    PlayerCP(int nbLinePiece,Checkerboard* board, DIRECTION direction) ;
 	~PlayerCP(void);
 	//Launch a game turn of a CP player
 	bool play(void);

@@ -69,13 +69,14 @@ bool Checkerboard::isWin() const {
 void Checkerboard::print(void)
 {
     qDebug() << endl ;
+    QString line = "" ;
 	for (int y=this->_size-1 ; y>=0 ; y--) {
 		for (int x=0 ; x<this->_size ; x++)
-            qDebug() << square_to_char(_square[x][y]) ;
-        qDebug() << " " << y+1 << endl ;
+            line += square_to_char(_square[x][y]) ;
+        qDebug() << line << " " << y+1 ;
+        line = "" ;
 	}
-    qDebug() << endl ;
 	for (int x=0 ; x<this->_size ; x++)
-        qDebug() << num_to_letter_column(x+1) ;
-    qDebug() << endl ;
+        line += num_to_letter_column(x+1) ;
+    qDebug() << endl << line << endl ;
 }

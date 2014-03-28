@@ -1,9 +1,12 @@
 #ifndef CHECKERBOARD_H
 #define CHECKERBOARD_H
 
+#include <vector>
+
 #include "include.h"
 
 #include "struct.h"
+#include "Tools.h"
 
 typedef std::vector<std::vector<SQUARE>> Damier;
 

@@ -5,10 +5,7 @@
 
 #include "struct.h"
 #include "ui_mainwindow.h"
-
-extern QString in ;
-extern void (*next)() ;
-extern void start() ;
+#include "game.h"
 
 namespace Ui {
 
@@ -19,6 +16,8 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+private :
+    Game game ;
 
 public slots:
     void ok_click() ;

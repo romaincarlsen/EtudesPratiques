@@ -6,7 +6,8 @@ Player::Player(int nbLinePiece, Checkerboard* board, DIRECTION direction)
 	//Indicate direction of the offensive
 	this->direction = direction ;
 	//Indicate the board where players play
-	this->board = board ;
+    this->board = board ;
+
 	
 	// init pieces code in function of offensive direction
 	if (this->direction == NORD) {
@@ -186,7 +187,6 @@ bool Player::isKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) cons
 
 //Execute the move
 bool Player::move(int x, int y, int xDest, int yDest) {
-	bool win = false ;
 	int nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing ;
 	// swap selected piece square and destination square
 	

@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include "include.h"
-
+#include "Tools.h"
 #include "struct.h"
 #include "Checkerboard.h"
 
@@ -10,11 +10,11 @@
 class Player
 {
 
-protected:
+public:
 	//Indicate direction of the offensive
 	DIRECTION direction ;
-	//Indicate the board where players play
-	Checkerboard* board ;
+
+    Checkerboard* board ;
 	//Indicate how is coded the player king
 	SQUARE king ;
 	//Indicate how is coded the player piece
@@ -23,6 +23,11 @@ protected:
 	SQUARE oppKing ;
 	//Indicate how is coded the opponent piece
 	SQUARE oppPiece ;
+
+    int x ;
+    int y ;
+    int xDest ;
+    int yDest ;
 
 	// indicate if y coordonate corresponde with king line of player
 	bool isOnKingLine(int yDest) ;
@@ -75,10 +80,8 @@ protected:
 	//Execute the move
 	bool move(int x, int y, int xDest, int yDest) ;
 
-public:
-
 	//Create the player
-	Player(int nbLinePiece, Checkerboard* board, DIRECTION direction);
+    Player(int nbLinePiece, Checkerboard* board, DIRECTION direction);
 
 	~Player(void);
 

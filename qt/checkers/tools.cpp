@@ -52,13 +52,13 @@ char square_to_char(SQUARE square) {
 }
 
 // return column letter corresponding to column number for consol printing
-char num_to_letter_column(int num) {
-    return 65 + num - 1 ;
+QChar num_to_letter_column(int num) {
+    return QChar((short)(65+num-1)) ;
 }
 
 //return column number corresponding to column letter for consol printing
-int letter_to_num_column(char letter) {
-    return toupper(letter) - 65 + 1 ;
+int letter_to_num_column(QChar letter) {
+    return letter.toUpper().unicode() - 65 + 1 ;
 }
 
 // scan int value on keyboard unless 0

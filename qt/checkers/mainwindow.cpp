@@ -15,12 +15,18 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::ok_click(){
-    in = this->ui->input->text();
-    this->ui->input->clear();
-    if (next!=NULL)
-        next() ;
+    game.read(this->ui->input) ;
 }
 
 void MainWindow::start_click(){
-    start() ;
+    this->game.start() ;
+}
+
+int main(int argc, char *argv[])
+{
+
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show() ;
+    return a.exec() ;
 }
