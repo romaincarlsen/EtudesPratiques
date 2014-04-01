@@ -17,49 +17,35 @@ private:
     Player* P1 ;
     Player* P2 ;
     Checkerboard* board ;
+
+    STATE state ;
+
     QString in ;
+
+    QString txt ;
 
     int winner ;
     int size ;
     int nbLinePiece1 ;
     int nbLinePiece2 ;
-    void init() ;
-    //launch the game
-    void launch();
-    // print game
-    void print() ;
 
     QString input() ;
 
 
 public:
-    void (*nextEvent)(Game*) ;
+    /*void (*nextEvent)(Game*) ;*/
     // create game with dimension parameters
-    Game();
+    Game(int size, int nbLineP1, int nbLineP2) ;
     ~Game();
-    void start() ;
 
-    void read(QLineEdit* txt) ;
-    void modeDev() ;
-    void modeGame() ;
-    void sizeInit() ;
-    void nbPieceP1() ;
-    void nbPieceP2() ;
-    void selectPieceP1() ;
-    void selectPieceP2() ;
-    void selectDestP1() ;
-    void selectDestP2() ;
+    void clickOnBoard(QLineEdit* ok_tb) ;
+
+    STATE select(Player* player, int x, int y) ;
+    STATE dest(Player* player,  Player* opponent, int xDest, int yDest) ;
+
+    // print game
+    QString toString() ;
 };
-
-void modeDevEvent(Game*) ;
-void modeGameEvent(Game*) ;
-void sizeInitEvent(Game*) ;
-void nbPieceP1Event(Game*) ;
-void nbPieceP2Event(Game*) ;
-void selectPieceP1Event(Game*) ;
-void selectPieceP2Event(Game*) ;
-void selectDestP1Event(Game*) ;
-void selectDestP2Event(Game*) ;
 
 #endif
 

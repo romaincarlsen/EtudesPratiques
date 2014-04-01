@@ -12,6 +12,10 @@ typedef enum {NORD, SUD} DIRECTION ;
 // enum for player color for negaMax algorithm
 typedef enum {WHITE=-1, BLACK=1} COLOR ;
 
+// enum for state machine corresponding with game loop
+typedef enum {WHITE_SELECT, WHITE_DEST, BLACK_SELECT, BLACK_DEST, END} STATE ;
+
+
 // struct for move modelisation for negaMax algorithm
 typedef struct{
     int x ;

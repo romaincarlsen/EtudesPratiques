@@ -12,6 +12,7 @@
 #include <QDebug>
 #include <QString>
 #include <QLineEdit>
+#include <QLabel>
 #include <vector>
 
 using namespace std ;

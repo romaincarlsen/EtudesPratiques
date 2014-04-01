@@ -17,7 +17,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 private :
-    Game game ;
+    Game* game ;
 
 public slots:
     void ok_click() ;

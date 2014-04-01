@@ -5,6 +5,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->size_tb->setText("10") ;
+    ui->nbLineP1_tb->setText("4") ;
+    ui->nbLineP2_tb->setText("4") ;
+
     this->connect(this->ui->ok, SIGNAL(clicked()), this, SLOT(ok_click()));
     this->connect(this->ui->start, SIGNAL(clicked()), this, SLOT(start_click()));
 }
@@ -15,11 +20,16 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::ok_click(){
-    game.read(this->ui->input) ;
+    game->clickOnBoard(this->ui->input) ;
+    this->ui->board_l->setText(game->toString()) ;
 }
 
 void MainWindow::start_click(){
-    this->game.start() ;
+    int size = this->ui->size_tb->text().toInt() ;
+    int nbLineP1 = this->ui->nbLineP1_tb->text().toInt() ;
+    int nbLineP2 = this->ui->nbLineP2_tb->text().toInt() ;
+    game = new Game(size, nbLineP1, nbLineP2) ;
+    this->ui->board_l->setText(game->toString()) ;
 }
 
 int main(int argc, char *argv[])

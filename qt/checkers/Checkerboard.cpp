@@ -66,17 +66,16 @@ bool Checkerboard::isWin() const {
 }
 
 // print checkerboard
-void Checkerboard::print(void)
+QString Checkerboard::toString(void)
 {
-    qDebug() << endl ;
-    QString line = "" ;
+    QString s = "\n" ;
 	for (int y=this->_size-1 ; y>=0 ; y--) {
 		for (int x=0 ; x<this->_size ; x++)
-            line += square_to_char(_square[x][y]) ;
-        qDebug() << line << " " << y+1 ;
-        line = "" ;
+            s += square_to_char(_square[x][y]) ;
+        s += " " + QString::number(y+1) + "\n" ;
 	}
 	for (int x=0 ; x<this->_size ; x++)
-        line += num_to_letter_column(x+1) ;
-    qDebug() << endl << line << endl ;
+        s += num_to_letter_column(x+1) ;
+    s += "\n" ;
+    return s ;
 }

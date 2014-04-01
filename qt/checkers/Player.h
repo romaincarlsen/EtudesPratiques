@@ -24,6 +24,11 @@ public:
 	//Indicate how is coded the opponent piece
 	SQUARE oppPiece ;
 
+    STATE state_select ;
+    STATE state_dest ;
+
+    QString toString() ;
+
     int x ;
     int y ;
     int xDest ;

@@ -43,7 +43,7 @@ char square_to_char(SQUARE square) {
     switch (square) {
         case BLACK_KING :	return 'O' ;
         case BLACK_PIECE :	return 'o' ;
-        case EMPTY :		return ' ' ;
+        case EMPTY :		return 'v' ;
         case WHITE_PIECE :	return 'x' ;
         case WHITE_KING :	return 'X' ;
         case LOCK :			return '#' ;

@@ -15,12 +15,16 @@ Player::Player(int nbLinePiece, Checkerboard* board, DIRECTION direction)
 		this->piece = WHITE_PIECE ;
 		this->oppKing = BLACK_KING ;
 		this->oppPiece = BLACK_PIECE ;
+        this->state_select = WHITE_SELECT ;
+        this->state_dest = WHITE_DEST ;
 	}
 	else {
 		this->king = BLACK_KING ;
 		this->piece = BLACK_PIECE ;
 		this->oppKing = WHITE_KING ;
 		this->oppPiece = WHITE_PIECE ;
+        this->state_select = BLACK_SELECT ;
+        this->state_dest = BLACK_DEST ;
 	}
 	// put player pieces
 	int yy ;
@@ -38,6 +42,11 @@ Player::Player(int nbLinePiece, Checkerboard* board, DIRECTION direction)
 
 Player::~Player(void)
 {
+}
+
+QString Player::toString() {
+    QString num = (isWhite() ? "1" : "2") ;
+    return "player" + num ;
 }
 
 // indicate if y coordonate corresponde with king line of player

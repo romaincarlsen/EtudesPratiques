@@ -38,7 +38,7 @@ public:
 	bool isWin() const ;
 
 	// print checkerboard
-	void print() ;
+    QString toString() ;
 };
 
 #endif
