@@ -31,9 +31,9 @@ Player::Player(int nbLinePiece, Checkerboard* board, DIRECTION direction)
 	for (int y=0 ; y<nbLinePiece ; y++)
 		for (int x=0 ; x<board->getSize() ; x++) {
 			if (this->direction == NORD)
-				yy = y ;
+                yy = y ;
 			else
-				yy = board->getSize()-1-y ;
+                yy = board->getSize()-1-y ;
 			board->putPiece(x, yy, this->piece);
 			 
 		}
@@ -89,7 +89,7 @@ bool Player::canKillOn(SQUARE piece, int x, int y, Checkerboard board) const {
 bool Player::haveKillOn(Checkerboard board) const {
 	for (int x=0 ; x<board.getSize() ; x++)
 		for (int y=0 ; y<board.getSize() ; y++)
-			if (canKillOn(board.getSquare()[x][y], x, y, board))
+            if (canKillOn(board.getSquare()[x][y].square, x, y, board))
 				return true ;
 	return false ;			 
 }
@@ -104,12 +104,12 @@ bool Player::isBlack() const {
 
 //Verify if the square selected contains a player piece
 bool Player::selectValid(int x, int y) const{
-	return isMine(board->getSquare()[x][y]) ;
+    return isMine(board->getSquare()[x][y].square) ;
 }
 
 //Verify if the destination square selected is empty
 bool Player::destValid(int x, int y) const{
-	return board->getSquare()[x][y] == EMPTY ;
+    return board->getSquare()[x][y].square == EMPTY ;
 }
 
 //Verify if the square selected is at the player
@@ -129,7 +129,7 @@ void Player::scanNumberOf(int & nbMinePiece, int & nbMineKing, int & nbOpponentP
 	for (int x=0 ; x<board->getSize() ; x++)
 		for (int y=0 ; y<board->getSize() ; y++)
 			if ((isEven(x) && isEven(y)) || (isOdd(x) && isOdd(y))){
-				tmp = board->getSquare()[x][y] ;
+                tmp = board->getSquare()[x][y].square ;
 				nbMinePiece += tmp == piece ;
 				nbMineKing += tmp == king ;
 				nbOpponentPiece += tmp == oppPiece ;
@@ -154,7 +154,7 @@ bool Player::isPieceMove(SQUARE playerPiece, int x, int y, int xDest, int yDest)
 //Verify it's a valid piece kill
 bool Player::isPieceKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) const{
 	return isMine(playerPiece) && isPiece(playerPiece) && (
-			(yDest==y+2 || yDest==y-2) && (xDest == x+2 || xDest==x-2) && isOpponent(board->getSquare()[(x+xDest)/2][(y+yDest)/2])
+            (yDest==y+2 || yDest==y-2) && (xDest == x+2 || xDest==x-2) && isOpponent(board->getSquare()[(x+xDest)/2][(y+yDest)/2].square)
 			) ;
 }
 
@@ -165,7 +165,7 @@ bool Player::isKingMove(SQUARE playerPiece, int x, int y, int xDest, int yDest) 
 	int cpt = 0 ;
 	//Loop for each square from piece to destination
 	for ( (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y-- ; x!=xDest && y!=yDest ; (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y--)
-		cpt += isNotEmpty(board->getSquare()[x][y]) ;
+        cpt += isNotEmpty(board->getSquare()[x][y].square) ;
 	return cpt==0 ;
 }
 
@@ -177,8 +177,8 @@ bool Player::isKingKill(SQUARE playerPiece, int x, int y, int xDest, int yDest) 
 	int cptOpp = 0 ;
 	//Loop for each square from piece to destination
 	for ( (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y-- ; x!=xDest && y!=yDest ; (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y--) {
-		cpt += isMine(board->getSquare()[x][y]) ;
-		cptOpp += isOpponent(board->getSquare()[x][y]) ;
+        cpt += isMine(board->getSquare()[x][y].square) ;
+        cptOpp += isOpponent(board->getSquare()[x][y].square) ;
 	}
 	return cpt==0 && cptOpp==1 ;
 }
@@ -199,7 +199,7 @@ bool Player::move(int x, int y, int xDest, int yDest) {
 	int nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing ;
 	// swap selected piece square and destination square
 	
-	SQUARE playerPiece = board->getSquare()[x][y] ;
+    SQUARE playerPiece = board->getSquare()[x][y].square ;
 	//board->getSquare()[x][y] = board->getSquare()[xDest][yDest] ;
 	//board->getSquare()[xDest][yDest] = playerPiece ;
 	board->setSquare(xDest, yDest, playerPiece);

@@ -32,6 +32,10 @@ Game::~Game() {
         delete P2 ;
 }
 
+Checkerboard* Game::getBoard() {
+    return board ;
+}
+
 
 QString Game::input() {
     QString s = in ;
@@ -84,9 +88,9 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
         xDest-- ;
         yDest-- ;
         bool canKill = player->haveKillOn(*board) ;
-        bool valid = player->destValid(xDest,yDest) && player->isMoveValid(board->getSquare()[player->x][player->y],player->x,player->y,xDest,yDest) ;
+        bool valid = player->destValid(xDest,yDest) && player->isMoveValid(board->getSquare()[player->x][player->y].square,player->x,player->y,xDest,yDest) ;
         if (valid) {
-            bool wasKill = player->isKill(board->getSquare()[player->x][player->y],player->x,player->y,xDest,yDest) ;
+            bool wasKill = player->isKill(board->getSquare()[player->x][player->y].square,player->x,player->y,xDest,yDest) ;
             if(!(valid=!(canKill && !wasKill))) {
                     txt += "\nYou have to kill !\n" ;
                     txt += "select (ex : A1) :   " ;
@@ -101,8 +105,8 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
             else {
                 player->x = player->xDest ;
                 player->y = player->yDest ;
-                if (!(wasKill && player->canKillOn(board->getSquare()[player->x][player->y], player->x, player->y, *board))) {
-                    if (isPiece(board->getSquare()[player->x][player->y]) && player->isOnKingLine(player->y))
+                if (!(wasKill && player->canKillOn(board->getSquare()[player->x][player->y].square, player->x, player->y, *board))) {
+                    if (isPiece(board->getSquare()[player->x][player->y].square) && player->isOnKingLine(player->y))
                         board->setSquare(player->x, player->y, player->king);
                 }
 
@@ -122,4 +126,8 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
 
 QString Game::toString() {
     return txt ;
+}
+
+void Game::paint(QGridLayout* board_gl) {
+    board->paint(board_gl) ;
 }

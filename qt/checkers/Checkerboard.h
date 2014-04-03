@@ -8,14 +8,13 @@
 #include "struct.h"
 #include "Tools.h"
 
-typedef std::vector<std::vector<SQUARE>> Damier;
+typedef std::vector<std::vector<QSQUARE>> Damier;
 
 class Checkerboard
 {
 
 private:
 	int _size ;
-	//SQUARE** square ;
 	Damier _square;
 public:
 	// create checkerboard with dimension parameters
@@ -39,6 +38,8 @@ public:
 
 	// print checkerboard
     QString toString() ;
+
+    void paint(QGridLayout* board_gl) ;
 };
 
 #endif

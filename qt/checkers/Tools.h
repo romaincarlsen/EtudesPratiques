@@ -30,6 +30,9 @@ bool isLocked(SQUARE square) ;
 // return char corresponding to square type for consol printing
 char square_to_char(SQUARE square) ;
 
+// return img corresponding to square type for consol printing
+QPixmap square_to_img(SQUARE square) ;
+
 // return column letter corresponding to column number for consol printing
 QChar num_to_letter_column(int num) ;
 

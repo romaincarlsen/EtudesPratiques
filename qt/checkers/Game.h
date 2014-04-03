@@ -33,10 +33,12 @@ private:
 
 
 public:
-    /*void (*nextEvent)(Game*) ;*/
+
     // create game with dimension parameters
     Game(int size, int nbLineP1, int nbLineP2) ;
     ~Game();
+
+    Checkerboard* getBoard() ;
 
     void clickOnBoard(QLineEdit* ok_tb) ;
 
@@ -45,6 +47,9 @@ public:
 
     // print game
     QString toString() ;
+
+    void paint(QGridLayout* board_gl) ;
+
 };
 
 #endif

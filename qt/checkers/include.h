@@ -13,6 +13,8 @@
 #include <QString>
 #include <QLineEdit>
 #include <QLabel>
+#include <QGridLayout>
+#include <QPushButton>
 #include <vector>
 
 using namespace std ;

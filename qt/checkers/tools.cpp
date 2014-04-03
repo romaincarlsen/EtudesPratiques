@@ -51,6 +51,20 @@ char square_to_char(SQUARE square) {
     }
 }
 
+
+// return img corresponding to square type for consol printing
+QPixmap square_to_img(SQUARE square) {
+    switch (square) {
+        case BLACK_KING :	return QPixmap("../checkers/img/black_king.png") ;
+        case BLACK_PIECE :	return QPixmap("../checkers/img/black_piece.png") ;
+        case EMPTY :		return QPixmap("../checkers/img/empty.png") ;
+        case WHITE_PIECE :	return QPixmap("../checkers/img/white_piece.png") ;
+        case WHITE_KING :	return QPixmap("../checkers/img/white_king.png") ;
+        case LOCK :			return QPixmap("../checkers/img/lock.png") ;
+        default :			return QPixmap() ;
+    }
+}
+
 // return column letter corresponding to column number for consol printing
 QChar num_to_letter_column(int num) {
     return QChar((short)(65+num-1)) ;

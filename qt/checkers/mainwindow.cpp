@@ -22,6 +22,7 @@ MainWindow::~MainWindow()
 void MainWindow::ok_click(){
     game->clickOnBoard(this->ui->input) ;
     this->ui->board_l->setText(game->toString()) ;
+    game->paint(this->ui->board_gl);
 }
 
 void MainWindow::start_click(){
@@ -30,6 +31,7 @@ void MainWindow::start_click(){
     int nbLineP2 = this->ui->nbLineP2_tb->text().toInt() ;
     game = new Game(size, nbLineP1, nbLineP2) ;
     this->ui->board_l->setText(game->toString()) ;
+    game->paint(this->ui->board_gl);
 }
 
 int main(int argc, char *argv[])

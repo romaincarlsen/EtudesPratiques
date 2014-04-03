@@ -16,6 +16,13 @@ typedef enum {WHITE=-1, BLACK=1} COLOR ;
 typedef enum {WHITE_SELECT, WHITE_DEST, BLACK_SELECT, BLACK_DEST, END} STATE ;
 
 
+typedef struct {
+    SQUARE square ;
+    int x ;
+    int y ;
+    QLabel* label ;
+} QSQUARE ;
+
 // struct for move modelisation for negaMax algorithm
 typedef struct{
     int x ;

@@ -18,6 +18,7 @@ class MainWindow : public QMainWindow
 
 private :
     Game* game ;
+    QSQUARE square_clicked ;
 
 public slots:
     void ok_click() ;

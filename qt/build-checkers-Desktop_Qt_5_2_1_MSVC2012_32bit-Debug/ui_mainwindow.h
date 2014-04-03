@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
@@ -39,6 +40,8 @@ public:
     QLabel *nbLineP1_l;
     QLabel *nbLineP2_l;
     QLabel *board_l;
+    QWidget *gridLayoutWidget;
+    QGridLayout *board_gl;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -79,7 +82,15 @@ public:
         nbLineP2_l->setGeometry(QRect(460, 70, 101, 20));
         board_l = new QLabel(centralWidget);
         board_l->setObjectName(QStringLiteral("board_l"));
-        board_l->setGeometry(QRect(30, 30, 361, 331));
+        board_l->setGeometry(QRect(410, 100, 181, 291));
+        gridLayoutWidget = new QWidget(centralWidget);
+        gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
+        gridLayoutWidget->setGeometry(QRect(10, 10, 391, 361));
+        board_gl = new QGridLayout(gridLayoutWidget);
+        board_gl->setSpacing(0);
+        board_gl->setContentsMargins(11, 11, 11, 11);
+        board_gl->setObjectName(QStringLiteral("board_gl"));
+        board_gl->setContentsMargins(0, 0, 0, 0);
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
