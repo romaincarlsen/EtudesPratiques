@@ -1,9 +1,11 @@
 #ifndef LABELCASE_H
 #define LABELCASE_H
 
-class LabelCase :
-        public QLabel
+#include "include.h"
+
+class LabelCase : public QLabel
 {
+    Q_OBJECT
 
 private:
     int _x;
@@ -11,9 +13,13 @@ private:
 
 public:
     LabelCase(int x, int y);
+    LabelCase();
+
+public slots :
+    void mouseReleaseEvent(QMouseEvent * ev);
 
 signals:
-    void cliked(int, int);
+    void clicked(int, int);
 };
 
 #endif // LABELCASE_H

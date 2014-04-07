@@ -16,6 +16,7 @@
 #include <QGridLayout>
 #include <QPushButton>
 #include <vector>
+#include <QMouseEvent>
 
 using namespace std ;
 

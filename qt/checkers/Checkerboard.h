@@ -7,6 +7,7 @@
 
 #include "struct.h"
 #include "Tools.h"
+#include "labelcase.h"
 
 typedef std::vector<std::vector<QSQUARE>> Damier;
 

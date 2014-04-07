@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "LabelCase.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -27,9 +27,10 @@ void MainWindow::ok_click(){
 }
 
 void MainWindow::click(int x, int y){
-    game->clickOnBoard(x,y);
+    game->clickOnBoard(x+1,y+1);
     this->ui->board_l->setText(game->toString()) ;
     game->paint(this->ui->board_gl);
+    qDebug() << "clic pris en compte en x : " << x+1 << ", y : " << y+1 << endl;
 }
 
 void MainWindow::start_click(){
@@ -37,8 +38,16 @@ void MainWindow::start_click(){
     int nbLineP1 = this->ui->nbLineP1_tb->text().toInt() ;
     int nbLineP2 = this->ui->nbLineP2_tb->text().toInt() ;
     game = new Game(size, nbLineP1, nbLineP2) ;
+    for (int i = 0; i< game->getBoard()->getSize(); i++){
+        for (int j = 0; j< game->getBoard()->getSize(); j++){
+            LabelCase* label = (game->getBoard()->getSquare())[i][j].label;
+            label->connect(label, SIGNAL(clicked(int,int)), this, SLOT(click(int, int)));
+            //_square[x][y].label->connect(_square[x][y].label, SIGNAL(clicked(int,int)), this, SLOT(click(int, int)));
+        }
+    }
     this->ui->board_l->setText(game->toString()) ;
     game->paint(this->ui->board_gl);
+
 }
 
 int main(int argc, char *argv[])

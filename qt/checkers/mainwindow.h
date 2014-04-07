@@ -6,6 +6,7 @@
 #include "struct.h"
 #include "ui_mainwindow.h"
 #include "game.h"
+#include "labelcase.h"
 
 namespace Ui {
 

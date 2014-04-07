@@ -2,6 +2,8 @@
 #define STRUCT_H
 
 #include "include.h"
+#include "labelcase.h"
+
 
 // enum of piece types on squares
 typedef enum {BLACK_KING = -2, BLACK_PIECE, EMPTY, WHITE_PIECE, WHITE_KING, LOCK, GHOST} SQUARE;
@@ -20,7 +22,7 @@ typedef struct {
     SQUARE square ;
     int x ;
     int y ;
-    QLabel* label ;
+    LabelCase* label ;
 } QSQUARE ;
 
 // struct for move modelisation for negaMax algorithm

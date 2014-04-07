@@ -50,6 +50,7 @@ void Game::clickOnBoard(QLineEdit* ok_tb) {
     QString s = input() ;
     int x = letter_to_num_column(s.at(0)) ;
     int y = s.remove(0,1).toInt() ;
+    qDebug() << "point x : " << x << ", y : " << y << endl;
 
     switch (state) {
         case WHITE_SELECT :     state = select(P1, x, y) ;
@@ -66,6 +67,7 @@ void Game::clickOnBoard(QLineEdit* ok_tb) {
 }
 
 void Game::clickOnBoard(int x, int y){
+
        switch (state) {
         case WHITE_SELECT :     state = select(P1, x, y) ;
                                 break ;
