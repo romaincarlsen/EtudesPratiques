@@ -65,6 +65,21 @@ void Game::clickOnBoard(QLineEdit* ok_tb) {
     }
 }
 
+void Game::clickOnBoard(int x, int y){
+       switch (state) {
+        case WHITE_SELECT :     state = select(P1, x, y) ;
+                                break ;
+        case WHITE_DEST :       state = dest(P1, P2, x, y) ;
+                                break ;
+        case BLACK_SELECT :     state = select(P2, x, y) ;
+                                break ;
+        case BLACK_DEST :       state = dest(P2, P1, x, y) ;
+                                break ;
+        case END :              txt += "Winner : " + winner ;
+                                break ;
+    }
+}
+
 STATE Game::select(Player* player, int x, int y) {
 
     if (x>0 && x<=board->getSize() && y>0 && y<=board->getSize()) {

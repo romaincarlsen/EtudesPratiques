@@ -41,6 +41,7 @@ public:
     Checkerboard* getBoard() ;
 
     void clickOnBoard(QLineEdit* ok_tb) ;
+    void clickOnBoard(int x, int y);
 
     STATE select(Player* player, int x, int y) ;
     STATE dest(Player* player,  Player* opponent, int xDest, int yDest) ;

@@ -19,7 +19,8 @@ SOURCES +=\
     PlayerCP.cpp \
     PlayerManual.cpp \
     tools.cpp \
-    game.cpp
+    game.cpp \
+    labelcase.cpp
 
 HEADERS  += mainwindow.h \
     Checkerboard.h \
@@ -29,6 +30,7 @@ HEADERS  += mainwindow.h \
     Tools.h \
     struct.h \
     include.h \
-    game.h
+    game.h \
+    labelcase.h
 
 FORMS    += mainwindow.ui

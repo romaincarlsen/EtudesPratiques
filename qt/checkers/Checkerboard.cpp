@@ -1,4 +1,5 @@
 #include "Checkerboard.h"
+#include "LabelCase.h"
 
 // create checkerboard with dimension parameters
 
@@ -19,6 +20,9 @@ Checkerboard::Checkerboard(int size) : _size(size)
             else
                 _square[x][y].square = EMPTY ;
             _square[x][y].label = new QLabel();
+            //gestion des labels contenant leur position :
+            //_square[x][y].label = new LabelCase(x,y);
+            //_square[x][y].label->connect(_square[x][y].label, SIGNAL(clicked(int,int)), this, SLOT(ok_click()));
 		}
 	}	
 }

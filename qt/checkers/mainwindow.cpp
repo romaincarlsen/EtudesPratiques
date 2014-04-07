@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "LabelCase.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -21,6 +22,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::ok_click(){
     game->clickOnBoard(this->ui->input) ;
+    this->ui->board_l->setText(game->toString()) ;
+    game->paint(this->ui->board_gl);
+}
+
+void MainWindow::click(int x, int y){
+    game->clickOnBoard(x,y);
     this->ui->board_l->setText(game->toString()) ;
     game->paint(this->ui->board_gl);
 }

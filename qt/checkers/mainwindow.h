@@ -23,6 +23,7 @@ private :
 public slots:
     void ok_click() ;
     void start_click() ;
+    void click(int x, int y);
 
 public:
     explicit MainWindow(QWidget *parent = 0);
