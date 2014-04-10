@@ -61,6 +61,7 @@ QPixmap square_to_img(SQUARE square) {
         case WHITE_PIECE :	return QPixmap("../checkers/img/white_piece.png") ;
         case WHITE_KING :	return QPixmap("../checkers/img/white_king.png") ;
         case LOCK :			return QPixmap("../checkers/img/lock.png") ;
+        case GHOST :		return QPixmap("../checkers/img/ghost.png") ;
         default :			return QPixmap() ;
     }
 }

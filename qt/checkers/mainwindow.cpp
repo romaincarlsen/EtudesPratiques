@@ -30,10 +30,11 @@ void MainWindow::click(int x, int y){
     game->clickOnBoard(x+1,y+1);
     this->ui->board_l->setText(game->toString()) ;
     game->paint(this->ui->board_gl);
-    qDebug() << "clic pris en compte en x : " << x+1 << ", y : " << y+1 << endl;
+    //qDebug() << "clic pris en compte en x : " << x+1 << ", y : " << y+1 << endl;
 }
 
 void MainWindow::start_click(){
+
     int size = this->ui->size_tb->text().toInt() ;
     int nbLineP1 = this->ui->nbLineP1_tb->text().toInt() ;
     int nbLineP2 = this->ui->nbLineP2_tb->text().toInt() ;
@@ -42,7 +43,6 @@ void MainWindow::start_click(){
         for (int j = 0; j< game->getBoard()->getSize(); j++){
             LabelCase* label = (game->getBoard()->getSquare())[i][j].label;
             label->connect(label, SIGNAL(clicked(int,int)), this, SLOT(click(int, int)));
-            //_square[x][y].label->connect(_square[x][y].label, SIGNAL(clicked(int,int)), this, SLOT(click(int, int)));
         }
     }
     this->ui->board_l->setText(game->toString()) ;

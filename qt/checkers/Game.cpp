@@ -92,6 +92,7 @@ STATE Game::select(Player* player, int x, int y) {
             player->x = x ;
             player->y = y ;
             txt += "destination : (ex : A1) :   " ;
+            board->select(x,y);
             return player->state_dest ;
         }
     }
@@ -111,6 +112,7 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
             if(!(valid=!(canKill && !wasKill))) {
                     txt += "\nYou have to kill !\n" ;
                     txt += "select (ex : A1) :   " ;
+                    board->deselect();
                     return player->state_select ;
             }
             player->xDest = xDest ;
@@ -134,6 +136,7 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
                 txt += board->toString() ;
                 // piece selection
                 txt += "select (ex : A1) :   " ;
+                board->deselect();
                 return opponent->state_select ;
             }
         }

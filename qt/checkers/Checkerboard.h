@@ -8,7 +8,12 @@
 #include "struct.h"
 #include "Tools.h"
 #include "labelcase.h"
+typedef struct {
 
+    int x ;
+    int y ;
+    bool select;
+} Selection ;
 typedef std::vector<std::vector<QSQUARE>> Damier;
 
 class Checkerboard
@@ -17,6 +22,8 @@ class Checkerboard
 private:
 	int _size ;
 	Damier _square;
+    //attributs contenant la position de la case sélectionnée
+    Selection selection;
 public:
 	// create checkerboard with dimension parameters
 	Checkerboard(int size);
@@ -37,10 +44,18 @@ public:
 	// indicate if the checkerboard have a winner (if one player haven't pieces)
 	bool isWin() const ;
 
+    //Permet de changer la case sélectionnée
+    void select(int x, int y);
+    //déselectionne la case
+    void deselect();
+
 	// print checkerboard
     QString toString() ;
 
     void paint(QGridLayout* board_gl) ;
+
+    //affiche la case sélectionnée
+    void printSelect(QGridLayout *board_gl);
 };
 
 #endif
