@@ -27,15 +27,17 @@ private:
 public:
 	// create checkerboard with dimension parameters
 	Checkerboard(int size);
+    Checkerboard(Checkerboard* board);
 	~Checkerboard(void);
 
 	int getSize() const;
 
 	void setSquare(int x, int y, SQUARE square);
 
-	//SQUARE** getSquare() ;
+    //SQUARE** getSquare() ;
 	const Damier& getSquare() const;
-	// put Piece on the Checkerboard
+
+    // put Piece on the Checkerboard
 	bool putPiece(int x, int y, SQUARE piece) ;
 
 	// delete pieces which have been killed during last turn

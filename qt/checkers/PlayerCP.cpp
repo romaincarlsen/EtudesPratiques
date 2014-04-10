@@ -74,11 +74,12 @@ MOVEVALUE PlayerCP::negaMax(Checkerboard board, int depth, COLOR color) {
 
 //Launch a game turn of a CP player
 bool PlayerCP::play(void) {
-
+/*
 	COLOR color = isWhite() ? WHITE : BLACK ;
 	MOVEVALUE mv = negaMax(*board, 10, color) ;
 	mv.value *= color ;
 
-	return move(mv.m.x, mv.m.y, mv.m.xDest, mv.m.yDest) ;
+    return moveOnBoard(mv.m.x, mv.m.y, mv.m.xDest, mv.m.yDest, board) ;*/
+    return false;
 }
 

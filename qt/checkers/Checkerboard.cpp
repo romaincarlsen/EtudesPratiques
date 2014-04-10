@@ -27,6 +27,20 @@ Checkerboard::Checkerboard(int size) : _size(size)
     }
 }
 
+Checkerboard::Checkerboard(Checkerboard* board) : _size(board->getSize())
+{
+
+    _square.resize(board->getSize(),vector<QSQUARE>(board->getSize()));
+    // init squares with EMPTY and LOCK type
+
+    //square = new SQUARE*[this->_size] ;
+    for (int x=0 ; x<board->getSize() ; x++) {
+        //_square[x] = new SQUARE[this->_size] ;
+        for (int y=0 ; y<board->getSize() ; y++) {
+            _square[x][y] = board->getSquare()[x][y] ;
+        }
+    }
+}
 
 Checkerboard::~Checkerboard(void)
 {
@@ -44,6 +58,7 @@ void Checkerboard::setSquare(int x, int y, SQUARE square) {
 const Damier& Checkerboard::getSquare() const{
     return _square ;
 }
+
 // put Piece on the Checkerboard
 bool Checkerboard::putPiece(int x, int y, SQUARE piece) {
     //Test if the square is empty
