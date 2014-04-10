@@ -17,6 +17,7 @@
 #include <QPushButton>
 #include <vector>
 #include <QMouseEvent>
+#include <QLayoutItem>
 
 using namespace std ;
 

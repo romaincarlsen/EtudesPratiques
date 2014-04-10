@@ -20,6 +20,15 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+//Nettoye la grille du jeu
+void MainWindow::clear(){
+    QLayoutItem *child;
+     while ((child = this->ui->board_gl->takeAt(0)) != 0) {
+         delete child->widget();
+         delete child;
+     }
+}
+
 void MainWindow::ok_click(){
     game->clickOnBoard(this->ui->input) ;
     this->ui->board_l->setText(game->toString()) ;
@@ -34,7 +43,7 @@ void MainWindow::click(int x, int y){
 }
 
 void MainWindow::start_click(){
-
+    this->clear();
     int size = this->ui->size_tb->text().toInt() ;
     int nbLineP1 = this->ui->nbLineP1_tb->text().toInt() ;
     int nbLineP2 = this->ui->nbLineP2_tb->text().toInt() ;
