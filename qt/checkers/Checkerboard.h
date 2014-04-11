@@ -35,13 +35,19 @@ public:
 	void setSquare(int x, int y, SQUARE square);
 
     //SQUARE** getSquare() ;
-	const Damier& getSquare() const;
+    /*const Damier& getSquare() const;*/
+
+    QSQUARE Checkerboard::getQSquare(int x, int y) const ;
+
+    SQUARE Checkerboard::getSquare(int x, int y) const ;
 
     // put Piece on the Checkerboard
 	bool putPiece(int x, int y, SQUARE piece) ;
 
 	// delete pieces which have been killed during last turn
 	void ghostBuster() ;
+
+    bool moveBegined() ;
 
 	// indicate if the checkerboard have a winner (if one player haven't pieces)
 	bool isWin() const ;

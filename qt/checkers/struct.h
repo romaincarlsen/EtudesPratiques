@@ -6,7 +6,7 @@
 
 
 // enum of piece types on squares
-typedef enum {BLACK_KING = -2, BLACK_PIECE, EMPTY, WHITE_PIECE, WHITE_KING, LOCK, GHOST} SQUARE;
+typedef enum {BLACK_KING = -2, BLACK_PIECE, EMPTY, WHITE_PIECE, WHITE_KING, LOCK, GHOST, UNDEFINED} SQUARE;
 
 // enum for direction of player
 typedef enum {NORD, SUD} DIRECTION ;

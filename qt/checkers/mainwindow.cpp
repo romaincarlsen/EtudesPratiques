@@ -50,7 +50,7 @@ void MainWindow::start_click(){
     game = new Game(size, nbLineP1, nbLineP2) ;
     for (int i = 0; i< game->getBoard()->getSize(); i++){
         for (int j = 0; j< game->getBoard()->getSize(); j++){
-            LabelCase* label = (game->getBoard()->getSquare())[i][j].label;
+            LabelCase* label = game->getBoard()->getQSquare(i,j).label;
             label->connect(label, SIGNAL(clicked(int,int)), this, SLOT(click(int, int)));
         }
     }

@@ -37,7 +37,7 @@ Checkerboard::Checkerboard(Checkerboard* board) : _size(board->getSize())
     for (int x=0 ; x<board->getSize() ; x++) {
         //_square[x] = new SQUARE[this->_size] ;
         for (int y=0 ; y<board->getSize() ; y++) {
-            _square[x][y] = board->getSquare()[x][y] ;
+            _square[x][y] = board->getQSquare(x, y) ;
         }
     }
 }
@@ -55,8 +55,33 @@ void Checkerboard::setSquare(int x, int y, SQUARE square) {
     this->_square[x][y].square= square ;
 }
 
-const Damier& Checkerboard::getSquare() const{
+/*const Damier& Checkerboard::getSquare() const{
     return _square ;
+}*/
+
+QSQUARE Checkerboard::getQSquare(int x, int y) const {
+    if (x<_size && x>=0 && y<_size && y>=0){
+        return _square[x][y] ;
+    }
+    else {
+        qDebug()<<"Out of Board"<<endl;
+    }
+    QSQUARE error ;
+    error.square = UNDEFINED ;
+    error.x = -1 ;
+    error.y = -1 ;
+    error.label = NULL ;
+    return error ;
+}
+
+SQUARE Checkerboard::getSquare(int x, int y) const{
+    if (x<_size && x>=0 && y<_size && y>=0){
+        return _square[x][y].square ;
+    }
+    else {
+        qDebug()<<"Out of Board"<<endl;
+    }
+    return UNDEFINED ;
 }
 
 // put Piece on the Checkerboard
@@ -75,6 +100,14 @@ void Checkerboard::ghostBuster(void)
     for (int x=0 ; x<this->_size ; x++)
         for (int y=0 ; y<this->_size ; y++)
             _square[x][y].square = _square[x][y].square==GHOST ? EMPTY : _square[x][y].square ;
+}
+
+bool Checkerboard::moveBegined() {
+    for (int x=0 ; x<this->_size ; x++)
+        for (int y=0 ; y<this->_size ; y++)
+            if (_square[x][y].square == GHOST)
+                return true ;
+    return false ;
 }
 
 //Permet de changer la case sélectionnée

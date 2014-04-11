@@ -37,7 +37,7 @@ public:
 	// indicate if y coordonate corresponde with king line of player
     bool isOnKingLineOnBoard(int yDest, Checkerboard* board) ;
 
-    int theBestKillOnBoard(SQUARE piece, int x, int y, Checkerboard* board, int best=0) ;
+    int theBestKillOnBoard(SQUARE piece, int x, int y, Checkerboard* board) ;
 
     bool isTheBestKillOnBoard(SQUARE piece, int x, int y,int xDest, int yDest, Checkerboard* board) ;
 

@@ -106,9 +106,9 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
         xDest-- ;
         yDest-- ;
         bool canKill = player->haveKillOnBoard(board) ;
-        bool valid = player->isMoveValidOnBoard(board->getSquare()[player->x][player->y].square,player->x,player->y,xDest,yDest, board) ;
+        bool valid = player->isMoveValidOnBoard(board->getSquare(player->x,player->y),player->x,player->y,xDest,yDest, board) ;
         if (valid) {
-            bool wasKill = player->isKillOnBoard(board->getSquare()[player->x][player->y].square,player->x,player->y,xDest,yDest,board) ;
+            bool wasKill = player->isKillOnBoard(board->getSquare(player->x,player->y),player->x,player->y,xDest,yDest,board) ;
             if(!(valid=!(canKill && !wasKill))) {
                     txt += "\nYou have to kill !\n" ;
                     txt += "select (ex : A1) :   " ;
@@ -116,10 +116,16 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
                     return player->state_select ;
             }
             else {
-                if (!(valid = !wasKill || player->isTheBestKillOnBoard(board->getSquare()[player->x][player->y].square,player->x,player->y,xDest,yDest, board))) {
+                if (!(valid = !wasKill || player->isTheBestKillOnBoard(board->getSquare(player->x,player->y),player->x,player->y,xDest,yDest, board))) {
                     txt += "\nYou have to choose the best kill !\n" ;
                     txt += "select (ex : A1) :   " ;
-                    return player->state_select ;
+                    if (board->moveBegined()) {
+                        return state ;
+                    }
+                    else {
+                        board->deselect() ;
+                        return player->state_select ;
+                    }
                 }
             }
             player->xDest = xDest ;
@@ -131,12 +137,13 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
             else {
                 player->x = player->xDest ;
                 player->y = player->yDest ;
-                if ((wasKill && player->canKillOnBoard(board->getSquare()[player->x][player->y].square, player->x, player->y, board))) {
+                board->select(player->x, player->y) ;
+                if ((wasKill && player->canKillOnBoard(board->getSquare(player->x,player->y), player->x, player->y, board))) {
                     qDebug() << "You have an other kill" << endl ;
                     return state ;
                 }
                 else {
-                    if (isPiece(board->getSquare()[player->x][player->y].square) && player->isOnKingLineOnBoard(player->y, board))
+                    if (isPiece(board->getSquare(player->x,player->y)) && player->isOnKingLineOnBoard(player->y, board))
                        board->setSquare(player->x, player->y, player->king);
                 }
 
