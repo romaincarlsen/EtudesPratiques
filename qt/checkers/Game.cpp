@@ -10,15 +10,14 @@ Game::Game(int size, int nbLineP1, int nbLineP2) {
     board = new Checkerboard(size) ;
     // init players
     P1 = new Player(nbLinePiece1, board, NORD) ;
-    P2 = new PlayerCP(nbLinePiece2, board, SUD, 1) ;
+    P2 = new Player(nbLinePiece2, board, SUD, 2) ;
     // current state of game loop in state machine
 
     txt = P1->toString() + "\n\n" ;
     // delete pieces which have been killed during last turn
     board->ghostBuster() ;
     //Player 1 turn
-    // board printing
-    txt += board->toString() ;
+
     // piece selection
     txt += "select (ex : A1) :   " ;
 
@@ -67,14 +66,25 @@ bool Game::isFinish() {
 }
 
 MOVE Game::negaMax() {
-    MOVE m ;
-    m.x = m.y = m.xDest = m.yDest = -1 ;
+    std::vector<MOVE> m ;
+    m.resize(0);
+
     int value ;
-    if (isWhiteState(state) && P1->isCP())
-        value = -P1->negaMax(board, P1->getLevel(), WHITE, m) ;
-    if (isBlackState(state) && P2->isCP())
-        value = P2->negaMax(board, P2->getLevel(), BLACK, m) ;
-    return m;
+    if (isWhiteState(state) && P1->isCP()) {
+
+        value = -negaMax(board, P1->getLevel(), WHITE, P1, P2, m) ;
+    }
+    if (isBlackState(state) && P2->isCP()) {
+
+        value = negaMax(board, P2->getLevel(), BLACK, P1, P2, m) ;
+
+    }
+    if (m.empty()) {
+        MOVE error ;
+        error.x = error.y = error.xDest = error.yDest = -1 ;
+        return error ;
+    }
+    return m[rand()%m.size()];
 }
 
 
@@ -141,7 +151,6 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
                 player->y = player->yDest ;
                 board->select(player->x, player->y) ;
                 if ((wasKill && player->canKillOnBoard(board->getSquare(player->x,player->y), player->x, player->y, board))) {
-                    qDebug() << "You have an other kill" << endl ;
                     return state ;
                 }
                 else {
@@ -152,8 +161,7 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
                 txt = opponent->toString() + "\n\n" ;
                 // delete pieces which have been killed during last turn
                 board->ghostBuster() ;
-                // board printing
-                txt += board->toString() ;
+
                 // piece selection
                 txt += "select (ex : A1) :   " ;
                 board->deselect();
@@ -169,8 +177,108 @@ QString Game::toString() {
 }
 
 void Game::paint(QGridLayout* board_gl) {
-
-    qDebug() << state << endl ;
-
     board->paint(board_gl) ;
+}
+
+
+int Game::costFunction(Checkerboard* board, Player* player) {
+    int nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing ;
+    player->scanNumberOfOnBoard(nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing, board) ;
+    return nbMinePiece - nbOpponentPiece + (nbMineKing - nbOpponentKing)*3 ;
+}
+
+std::vector<MOVE> Game::findMoveOnBoard(Checkerboard* board, COLOR color, Player* player) {
+    std::vector<MOVE> m ;
+    m.resize(0);
+    for (int x=0 ; x<board->getSize() ; x++) {
+        for (int y=0 ; y<board->getSize() ; y++) {
+            if (Tools::isWhite(board->getSquare(x,y)) && color==WHITE || Tools::isBlack(board->getSquare(x,y)) && color==BLACK) {
+                if (player->selectValidOnBoard(x,y, board)) {
+                    for (int xDest=0 ; xDest<board->getSize() ; xDest++) {
+                        for (int yDest=0 ; yDest<board->getSize() ; yDest++) {
+                            bool canKill = player->haveKillOnBoard(board) ;
+                            if (player->isMoveValidOnBoard(board->getSquare(x,y),x,y,xDest,yDest, board)) {
+                                bool wasKill = player->isKillOnBoard(board->getSquare(x,y),x,y,xDest,yDest,board) ;
+                                if (!(canKill && !wasKill)) {
+                                    if (!wasKill || player->isTheBestKillOnBoard(board->getSquare(x,y),x,y,xDest,yDest, board)){
+                                        m.resize(m.size()+1);
+                                        MOVE move ;
+                                        move.x = x ;
+                                        move.y = y ;
+                                        move.xDest = xDest ;
+                                        move.yDest = yDest ;
+                                        m[m.size()-1] = move ;
+                                      }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return m ;
+}
+
+//function negamax(node, depth, color)
+//if depth = 0 or node is a terminal node
+//    return color * the heuristic value of node
+//bestValue := -infini
+//foreach child of node
+//    val := -negamax(child, depth - 1, -color)
+//    bestValue := max( bestValue, val )
+//return bestValue
+//
+//Initial call for Player A's root node
+//rootNodeValue := negamax( rootNode, depth, 1)
+//
+//Initial call for Player B's root node
+//rootNodeValue := -negamax( rootNode, depth, -1)
+int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best) {
+    Player* player = (color==WHITE ? P1 : P2) ;
+    Player* opponent = (color==WHITE ? P2 : P1) ;
+
+    if (depth==0 || board->isWin()){
+        return ((int)color) * costFunction(board, player);
+    }
+    std::vector<MOVE> move = findMoveOnBoard(board,color, player) ;
+
+    int value ;
+    if (move.size()>0) {
+        Checkerboard* child = new Checkerboard(board) ;
+        player->moveOnBoard(move[0].x,move[0].y,move[0].xDest,move[0].yDest,child) ;
+        value = -negaMax(child, depth - 1, (COLOR)(-(int)color), P1, P2, best) ;
+        if (depth == playerTurn()->getLevel()) {
+            best.resize(best.size()+1) ;
+            best[best.size()-1] = move[0] ;
+        }
+        delete child ;
+    }
+    for (int i = 1 ; i<move.size() ; i++) {
+        Checkerboard* child = new Checkerboard(board) ;
+        player->moveOnBoard(move[i].x,move[i].y,move[i].xDest,move[i].yDest,child) ;
+        int value_child = -negaMax(child, depth - 1, (COLOR)(-(int)color),P1, P2, best) ;
+        if (value_child > value) {
+            value = value_child ;
+            if (depth == playerTurn()->getLevel()) {
+                best.clear();
+                best.resize(best.size()+1) ;
+                best[best.size()-1] = move[i] ;
+            }
+        }
+        else {
+            if (value_child == value) {
+                if (depth == playerTurn()->getLevel()) {
+                    best.resize(best.size()+1) ;
+                    best[best.size()-1] = move[i] ;
+                }
+            }
+        }
+        delete child ;
+    }
+    return value ;
+}
+
+Player* Game::playerTurn() {
+    return (state == WHITE_SELECT || state == WHITE_DEST ? P1 : P2) ;
 }

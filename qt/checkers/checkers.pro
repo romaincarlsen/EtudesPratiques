@@ -16,7 +16,6 @@ SOURCES +=\
         mainwindow.cpp \
     Checkerboard.cpp \
     Player.cpp \
-    PlayerCP.cpp \
     game.cpp \
     labelcase.cpp \
     Tools.cpp
@@ -24,7 +23,6 @@ SOURCES +=\
 HEADERS  += mainwindow.h \
     Checkerboard.h \
     Player.h \
-    PlayerCP.h \
     Tools.h \
     struct.h \
     include.h \

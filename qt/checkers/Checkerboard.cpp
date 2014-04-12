@@ -135,23 +135,6 @@ bool Checkerboard::isWin() const {
 }
 
 // print checkerboard
-QString Checkerboard::toString(void)
-{
-    QString s = "\n" ;
-    for (int y=this->_size-1 ; y>=0 ; y--) {
-        for (int x=0 ; x<this->_size ; x++) {
-            s +=  Tools::square_to_char(_square[x][y].square) ;
-
-        }
-        s += " " + QString::number(y+1) + "\n" ;
-    }
-    for (int x=0 ; x<this->_size ; x++)
-        s += Tools::num_to_letter_column(x+1) ;
-    s += "\n" ;
-    return s ;
-}
-
-// print checkerboard
 void Checkerboard::paint(QGridLayout* board_gl)
 {
     for (int y=0 ; y<this->_size ; y++) {

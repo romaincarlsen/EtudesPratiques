@@ -34,9 +34,6 @@ public:
 
 	void setSquare(int x, int y, SQUARE square);
 
-    //SQUARE** getSquare() ;
-    /*const Damier& getSquare() const;*/
-
     QSQUARE Checkerboard::getQSquare(int x, int y) const ;
 
     SQUARE Checkerboard::getSquare(int x, int y) const ;
@@ -56,9 +53,6 @@ public:
     void select(int x, int y);
     //déselectionne la case
     void deselect();
-
-	// print checkerboard
-    QString toString() ;
 
     void paint(QGridLayout* board_gl) ;
 

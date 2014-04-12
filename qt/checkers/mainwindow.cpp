@@ -35,16 +35,19 @@ void MainWindow::launchIA() {
     if (game->isCPTurn()) {
         if (!game->isFinish()) {
             MOVE mv = game->negaMax() ;
+
+            qDebug() << mv.x << " " << mv.y << " " << mv.xDest << " " << mv.yDest << endl ;
+
             if (game->execMove(mv.x,mv.y,-1,-1)) {
                 this->ui->board_l->setText(game->toString()) ;
                 game->paint(this->ui->board_gl);
             }
-            else {
+            /*else {*/
                 if (game->execMove(-1,-1,mv.xDest,mv.yDest)) {
                     this->ui->board_l->setText(game->toString()) ;
                     game->paint(this->ui->board_gl);
                 }
-            }
+            /*}*/
         }
         else {
             iTimer->stop();
@@ -94,6 +97,7 @@ void MainWindow::start_click(){
 
 int main(int argc, char *argv[])
 {
+    srand (time(NULL));
     QApplication a(argc, argv);
     MainWindow w;
     w.show() ;

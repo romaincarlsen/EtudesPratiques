@@ -66,26 +66,3 @@ QPixmap Tools::square_to_img(SQUARE square) {
     }
 }
 
-// return column letter corresponding to column number for consol printing
-QChar Tools::num_to_letter_column(int num) {
-    return QChar((short)(65+num-1)) ;
-}
-
-//return column number corresponding to column letter for consol printing
-int Tools::letter_to_num_column(QChar letter) {
-    return letter.toUpper().unicode() - 65 + 1 ;
-}
-
-// scan int value on keyboard unless 0
-int Tools::scanInt() {
-    /*string tmp ;
-    int res ;
-    do {
-        cin >> tmp;
-        res = atoi(tmp.c_str()) ;
-    }
-    while (res==0) ;
-    return res ;*/
-    return 0 ;
-}
-

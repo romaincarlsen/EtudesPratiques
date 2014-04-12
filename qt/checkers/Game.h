@@ -7,7 +7,6 @@
 #include "Tools.h"
 #include "Checkerboard.h"
 #include "Player.h"
-#include "PlayerCP.h"
 
 class Game
 {
@@ -52,6 +51,14 @@ public:
     QString toString() ;
 
     void paint(QGridLayout* board_gl) ;
+
+    int costFunction(Checkerboard* board, Player* player) ;
+
+    std::vector<MOVE> findMoveOnBoard(Checkerboard* board, COLOR color, Player* player) ;
+
+    int negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best) ;
+
+    Player* playerTurn() ;
 
 };
 

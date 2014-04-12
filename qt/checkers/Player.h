@@ -11,6 +11,9 @@ class Player
 {
 
 public:
+
+    int level ;
+
 	//Indicate direction of the offensive
 	DIRECTION direction ;
 
@@ -34,11 +37,9 @@ public:
     int xDest ;
     int yDest ;
 
-    virtual int getLevel() ;
+    int getLevel() ;
 
-    virtual int negaMax(Checkerboard* board, int depth, COLOR color, MOVE& best) ;
-
-    virtual bool isCP() ;
+    bool isCP() ;
 
 	// indicate if y coordonate corresponde with king line of player
     bool isOnKingLineOnBoard(int yDest, Checkerboard* board) ;
@@ -96,7 +97,7 @@ public:
     bool moveOnBoard(int x, int y, int xDest, int yDest, Checkerboard * board) ;
 
 	//Create the player
-    Player(int nbLinePiece, Checkerboard* board, DIRECTION direction);
+    Player(int nbLinePiece, Checkerboard* board, DIRECTION direction, int level = -1);
 
 	~Player(void);
 

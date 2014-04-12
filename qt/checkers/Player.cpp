@@ -1,8 +1,10 @@
 #include "Player.h"
 
 //Create the player
-Player::Player(int nbLinePiece, Checkerboard* board, DIRECTION direction)
+Player::Player(int nbLinePiece, Checkerboard* board, DIRECTION direction, int level)
 {
+    this->level = level ;
+
 	//Indicate direction of the offensive
 	this->direction = direction ;
 	//Indicate the board where players play
@@ -45,15 +47,11 @@ Player::~Player(void)
 }
 
 int Player::getLevel() {
-    return -1 ;
-}
-
-int Player::negaMax(Checkerboard* board, int depth, COLOR color, MOVE& best)  {
-    return 42 ;
+    return level ;
 }
 
 bool Player::isCP() {
-    return false ;
+    return level > -1 ;
 }
 
 QString Player::toString() {
@@ -77,12 +75,12 @@ int Player::theBestKillOnBoard(SQUARE piece, int x, int y, Checkerboard* board) 
 
                 Checkerboard* copyBoard = new Checkerboard(board) ;
                 moveOnBoard(x,y,xDest,yDest,copyBoard) ;
-                qDebug() << "move from " << x << " " << y << " to " << xDest << " " << yDest << endl ;
+
                 int nbKill = 1 + theBestKillOnBoard(piece, xDest, yDest, copyBoard) ;
 
-                qDebug() << "kill " << nbKill << endl ;
+
                 best = best<nbKill ? nbKill : best ;
-                qDebug() << "best " << best << endl ;
+
                 delete copyBoard ;
 
             }
@@ -96,8 +94,6 @@ bool Player::isTheBestKillOnBoard(SQUARE piece, int x, int y, int xDest, int yDe
         Checkerboard* copyBoard = new Checkerboard(board) ;
         moveOnBoard(x,y,xDest,yDest,copyBoard) ;
         int kill = 1 + theBestKillOnBoard(piece, xDest, yDest, copyBoard) ;
-
-        qDebug() << "kill move chosen " << kill << endl ;
 
         for (int xt=0 ; xt<board->getSize() ; xt++) {
             for (int yt=0 ; yt<board->getSize() ; yt++) {

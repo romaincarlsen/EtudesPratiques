@@ -38,14 +38,6 @@ static char square_to_char(SQUARE square) ;
 // return img corresponding to square type for consol printing
 static QPixmap square_to_img(SQUARE square) ;
 
-// return column letter corresponding to column number for consol printing
-static QChar num_to_letter_column(int num) ;
-
-//return column number corresponding to column letter for consol printing
-static int letter_to_num_column(QChar letter) ;
-
-// scan int value on keyboard unless 0
-static int scanInt() ;
 
 };
 
