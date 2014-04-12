@@ -13,7 +13,8 @@ class PlayerCP :
 {
 
 private:
-	
+    int _level;
+
 	int costFunction(Checkerboard board) ;
 
 	std::vector<MOVE> findMove(Checkerboard board, COLOR color) ;
@@ -25,10 +26,9 @@ private:
 	
 public:
 	//create a CP player
-    PlayerCP(int nbLinePiece,Checkerboard* board, DIRECTION direction) ;
+    PlayerCP(int nbLinePiece,Checkerboard* board, DIRECTION direction, int level) ;
 	~PlayerCP(void);
-	//Launch a game turn of a CP player
-	bool play(void);
+
 };
 
 #endif

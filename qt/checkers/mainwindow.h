@@ -22,7 +22,6 @@ private :
     QSQUARE square_clicked ;
 
 public slots:
-    void ok_click() ;
     void start_click() ;
     void click(int x, int y);
 

@@ -94,8 +94,6 @@ public:
 
 	~Player(void);
 
-	//Abstract function implements play method in function of the player (CP or Manual) 
-	virtual bool play() = 0;
 };
 
 #endif

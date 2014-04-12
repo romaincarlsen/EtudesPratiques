@@ -8,7 +8,6 @@
 #include "Checkerboard.h"
 #include "Player.h"
 #include "PlayerCP.h"
-#include "PlayerManual.h"
 
 class Game
 {

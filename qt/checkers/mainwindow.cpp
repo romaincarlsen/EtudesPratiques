@@ -11,7 +11,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->nbLineP1_tb->setText("4") ;
     ui->nbLineP2_tb->setText("4") ;
 
-    this->connect(this->ui->ok, SIGNAL(clicked()), this, SLOT(ok_click()));
     this->connect(this->ui->start, SIGNAL(clicked()), this, SLOT(start_click()));
 }
 
@@ -29,11 +28,7 @@ void MainWindow::clear(){
      }
 }
 
-void MainWindow::ok_click(){
-    game->clickOnBoard(this->ui->input) ;
-    this->ui->board_l->setText(game->toString()) ;
-    game->paint(this->ui->board_gl);
-}
+
 
 void MainWindow::click(int x, int y){
     game->clickOnBoard(x+1,y+1);

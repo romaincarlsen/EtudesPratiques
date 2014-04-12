@@ -221,7 +221,7 @@ bool Player::isKingKillOnBoard(SQUARE playerPiece, int x, int y, int xDest, int 
 	int cptOpp = 0 ;
 	//Loop for each square from piece to destination
 	for ( (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y-- ; x!=xDest && y!=yDest ; (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y--) {
-        cpt += isMine(board->getSquare(x,y)) ;
+        cpt += (isMine(board->getSquare(x,y)) || board->getSquare(x,y)==GHOST) ;
         cptOpp += isOpponent(board->getSquare(x,y)) ;
 	}
 	return cpt==0 && cptOpp==1 ;

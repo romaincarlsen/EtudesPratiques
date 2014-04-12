@@ -9,8 +9,8 @@ Game::Game(int size, int nbLineP1, int nbLineP2) {
     // init board
     board = new Checkerboard(size) ;
     // init players
-    P1 = new PlayerManual(nbLinePiece1, board, NORD) ;
-    P2 = new PlayerManual(nbLinePiece2, board, SUD) ;
+    P1 = new Player(nbLinePiece1, board, NORD) ;
+    P2 = new PlayerCP(nbLinePiece2, board, SUD, 1) ;
     // current state of game loop in state machine
 
     txt = P1->toString() + "\n\n" ;
@@ -61,7 +61,7 @@ void Game::clickOnBoard(QLineEdit* ok_tb) {
                                 break ;
         case BLACK_DEST :       state = dest(P2, P1, x, y) ;
                                 break ;
-        case END :              txt += "Winner : " + winner ;
+        case END :              txt = "Winner : " + winner ;
                                 break ;
     }
 }
@@ -77,9 +77,12 @@ void Game::clickOnBoard(int x, int y){
                                 break ;
         case BLACK_DEST :       state = dest(P2, P1, x, y) ;
                                 break ;
-        case END :              txt += "Winner : " + winner ;
+        case END :              /*txt = "Winner : " + winner ;*/
                                 break ;
     }
+
+
+        qDebug() << state << endl ;
 }
 
 STATE Game::select(Player* player, int x, int y) {
@@ -131,7 +134,10 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
             player->xDest = xDest ;
             player->yDest = yDest ;
             if(player->moveOnBoard(player->x,player->y,player->xDest,player->yDest, board)) {
-                winner = 1 ;
+                winner = (player->isWhite() ? 1 : 2);
+                board->ghostBuster() ;
+                txt = "winner = " + player->toString() ;
+                board->deselect();
                 return END ;
             }
             else {
