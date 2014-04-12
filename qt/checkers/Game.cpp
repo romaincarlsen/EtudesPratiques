@@ -36,61 +36,60 @@ Checkerboard* Game::getBoard() {
     return board ;
 }
 
+bool Game::execMove(int x, int y, int xDest, int yDest){
 
-QString Game::input() {
-    QString s = in ;
-    in = "" ;
-    return s ;
-}
-
-void Game::clickOnBoard(QLineEdit* ok_tb) {
-
-    in = ok_tb->text();
-    ok_tb->clear();
-    QString s = input() ;
-    int x = letter_to_num_column(s.at(0)) ;
-    int y = s.remove(0,1).toInt() ;
-    qDebug() << "point x : " << x << ", y : " << y << endl;
-
-    switch (state) {
-        case WHITE_SELECT :     state = select(P1, x, y) ;
-                                break ;
-        case WHITE_DEST :       state = dest(P1, P2, x, y) ;
-                                break ;
-        case BLACK_SELECT :     state = select(P2, x, y) ;
-                                break ;
-        case BLACK_DEST :       state = dest(P2, P1, x, y) ;
-                                break ;
-        case END :              txt = "Winner : " + winner ;
-                                break ;
+    if(x!=-1 && y!=-1) {
+        switch (state) {
+            case WHITE_SELECT :     state = select(P1, x, y) ;
+                                    return true ;
+            case BLACK_SELECT :     state = select(P2, x, y) ;
+                                    return true ;
+        }
     }
-}
+    if(xDest!=-1 && yDest!=-1) {
+        switch (state) {
+            case WHITE_DEST :       state = dest(P1, P2, xDest, yDest) ;
+                                    return true ;
 
-void Game::clickOnBoard(int x, int y){
-
-       switch (state) {
-        case WHITE_SELECT :     state = select(P1, x, y) ;
-                                break ;
-        case WHITE_DEST :       state = dest(P1, P2, x, y) ;
-                                break ;
-        case BLACK_SELECT :     state = select(P2, x, y) ;
-                                break ;
-        case BLACK_DEST :       state = dest(P2, P1, x, y) ;
-                                break ;
-        case END :              /*txt = "Winner : " + winner ;*/
-                                break ;
+            case BLACK_DEST :       state = dest(P2, P1, xDest, yDest) ;
+                                    return true ;
+        }
     }
-
-
-        qDebug() << state << endl ;
+    return false ;
 }
+
+bool Game::isCPTurn() {
+     return isWhiteState(state) && P1->isCP() || isBlackState(state) && P2->isCP() ;
+}
+
+bool Game::isFinish() {
+    return state == END ;
+}
+
+MOVE Game::negaMax() {
+    MOVE m ;
+    m.x = m.y = m.xDest = m.yDest = -1 ;
+    int value ;
+    if (isWhiteState(state) && P1->isCP())
+        value = -P1->negaMax(board, P1->getLevel(), WHITE, m) ;
+    if (isBlackState(state) && P2->isCP())
+        value = P2->negaMax(board, P2->getLevel(), BLACK, m) ;
+    return m;
+}
+
+
+bool Game::isWhiteState(STATE state) {
+    return state == WHITE_SELECT || state == WHITE_DEST ;
+}
+
+bool Game::isBlackState(STATE state) {
+    return state == BLACK_SELECT || state == BLACK_DEST ;
+}
+
 
 STATE Game::select(Player* player, int x, int y) {
 
-    if (x>0 && x<=board->getSize() && y>0 && y<=board->getSize()) {
-        // transform x and y value for table indice
-        x-- ;
-        y-- ;
+    if (x>=0 && x<board->getSize() && y>=0 && y<board->getSize()) {
         if (player->selectValidOnBoard(x,y, board)) {
             player->x = x ;
             player->y = y ;
@@ -104,10 +103,7 @@ STATE Game::select(Player* player, int x, int y) {
 
 
 STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
-    if (xDest>0 && xDest<=board->getSize() && yDest>0 && yDest<=board->getSize()) {
-        // transform x and y value for table indice
-        xDest-- ;
-        yDest-- ;
+    if (xDest>=0 && xDest<board->getSize() && yDest>=0 && yDest<board->getSize()) {
         bool canKill = player->haveKillOnBoard(board) ;
         bool valid = player->isMoveValidOnBoard(board->getSquare(player->x,player->y),player->x,player->y,xDest,yDest, board) ;
         if (valid) {
@@ -149,7 +145,7 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
                     return state ;
                 }
                 else {
-                    if (isPiece(board->getSquare(player->x,player->y)) && player->isOnKingLineOnBoard(player->y, board))
+                    if (Tools::isPiece(board->getSquare(player->x,player->y)) && player->isOnKingLineOnBoard(player->y, board))
                        board->setSquare(player->x, player->y, player->king);
                 }
 
@@ -173,5 +169,8 @@ QString Game::toString() {
 }
 
 void Game::paint(QGridLayout* board_gl) {
+
+    qDebug() << state << endl ;
+
     board->paint(board_gl) ;
 }

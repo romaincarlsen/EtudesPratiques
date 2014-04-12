@@ -71,26 +71,6 @@ DESTDIR_TARGET = release\checkers.exe
 
 .SUFFIXES: .c .cpp .cc .cxx
 
-{..\checkers}.cpp{release\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
-	$<
-<<
-
-{..\checkers}.cc{release\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
-	$<
-<<
-
-{..\checkers}.cxx{release\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
-	$<
-<<
-
-{..\checkers}.c{release\}.obj::
-	$(CC) -c $(CFLAGS) $(INCPATH) -Forelease\ @<<
-	$<
-<<
-
 {release}.cpp{release\}.obj::
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
 	$<
@@ -127,6 +107,26 @@ DESTDIR_TARGET = release\checkers.exe
 <<
 
 {.}.c{release\}.obj::
+	$(CC) -c $(CFLAGS) $(INCPATH) -Forelease\ @<<
+	$<
+<<
+
+{..\checkers}.cpp{release\}.obj::
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
+	$<
+<<
+
+{..\checkers}.cc{release\}.obj::
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
+	$<
+<<
+
+{..\checkers}.cxx{release\}.obj::
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
+	$<
+<<
+
+{..\checkers}.c{release\}.obj::
 	$(CC) -c $(CFLAGS) $(INCPATH) -Forelease\ @<<
 	$<
 <<
@@ -170,9 +170,8 @@ compiler_moc_header_make_all: release\moc_mainwindow.cpp release\moc_labelcase.c
 compiler_moc_header_clean:
 	-$(DEL_FILE) release\moc_mainwindow.cpp release\moc_labelcase.cpp
 release\moc_mainwindow.cpp: ..\checkers\include.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\QApplication \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\qapplication.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcoreapplication.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\QTimer \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtimer.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qglobal.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qconfig.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qfeatures.h \
@@ -209,16 +208,17 @@ release\moc_mainwindow.cpp: ..\checkers\include.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtypeinfo.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtypetraits.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qsysinfo.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qbasictimer.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qnamespace.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qstring.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qchar.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qbytearray.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qrefcount.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qnamespace.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qarraydata.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qstringbuilder.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qlist.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qalgorithms.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qiterator.h \
@@ -229,6 +229,9 @@ release\moc_mainwindow.cpp: ..\checkers\include.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcontainerfwd.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qisenum.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject_impl.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\QApplication \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\qapplication.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcoreapplication.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qeventloop.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtGui\qwindowdefs.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtGui\qwindowdefs_win.h \
@@ -356,9 +359,8 @@ release\moc_mainwindow.cpp: ..\checkers\include.h \
 	C:\Qt\Qt5.2.1\5.2.1\msvc2012\bin\moc.exe $(DEFINES) -D_MSC_VER=1700 -D_WIN32 $(INCPATH) ..\checkers\mainwindow.h -o release\moc_mainwindow.cpp
 
 release\moc_labelcase.cpp: ..\checkers\include.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\QApplication \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\qapplication.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcoreapplication.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\QTimer \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtimer.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qglobal.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qconfig.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qfeatures.h \
@@ -395,16 +397,17 @@ release\moc_labelcase.cpp: ..\checkers\include.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtypeinfo.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtypetraits.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qsysinfo.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qbasictimer.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qnamespace.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qstring.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qchar.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qbytearray.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qrefcount.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qnamespace.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qarraydata.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qstringbuilder.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qlist.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qalgorithms.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qiterator.h \
@@ -415,6 +418,9 @@ release\moc_labelcase.cpp: ..\checkers\include.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcontainerfwd.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qisenum.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject_impl.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\QApplication \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\qapplication.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcoreapplication.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qeventloop.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtGui\qwindowdefs.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtGui\qwindowdefs_win.h \
@@ -521,9 +527,8 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 
 release\mainwindow.obj: ..\checkers\mainwindow.cpp ..\checkers\mainwindow.h \
 		..\checkers\include.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\QApplication \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\qapplication.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcoreapplication.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\QTimer \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtimer.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qglobal.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qconfig.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qfeatures.h \
@@ -560,16 +565,17 @@ release\mainwindow.obj: ..\checkers\mainwindow.cpp ..\checkers\mainwindow.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtypeinfo.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtypetraits.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qsysinfo.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qbasictimer.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qnamespace.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qstring.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qchar.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qbytearray.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qrefcount.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qnamespace.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qarraydata.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qstringbuilder.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qlist.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qalgorithms.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qiterator.h \
@@ -580,6 +586,9 @@ release\mainwindow.obj: ..\checkers\mainwindow.cpp ..\checkers\mainwindow.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcontainerfwd.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qisenum.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject_impl.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\QApplication \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\qapplication.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcoreapplication.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qeventloop.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtGui\qwindowdefs.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtGui\qwindowdefs_win.h \
@@ -706,9 +715,8 @@ release\mainwindow.obj: ..\checkers\mainwindow.cpp ..\checkers\mainwindow.h \
 
 release\Checkerboard.obj: ..\checkers\Checkerboard.cpp ..\checkers\Checkerboard.h \
 		..\checkers\include.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\QApplication \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\qapplication.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcoreapplication.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\QTimer \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtimer.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qglobal.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qconfig.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qfeatures.h \
@@ -745,16 +753,17 @@ release\Checkerboard.obj: ..\checkers\Checkerboard.cpp ..\checkers\Checkerboard.
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtypeinfo.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtypetraits.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qsysinfo.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qbasictimer.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qnamespace.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qstring.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qchar.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qbytearray.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qrefcount.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qnamespace.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qarraydata.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qstringbuilder.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qlist.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qalgorithms.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qiterator.h \
@@ -765,6 +774,9 @@ release\Checkerboard.obj: ..\checkers\Checkerboard.cpp ..\checkers\Checkerboard.
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcontainerfwd.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qisenum.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject_impl.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\QApplication \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\qapplication.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcoreapplication.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qeventloop.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtGui\qwindowdefs.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtGui\qwindowdefs_win.h \
@@ -852,9 +864,8 @@ release\Checkerboard.obj: ..\checkers\Checkerboard.cpp ..\checkers\Checkerboard.
 
 release\Player.obj: ..\checkers\Player.cpp ..\checkers\Player.h \
 		..\checkers\include.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\QApplication \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\qapplication.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcoreapplication.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\QTimer \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtimer.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qglobal.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qconfig.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qfeatures.h \
@@ -891,16 +902,17 @@ release\Player.obj: ..\checkers\Player.cpp ..\checkers\Player.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtypeinfo.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtypetraits.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qsysinfo.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qbasictimer.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qnamespace.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qstring.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qchar.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qbytearray.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qrefcount.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qnamespace.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qarraydata.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qstringbuilder.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qlist.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qalgorithms.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qiterator.h \
@@ -911,6 +923,9 @@ release\Player.obj: ..\checkers\Player.cpp ..\checkers\Player.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcontainerfwd.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qisenum.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject_impl.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\QApplication \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\qapplication.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcoreapplication.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qeventloop.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtGui\qwindowdefs.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtGui\qwindowdefs_win.h \
@@ -999,9 +1014,8 @@ release\Player.obj: ..\checkers\Player.cpp ..\checkers\Player.h \
 
 release\PlayerCP.obj: ..\checkers\PlayerCP.cpp ..\checkers\PlayerCP.h \
 		..\checkers\include.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\QApplication \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\qapplication.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcoreapplication.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\QTimer \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtimer.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qglobal.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qconfig.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qfeatures.h \
@@ -1038,16 +1052,17 @@ release\PlayerCP.obj: ..\checkers\PlayerCP.cpp ..\checkers\PlayerCP.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtypeinfo.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtypetraits.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qsysinfo.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qbasictimer.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qnamespace.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qstring.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qchar.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qbytearray.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qrefcount.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qnamespace.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qarraydata.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qstringbuilder.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qlist.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qalgorithms.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qiterator.h \
@@ -1058,6 +1073,9 @@ release\PlayerCP.obj: ..\checkers\PlayerCP.cpp ..\checkers\PlayerCP.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcontainerfwd.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qisenum.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject_impl.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\QApplication \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\qapplication.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcoreapplication.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qeventloop.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtGui\qwindowdefs.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtGui\qwindowdefs_win.h \
@@ -1149,9 +1167,8 @@ release\tools.obj: ..\checkers\tools.cpp
 
 release\game.obj: ..\checkers\game.cpp ..\checkers\game.h \
 		..\checkers\include.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\QApplication \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\qapplication.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcoreapplication.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\QTimer \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtimer.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qglobal.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qconfig.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qfeatures.h \
@@ -1188,16 +1205,17 @@ release\game.obj: ..\checkers\game.cpp ..\checkers\game.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtypeinfo.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtypetraits.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qsysinfo.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qbasictimer.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qnamespace.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qstring.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qchar.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qbytearray.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qrefcount.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qnamespace.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qarraydata.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qstringbuilder.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qlist.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qalgorithms.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qiterator.h \
@@ -1208,6 +1226,9 @@ release\game.obj: ..\checkers\game.cpp ..\checkers\game.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcontainerfwd.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qisenum.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject_impl.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\QApplication \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\qapplication.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcoreapplication.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qeventloop.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtGui\qwindowdefs.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtGui\qwindowdefs_win.h \
@@ -1298,9 +1319,8 @@ release\game.obj: ..\checkers\game.cpp ..\checkers\game.h \
 
 release\labelcase.obj: ..\checkers\labelcase.cpp ..\checkers\labelcase.h \
 		..\checkers\include.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\QApplication \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\qapplication.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcoreapplication.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\QTimer \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtimer.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qglobal.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qconfig.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qfeatures.h \
@@ -1337,16 +1357,17 @@ release\labelcase.obj: ..\checkers\labelcase.cpp ..\checkers\labelcase.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtypeinfo.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qtypetraits.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qsysinfo.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qbasictimer.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qnamespace.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qstring.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qchar.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qbytearray.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qrefcount.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qnamespace.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qarraydata.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qstringbuilder.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qlist.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qalgorithms.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qiterator.h \
@@ -1357,6 +1378,9 @@ release\labelcase.obj: ..\checkers\labelcase.cpp ..\checkers\labelcase.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcontainerfwd.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qisenum.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qobject_impl.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\QApplication \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtWidgets\qapplication.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qcoreapplication.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtCore\qeventloop.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtGui\qwindowdefs.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012\include\QtGui\qwindowdefs_win.h \

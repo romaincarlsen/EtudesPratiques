@@ -5,42 +5,48 @@
 
 #include "struct.h"
 
-bool isWhite(SQUARE square) ;
+class Tools
+{
 
-bool isBlack(SQUARE square) ;
+public:
+
+static bool isWhite(SQUARE square) ;
+
+static bool isBlack(SQUARE square) ;
 
 // return if val is even number
-bool isEven(int val) ;
+static bool isEven(int val) ;
 
 // return if val is odd number
-bool isOdd(int val) ;
+static bool isOdd(int val) ;
 
 // return if the square contain a king
-bool isKing(SQUARE square);
+static bool isKing(SQUARE square);
 
 // return if the square contain a piece
-bool isPiece(SQUARE square);
+static bool isPiece(SQUARE square);
 
 // return if the square is occuped
-bool isNotEmpty(SQUARE square) ;
+static bool isNotEmpty(SQUARE square) ;
 
 // return if square is locked (white square)
-bool isLocked(SQUARE square) ;
+static bool isLocked(SQUARE square) ;
 
 // return char corresponding to square type for consol printing
-char square_to_char(SQUARE square) ;
+static char square_to_char(SQUARE square) ;
 
 // return img corresponding to square type for consol printing
-QPixmap square_to_img(SQUARE square) ;
+static QPixmap square_to_img(SQUARE square) ;
 
 // return column letter corresponding to column number for consol printing
-QChar num_to_letter_column(int num) ;
+static QChar num_to_letter_column(int num) ;
 
 //return column number corresponding to column letter for consol printing
-int letter_to_num_column(QChar letter) ;
+static int letter_to_num_column(QChar letter) ;
 
 // scan int value on keyboard unless 0
-int scanInt() ;
+static int scanInt() ;
 
+};
 
 #endif

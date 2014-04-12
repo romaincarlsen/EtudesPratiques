@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <QTimer>
 
 #include <QApplication>
 #include <QtCore/QCoreApplication>

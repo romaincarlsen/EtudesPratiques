@@ -34,6 +34,12 @@ public:
     int xDest ;
     int yDest ;
 
+    virtual int getLevel() ;
+
+    virtual int negaMax(Checkerboard* board, int depth, COLOR color, MOVE& best) ;
+
+    virtual bool isCP() ;
+
 	// indicate if y coordonate corresponde with king line of player
     bool isOnKingLineOnBoard(int yDest, Checkerboard* board) ;
 

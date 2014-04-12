@@ -75,13 +75,13 @@ public:
         nbLineP2_tb->setGeometry(QRect(600, 120, 81, 20));
         size_l = new QLabel(centralWidget);
         size_l->setObjectName(QStringLiteral("size_l"));
-        size_l->setGeometry(QRect(520, 10, 46, 13));
+        size_l->setGeometry(QRect(515, 10, 51, 20));
         nbLineP1_l = new QLabel(centralWidget);
         nbLineP1_l->setObjectName(QStringLiteral("nbLineP1_l"));
-        nbLineP1_l->setGeometry(QRect(520, 40, 101, 20));
+        nbLineP1_l->setGeometry(QRect(510, 40, 81, 20));
         nbLineP2_l = new QLabel(centralWidget);
         nbLineP2_l->setObjectName(QStringLiteral("nbLineP2_l"));
-        nbLineP2_l->setGeometry(QRect(520, 120, 101, 20));
+        nbLineP2_l->setGeometry(QRect(510, 120, 81, 20));
         board_l = new QLabel(centralWidget);
         board_l->setObjectName(QStringLiteral("board_l"));
         board_l->setGeometry(QRect(510, 250, 271, 171));

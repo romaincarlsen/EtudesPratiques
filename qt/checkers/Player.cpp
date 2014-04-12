@@ -44,6 +44,18 @@ Player::~Player(void)
 {
 }
 
+int Player::getLevel() {
+    return -1 ;
+}
+
+int Player::negaMax(Checkerboard* board, int depth, COLOR color, MOVE& best)  {
+    return 42 ;
+}
+
+bool Player::isCP() {
+    return false ;
+}
+
 QString Player::toString() {
     QString num = (isWhite() ? "1" : "2") ;
     return "player" + num ;
@@ -101,7 +113,7 @@ bool Player::isTheBestKillOnBoard(SQUARE piece, int x, int y, int xDest, int yDe
 bool Player::canKillOnBoard(SQUARE piece, int x, int y, Checkerboard* board) const {
 	int xDest ;
 	int yDest ;
-	if (isPiece(piece)) {
+    if (Tools::isPiece(piece)) {
 		for (int vx = -2 ; vx<=2 ; vx+=4)
 			for (int vy = -2 ; vy<=2 ; vy+=4) {
 				xDest = x+vx ;
@@ -111,7 +123,7 @@ bool Player::canKillOnBoard(SQUARE piece, int x, int y, Checkerboard* board) con
 						return true ;
 			}
 	}
-	if (isKing(piece)) {
+    if (Tools::isKing(piece)) {
 		for (int vx=-1 ; vx<=1 ; vx+=2)
 			for (int vy=-1 ; vy<=1 ; vy+=2) {
 				xDest = x ;
@@ -169,7 +181,7 @@ void Player::scanNumberOfOnBoard(int & nbMinePiece, int & nbMineKing, int & nbOp
 	SQUARE tmp ;
 	for (int x=0 ; x<board->getSize() ; x++)
 		for (int y=0 ; y<board->getSize() ; y++)
-			if ((isEven(x) && isEven(y)) || (isOdd(x) && isOdd(y))){
+            if ((Tools::isEven(x) && Tools::isEven(y)) || (Tools::isOdd(x) && Tools::isOdd(y))){
                 tmp = board->getSquare(x,y) ;
 				nbMinePiece += tmp == piece ;
 				nbMineKing += tmp == king ;
@@ -181,7 +193,7 @@ void Player::scanNumberOfOnBoard(int & nbMinePiece, int & nbMineKing, int & nbOp
 //Kill the opponent piece
 void Player::killOnBoard(int x,int y,int xDest,int yDest, Checkerboard* board) {
     for ( (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y-- ; x!=xDest && y!=yDest ; (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y--) {
-        if (isPiece(board->getSquare(x,y)) || isKing(board->getSquare(x,y))) {
+        if (Tools::isPiece(board->getSquare(x,y)) || Tools::isKing(board->getSquare(x,y))) {
             board->setSquare(x,y, GHOST) ;
         }
     }
@@ -189,7 +201,7 @@ void Player::killOnBoard(int x,int y,int xDest,int yDest, Checkerboard* board) {
 
 //Verify it's a valid piece move
 bool Player::isPieceMoveOnBoard(SQUARE playerPiece, int x, int y, int xDest, int yDest, Checkerboard* board) const{
-	return isMine(playerPiece) && isPiece(playerPiece) && (
+    return isMine(playerPiece) && Tools::isPiece(playerPiece) && (
 			this->direction == NORD && yDest==y+1 && (xDest == x+1 || xDest==x-1)
 			|| this->direction == SUD && yDest==y-1 && (xDest == x+1 || xDest==x-1)
 			) ;
@@ -197,25 +209,25 @@ bool Player::isPieceMoveOnBoard(SQUARE playerPiece, int x, int y, int xDest, int
 
 //Verify it's a valid piece kill
 bool Player::isPieceKillOnBoard(SQUARE playerPiece, int x, int y, int xDest, int yDest, Checkerboard* board) const{
-    return isMine(playerPiece) && isPiece(playerPiece) && (
+    return isMine(playerPiece) && Tools::isPiece(playerPiece) && (
             (yDest==y+2 || yDest==y-2) && (xDest == x+2 || xDest==x-2) && isOpponent(board->getSquare((x+xDest)/2,(y+yDest)/2))
 			) ;
 }
 
 //Verify it's a valid king move
 bool Player::isKingMoveOnBoard(SQUARE playerPiece, int x, int y, int xDest, int yDest, Checkerboard* board) const{
-	if (!isKing(playerPiece) || !isMine(playerPiece))
+    if (!Tools::isKing(playerPiece) || !isMine(playerPiece))
 		return false ;	
 	int cpt = 0 ;
 	//Loop for each square from piece to destination
 	for ( (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y-- ; x!=xDest && y!=yDest ; (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y--)
-        cpt += isNotEmpty(board->getSquare(x,y)) ;
+        cpt += Tools::isNotEmpty(board->getSquare(x,y)) ;
 	return cpt==0 ;
 }
 
 //Verify it's a valid king const
 bool Player::isKingKillOnBoard(SQUARE playerPiece, int x, int y, int xDest, int yDest, Checkerboard* board) const{
-	if (!isKing(playerPiece) || !isMine(playerPiece))
+    if (!Tools::isKing(playerPiece) || !isMine(playerPiece))
 		return false ;
 	int cpt = 0 ;
 	int cptOpp = 0 ;

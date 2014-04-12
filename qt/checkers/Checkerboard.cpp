@@ -16,7 +16,7 @@ Checkerboard::Checkerboard(int size) : _size(size)
         for (int y=0 ; y<size ; y++) {
             _square[x][y].x = x ;
             _square[x][y].y = y ;
-            if (!((isEven(x) && isEven(y)) || (isOdd(x) && isOdd(y))))
+            if (!(Tools::isEven(x) && Tools::isEven(y) || Tools::isOdd(x) && Tools::isOdd(y)))
                 _square[x][y].square = LOCK ;
             else
                 _square[x][y].square = EMPTY ;
@@ -128,8 +128,8 @@ bool Checkerboard::isWin() const {
     int nbBlack = 0 ;
     for (int x=0 ; x<_size ; x++)
         for (int y=0 ; y<_size ; y++) {
-            nbWhite += isWhite(_square[x][y].square) ;
-            nbBlack += isBlack(_square[x][y].square) ;
+            nbWhite += Tools::isWhite(_square[x][y].square) ;
+            nbBlack += Tools::isBlack(_square[x][y].square) ;
         }
     return !nbWhite || !nbBlack ;
 }
@@ -140,13 +140,13 @@ QString Checkerboard::toString(void)
     QString s = "\n" ;
     for (int y=this->_size-1 ; y>=0 ; y--) {
         for (int x=0 ; x<this->_size ; x++) {
-            s +=  square_to_char(_square[x][y].square) ;
+            s +=  Tools::square_to_char(_square[x][y].square) ;
 
         }
         s += " " + QString::number(y+1) + "\n" ;
     }
     for (int x=0 ; x<this->_size ; x++)
-        s += num_to_letter_column(x+1) ;
+        s += Tools::num_to_letter_column(x+1) ;
     s += "\n" ;
     return s ;
 }
@@ -156,7 +156,7 @@ void Checkerboard::paint(QGridLayout* board_gl)
 {
     for (int y=0 ; y<this->_size ; y++) {
         for (int x=0 ; x<this->_size ; x++) {
-            _square[x][y].label->setPixmap(square_to_img(_square[x][y].square));
+            _square[x][y].label->setPixmap(Tools::square_to_img(_square[x][y].square));
             _square[x][y].label->setScaledContents(true);
             board_gl->addWidget(_square[x][y].label, -(y-(this->_size-1)), x) ;
         }

@@ -20,10 +20,12 @@ class MainWindow : public QMainWindow
 private :
     Game* game ;
     QSQUARE square_clicked ;
+    QTimer* iTimer ;
 
 public slots:
     void start_click() ;
     void click(int x, int y);
+    void launchIA() ;
 
 public:
     explicit MainWindow(QWidget *parent = 0);

@@ -11,7 +11,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->nbLineP1_tb->setText("4") ;
     ui->nbLineP2_tb->setText("4") ;
 
+    iTimer = new QTimer(this);
+
     this->connect(this->ui->start, SIGNAL(clicked()), this, SLOT(start_click()));
+    this->connect(iTimer, SIGNAL(timeout()), this, SLOT(launchIA()));
 }
 
 MainWindow::~MainWindow()
@@ -28,13 +31,44 @@ void MainWindow::clear(){
      }
 }
 
-
+void MainWindow::launchIA() {
+    if (game->isCPTurn()) {
+        if (!game->isFinish()) {
+            MOVE mv = game->negaMax() ;
+            if (game->execMove(mv.x,mv.y,-1,-1)) {
+                this->ui->board_l->setText(game->toString()) ;
+                game->paint(this->ui->board_gl);
+            }
+            else {
+                if (game->execMove(-1,-1,mv.xDest,mv.yDest)) {
+                    this->ui->board_l->setText(game->toString()) ;
+                    game->paint(this->ui->board_gl);
+                }
+            }
+        }
+        else {
+            iTimer->stop();
+        }
+    }
+}
 
 void MainWindow::click(int x, int y){
-    game->clickOnBoard(x+1,y+1);
-    this->ui->board_l->setText(game->toString()) ;
-    game->paint(this->ui->board_gl);
-    //qDebug() << "clic pris en compte en x : " << x+1 << ", y : " << y+1 << endl;
+    //launchIA() ;
+    if (!game->isFinish()) {
+        if (!game->isCPTurn()) {
+            if (game->execMove(x,y,-1,-1)) {
+                this->ui->board_l->setText(game->toString()) ;
+                game->paint(this->ui->board_gl);
+            }
+            if (game->execMove(-1,-1,x,y)) {
+                this->ui->board_l->setText(game->toString()) ;
+                game->paint(this->ui->board_gl);
+            }
+        }
+    }
+    else
+        iTimer->stop();
+    //launchIA() ;
 }
 
 void MainWindow::start_click(){
@@ -52,11 +86,14 @@ void MainWindow::start_click(){
     this->ui->board_l->setText(game->toString()) ;
     game->paint(this->ui->board_gl);
 
+    iTimer->setInterval(1000);
+    iTimer->start();
+
+    //launchIA() ;
 }
 
 int main(int argc, char *argv[])
 {
-
     QApplication a(argc, argv);
     MainWindow w;
     w.show() ;

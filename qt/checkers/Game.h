@@ -19,17 +19,12 @@ private:
 
     STATE state ;
 
-    QString in ;
-
     QString txt ;
 
     int winner ;
     int size ;
     int nbLinePiece1 ;
     int nbLinePiece2 ;
-
-    QString input() ;
-
 
 public:
 
@@ -39,8 +34,16 @@ public:
 
     Checkerboard* getBoard() ;
 
-    void clickOnBoard(QLineEdit* ok_tb) ;
-    void clickOnBoard(int x, int y);
+    bool execMove(int x, int y, int xDest, int yDest) ;
+
+    bool isCPTurn() ;
+
+    bool isFinish() ;
+
+    MOVE negaMax() ;
+
+    bool isWhiteState(STATE state) ;
+    bool isBlackState(STATE state) ;
 
     STATE select(Player* player, int x, int y) ;
     STATE dest(Player* player,  Player* opponent, int xDest, int yDest) ;

@@ -1,45 +1,45 @@
-﻿#include "tools.h"
+﻿#include "Tools.h"
 
-bool isWhite(SQUARE square) {
+bool Tools::isWhite(SQUARE square) {
     return square == WHITE_KING || square == WHITE_PIECE;
 }
 
-bool isBlack(SQUARE square) {
+bool Tools::isBlack(SQUARE square) {
     return square == BLACK_KING || square == BLACK_PIECE ;
 }
 
 // return if val is even number
-bool isEven(int val) {
+bool Tools::isEven(int val) {
     return val%2==0 ;
 }
 
 // return if val is odd number
-bool isOdd(int val) {
+bool Tools::isOdd(int val) {
     return val%2==1 ;
 }
 
 // return if square is locked (white square)
-bool isLocked(SQUARE square) {
+bool Tools::isLocked(SQUARE square) {
     return square == LOCK ;
 }
 
 // return if the square contain a king
-bool isKing(SQUARE square) {
+bool Tools::isKing(SQUARE square) {
     return square == WHITE_KING || square ==BLACK_KING ;
 }
 
 // return if the square contain a piece
-bool isPiece(SQUARE square) {
+bool Tools::isPiece(SQUARE square) {
     return square == WHITE_PIECE || square ==BLACK_PIECE ;
 }
 
 // return if the square is occuped
-bool isNotEmpty(SQUARE square) {
+bool Tools::isNotEmpty(SQUARE square) {
     return square != EMPTY && square !=LOCK ;
 }
 
 // return char corresponding to square type for consol printing
-char square_to_char(SQUARE square) {
+char Tools::square_to_char(SQUARE square) {
     switch (square) {
         case BLACK_KING :	return 'O' ;
         case BLACK_PIECE :	return 'o' ;
@@ -53,7 +53,7 @@ char square_to_char(SQUARE square) {
 
 
 // return img corresponding to square type for consol printing
-QPixmap square_to_img(SQUARE square) {
+QPixmap Tools::square_to_img(SQUARE square) {
     switch (square) {
         case BLACK_KING :	return QPixmap("../checkers/img/black_king.png") ;
         case BLACK_PIECE :	return QPixmap("../checkers/img/black_piece.png") ;
@@ -67,17 +67,17 @@ QPixmap square_to_img(SQUARE square) {
 }
 
 // return column letter corresponding to column number for consol printing
-QChar num_to_letter_column(int num) {
+QChar Tools::num_to_letter_column(int num) {
     return QChar((short)(65+num-1)) ;
 }
 
 //return column number corresponding to column letter for consol printing
-int letter_to_num_column(QChar letter) {
+int Tools::letter_to_num_column(QChar letter) {
     return letter.toUpper().unicode() - 65 + 1 ;
 }
 
 // scan int value on keyboard unless 0
-int scanInt() {
+int Tools::scanInt() {
     /*string tmp ;
     int res ;
     do {

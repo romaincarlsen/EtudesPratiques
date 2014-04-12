@@ -11,13 +11,44 @@ PlayerCP::~PlayerCP(void)
 {
 }
 
-
-int PlayerCP::costFunction(Checkerboard board) {
-	return 42 ;
+bool PlayerCP::isCP() {
+    return true ;
 }
 
-std::vector<MOVE> PlayerCP::findMove(Checkerboard board, COLOR color) {
+int PlayerCP::costFunction(Checkerboard board) {
+    return 42;
+}
+
+std::vector<MOVE> PlayerCP::findMoveOnBoard(Checkerboard* board, COLOR color) {
 	std::vector<MOVE> m ;
+    m.resize(0);
+    for (int x=0 ; x<board->getSize() ; x++) {
+        for (int y=0 ; y<board->getSize() ; y++) {
+            if (Tools::isWhite(board->getSquare(x,y)) && color==WHITE || Tools::isBlack(board->getSquare(x,y)) && color==BLACK) {
+                if (selectValidOnBoard(x,y, board)) {
+                    for (int xDest=0 ; xDest<board->getSize() ; xDest++) {
+                        for (int yDest=0 ; yDest<board->getSize() ; yDest++) {
+                            bool canKill = haveKillOnBoard(board) ;
+                            if (isMoveValidOnBoard(board->getSquare(x,y),x,y,xDest,yDest, board)) {
+                                bool wasKill = isKillOnBoard(board->getSquare(x,y),x,y,xDest,yDest,board) ;
+                                if (!(canKill && !wasKill)) {
+                                    if (!wasKill || isTheBestKillOnBoard(board->getSquare(x,y),x,y,xDest,yDest, board)){
+                                        m.resize(m.size()+1);
+                                        MOVE move ;
+                                        move.x = x ;
+                                        move.y = y ;
+                                        move.xDest = xDest ;
+                                        move.yDest = yDest ;
+                                        m[m.size()-1] = move ;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 	return m ;
 }
 
@@ -26,7 +57,21 @@ Checkerboard PlayerCP::applyMove(Checkerboard board, MOVE m) {
 	return c ;
 }
 
-MOVEVALUE PlayerCP::negaMax(Checkerboard board, int depth, COLOR color) {
+int PlayerCP::getLevel() {
+    return _level ;
+}
+
+int PlayerCP::negaMax(Checkerboard* board, int depth, COLOR color, MOVE & best) {
+
+    if (depth==0 || board->isWin()){
+        return (int)color * costFunction(board);
+    }
+    std::vector<MOVE> move = findMoveOnBoard(board,color) ;
+    foreach(MOVE m , move){
+        qDebug() << m.x << " " << m.y << " " << m.xDest << " " << m.yDest << endl ;
+    }
+
+    return 42 ;
 
 	//function negamax(node, depth, color)
     //if depth = 0 or node is a terminal node
@@ -43,40 +88,7 @@ MOVEVALUE PlayerCP::negaMax(Checkerboard board, int depth, COLOR color) {
 	//Initial call for Player B's root node
 	//rootNodeValue := -negamax( rootNode, depth, -1)
 
-	MOVEVALUE mv ;
+    /*MOVEVALUE mv ;*/
 
-    if (depth = 0 || board.isWin()) {
-		MOVE m ;
-		m.x = m.y = m.xDest = m.yDest = -1 ;
-		mv.m = m ;
-		mv.value = color * costFunction(board) ;
-        return  mv ;
-	}
-	MOVEVALUE tmp ;
-	std::vector<MOVE> listMove = findMove(board,color) ;
-	std::vector<MOVE>::iterator it = listMove.begin() ;
-	if (it != listMove.end()) {
-        tmp = negaMax(applyMove(board,*it), depth - 1, (COLOR)-color) ;
-		tmp.m = *it ;
-		tmp.value *= -1 ;
-		mv = tmp ;
-		++it ;
-	}
-	for (it ; it != listMove.end(); ++it) {
-        tmp = negaMax(applyMove(board,*it), depth - 1, (COLOR)-color) ;
-		tmp.m = *it ;
-		tmp.value *= -1 ;
-		mv = tmp.value > mv.value ? tmp : mv ;
-	}
-    return mv ;
+
 }
-
-
-//Launch a game turn of a CP player
-/*
-	COLOR color = isWhite() ? WHITE : BLACK ;
-	MOVEVALUE mv = negaMax(*board, 10, color) ;
-	mv.value *= color ;
-
-    return moveOnBoard(mv.m.x, mv.m.y, mv.m.xDest, mv.m.yDest, board) ;*/
-

@@ -1,4 +1,4 @@
-truc que c'est ty qui reste à faut le faire :
+truc que c'est ty qui reste à faut le faire (IA en cours, normal que ça marche pas):
 
 - faire fonction de cout
 
@@ -10,3 +10,4 @@ truc que c'est ty qui reste à faut le faire :
 
 - Transformer les affichages ("You have to chose the best kill", "Winner ="). Soit les mettre dans un autre label, soit enlever le plateau du label.
 Et enelevr select et dest.
+
