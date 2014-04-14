@@ -18,3 +18,5 @@ Et enelevr select et dest.
 - faire alpha beta
 
 - faire threads avec open mp
+
+-voir pour pouvoir compiler en dehors de Qt

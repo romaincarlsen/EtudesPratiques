@@ -1,7 +1,7 @@
 #include "game.h"
 
 
-Game::Game(int size, int nbLineP1, int nbLineP2) {
+Game::Game(int size, int nbLineP1, int nbLineP2, int p1, int p2) {
     this->size = size ;
     this->nbLinePiece1 = nbLineP1 ;
     this->nbLinePiece2 = nbLineP2 ;
@@ -9,8 +9,8 @@ Game::Game(int size, int nbLineP1, int nbLineP2) {
     // init board
     board = new Checkerboard(size) ;
     // init players
-    P1 = new Player(nbLinePiece1, board, NORD) ;
-    P2 = new Player(nbLinePiece2, board, SUD, 2) ;
+    P1 = new Player(nbLinePiece1, board, NORD, p1) ;
+    P2 = new Player(nbLinePiece2, board, SUD, p2) ;
     // current state of game loop in state machine
 
     txt = P1->toString() + "\n\n" ;

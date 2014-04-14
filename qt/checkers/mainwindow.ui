@@ -99,9 +99,9 @@
    <widget class="QLabel" name="board_l">
     <property name="geometry">
      <rect>
-      <x>510</x>
+      <x>500</x>
       <y>250</y>
-      <width>271</width>
+      <width>291</width>
       <height>171</height>
      </rect>
     </property>
@@ -129,53 +129,21 @@
      <rect>
       <x>510</x>
       <y>60</y>
-      <width>271</width>
+      <width>171</width>
       <height>51</height>
      </rect>
     </property>
     <property name="title">
-     <string>Mode de jeu (à transformer en liste déroulante)</string>
+     <string>Mode de jeu</string>
     </property>
-    <widget class="QRadioButton" name="IA_niv1_P1_r">
+    <widget class="QComboBox" name="modeP1_IA">
      <property name="geometry">
       <rect>
-       <x>100</x>
+       <x>30</x>
        <y>20</y>
-       <width>82</width>
-       <height>17</height>
+       <width>121</width>
+       <height>22</height>
       </rect>
-     </property>
-     <property name="text">
-      <string>IA level 1</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="manualP1_r">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>20</y>
-       <width>82</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>manual</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="IA_niv2_P1_r">
-     <property name="geometry">
-      <rect>
-       <x>180</x>
-       <y>20</y>
-       <width>82</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>IA level 2</string>
      </property>
     </widget>
    </widget>
@@ -184,53 +152,21 @@
      <rect>
       <x>510</x>
       <y>150</y>
-      <width>271</width>
+      <width>171</width>
       <height>51</height>
      </rect>
     </property>
     <property name="title">
-     <string>Mode de jeu (à transformer en liste déroulante)</string>
+     <string>Mode de jeu</string>
     </property>
-    <widget class="QRadioButton" name="IA_niv1_P2_r">
-     <property name="geometry">
-      <rect>
-       <x>100</x>
-       <y>20</y>
-       <width>82</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>IA level 1</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="manual_P2_r">
+    <widget class="QComboBox" name="modeP2_IA">
      <property name="geometry">
       <rect>
        <x>20</x>
        <y>20</y>
-       <width>82</width>
-       <height>17</height>
+       <width>121</width>
+       <height>22</height>
       </rect>
-     </property>
-     <property name="text">
-      <string>manual</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="IA_niv2_P2_r">
-     <property name="geometry">
-      <rect>
-       <x>180</x>
-       <y>20</y>
-       <width>82</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>IA level 2</string>
      </property>
     </widget>
    </widget>

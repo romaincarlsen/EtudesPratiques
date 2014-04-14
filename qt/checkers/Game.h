@@ -28,7 +28,7 @@ private:
 public:
 
     // create game with dimension parameters
-    Game(int size, int nbLineP1, int nbLineP2) ;
+    Game(int size, int nbLineP1, int nbLineP2, int p1 = -1, int p2 =-1) ;
     ~Game();
 
     Checkerboard* getBoard() ;

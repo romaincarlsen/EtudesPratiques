@@ -7,6 +7,9 @@
 #include "ui_mainwindow.h"
 #include "game.h"
 #include "labelcase.h"
+#include <sstream>
+
+
 
 namespace Ui {
 
@@ -21,12 +24,18 @@ private :
     Game* game ;
     QSQUARE square_clicked ;
     QTimer* iTimer ;
+    //attributs stockant si le joueur est en manuel ou une IA et dans ce dernier cas son niveau
+    int _p1;
+    int _p2;
 
 public slots:
     void start_click() ;
     void click(int x, int y);
     void launchIA() ;
 
+    //modifie le type de joueur (manuel ou IA) et le niveau dans le cas de l'IA
+    void selectLevelPlayer1(int lvl);
+    void selectLevelPlayer2(int lvl);
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
