@@ -5,19 +5,19 @@
 # Template: app
 #############################################################################
 
-MAKEFILE      = Makefile.Debug
+MAKEFILE      = Makefile.Release
 
 ####### Compiler, tools and options
 
 CC            = cl
 CXX           = cl
-DEFINES       = -DUNICODE -DWIN32 -DWIN64 -DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE
-CFLAGS        = -nologo -Zm200 -Zc:wchar_t -Zi -MDd -W3 /Fddebug\checkers.pdb $(DEFINES)
-CXXFLAGS      = -nologo -Zm200 -Zc:wchar_t -Zi -MDd -GR -W3 -w34100 -w34189 -EHsc /Fddebug\checkers.pdb $(DEFINES)
-INCPATH       = -I"..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include" -I"..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets" -I"..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtGui" -I"..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtANGLE" -I"..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore" -I"debug" -I"." -I"." -I"..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\win32-msvc2012"
+DEFINES       = -DUNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -DNDEBUG
+CFLAGS        = -nologo -Zm200 -Zc:wchar_t -O2 -MD -W3 $(DEFINES)
+CXXFLAGS      = -nologo -Zm200 -Zc:wchar_t -O2 -MD -GR -W3 -w34100 -w34189 -EHsc $(DEFINES)
+INCPATH       = -I"..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include" -I"..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets" -I"..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtGui" -I"..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtANGLE" -I"..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore" -I"release" -I"." -I"." -I"..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\win32-msvc2012"
 LINKER        = link
-LFLAGS        = /NOLOGO /DYNAMICBASE /NXCOMPAT /DEBUG /SUBSYSTEM:WINDOWS "/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'"
-LIBS          = qtmaind.lib /LIBPATH:C:\Qt\Qt5.2.1\5.2.1\msvc2012_64\lib C:\Qt\Qt5.2.1\5.2.1\msvc2012_64\lib\Qt5Widgetsd.lib C:\Qt\Qt5.2.1\5.2.1\msvc2012_64\lib\Qt5Guid.lib C:\Qt\Qt5.2.1\5.2.1\msvc2012_64\lib\Qt5Cored.lib libEGLd.lib libGLESv2d.lib gdi32.lib user32.lib 
+LFLAGS        = /NOLOGO /DYNAMICBASE /NXCOMPAT /INCREMENTAL:NO /SUBSYSTEM:WINDOWS "/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'"
+LIBS          = qtmain.lib /LIBPATH:C:\Qt\Qt5.2.1\5.2.1\msvc2012_64\lib C:\Qt\Qt5.2.1\5.2.1\msvc2012_64\lib\Qt5Widgets.lib C:\Qt\Qt5.2.1\5.2.1\msvc2012_64\lib\Qt5Gui.lib C:\Qt\Qt5.2.1\5.2.1\msvc2012_64\lib\Qt5Core.lib libEGL.lib libGLESv2.lib gdi32.lib user32.lib 
 QMAKE         = C:\Qt\Qt5.2.1\5.2.1\msvc2012_64\bin\qmake.exe
 IDC           = idc
 IDL           = midl
@@ -39,7 +39,7 @@ INSTALL_DIR     = $(COPY_DIR)
 
 ####### Output directory
 
-OBJECTS_DIR   = debug
+OBJECTS_DIR   = release
 
 ####### Files
 
@@ -48,125 +48,113 @@ SOURCES       = ..\checkers\mainwindow.cpp \
 		..\checkers\Player.cpp \
 		..\checkers\game.cpp \
 		..\checkers\labelcase.cpp \
-		..\checkers\Tools.cpp debug\moc_mainwindow.cpp \
-		debug\moc_labelcase.cpp
-OBJECTS       = debug\mainwindow.obj \
-		debug\Checkerboard.obj \
-		debug\Player.obj \
-		debug\game.obj \
-		debug\labelcase.obj \
-		debug\Tools.obj \
-		debug\moc_mainwindow.obj \
-		debug\moc_labelcase.obj
+		..\checkers\Tools.cpp release\moc_mainwindow.cpp \
+		release\moc_labelcase.cpp
+OBJECTS       = release\mainwindow.obj \
+		release\Checkerboard.obj \
+		release\Player.obj \
+		release\game.obj \
+		release\labelcase.obj \
+		release\Tools.obj \
+		release\moc_mainwindow.obj \
+		release\moc_labelcase.obj
 
 DIST          = 
 QMAKE_TARGET  = checkers
-DESTDIR        = debug\ #avoid trailing-slash linebreak
+DESTDIR        = release\ #avoid trailing-slash linebreak
 TARGET         = checkers.exe
-DESTDIR_TARGET = debug\checkers.exe
+DESTDIR_TARGET = release\checkers.exe
 
 ####### Implicit rules
 
 .SUFFIXES: .c .cpp .cc .cxx
 
-{..\checkers}.cpp{debug\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Fodebug\ @<<
+{.}.cpp{release\}.obj::
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
 	$<
 <<
 
-{..\checkers}.cc{debug\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Fodebug\ @<<
+{.}.cc{release\}.obj::
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
 	$<
 <<
 
-{..\checkers}.cxx{debug\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Fodebug\ @<<
+{.}.cxx{release\}.obj::
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
 	$<
 <<
 
-{..\checkers}.c{debug\}.obj::
-	$(CC) -c $(CFLAGS) $(INCPATH) -Fodebug\ @<<
+{.}.c{release\}.obj::
+	$(CC) -c $(CFLAGS) $(INCPATH) -Forelease\ @<<
 	$<
 <<
 
-{.}.cpp{debug\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Fodebug\ @<<
+{..\checkers}.cpp{release\}.obj::
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
 	$<
 <<
 
-{.}.cc{debug\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Fodebug\ @<<
+{..\checkers}.cc{release\}.obj::
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
 	$<
 <<
 
-{.}.cxx{debug\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Fodebug\ @<<
+{..\checkers}.cxx{release\}.obj::
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
 	$<
 <<
 
-{.}.c{debug\}.obj::
-	$(CC) -c $(CFLAGS) $(INCPATH) -Fodebug\ @<<
+{..\checkers}.c{release\}.obj::
+	$(CC) -c $(CFLAGS) $(INCPATH) -Forelease\ @<<
 	$<
 <<
 
-{debug}.cpp{debug\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Fodebug\ @<<
+{release}.cpp{release\}.obj::
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
 	$<
 <<
 
-{debug}.cc{debug\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Fodebug\ @<<
+{release}.cc{release\}.obj::
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
 	$<
 <<
 
-{debug}.cxx{debug\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Fodebug\ @<<
+{release}.cxx{release\}.obj::
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
 	$<
 <<
 
-{debug}.c{debug\}.obj::
-	$(CC) -c $(CFLAGS) $(INCPATH) -Fodebug\ @<<
+{release}.c{release\}.obj::
+	$(CC) -c $(CFLAGS) $(INCPATH) -Forelease\ @<<
 	$<
 <<
 
 ####### Build rules
 
 first: all
-all: Makefile.Debug $(DESTDIR_TARGET)
+all: Makefile.Release $(DESTDIR_TARGET)
 
 $(DESTDIR_TARGET): ui_mainwindow.h $(OBJECTS) 
-	echo 1 /* CREATEPROCESS_MANIFEST_RESOURCE_ID */ 24 /* RT_MANIFEST */ "debug\\checkers.exe.embed.manifest">debug\checkers.exe_manifest.rc
-	if not exist $(DESTDIR_TARGET) if exist debug\checkers.exe.embed.manifest del debug\checkers.exe.embed.manifest
-	if exist debug\checkers.exe.embed.manifest copy /Y debug\checkers.exe.embed.manifest debug\checkers.exe_manifest.bak
-	$(LINKER) $(LFLAGS) /MANIFEST /MANIFESTFILE:debug\checkers.exe.embed.manifest /OUT:$(DESTDIR_TARGET) @<<
-$(OBJECTS) $(LIBS) 
-!IF EXIST(debug\checkers.exe_manifest.res)
-debug\checkers.exe_manifest.res
-!ENDIF
+	$(LINKER) $(LFLAGS) /MANIFEST /MANIFESTFILE:release\checkers.exe.embed.manifest /OUT:$(DESTDIR_TARGET) @<<
+$(OBJECTS) $(LIBS)
 <<
-	if exist debug\checkers.exe_manifest.bak fc /b debug\checkers.exe.embed.manifest debug\checkers.exe_manifest.bak >NUL || del debug\checkers.exe_manifest.bak
-	if not exist debug\checkers.exe_manifest.bak rc.exe /fodebug\checkers.exe_manifest.res debug\checkers.exe_manifest.rc
-	if not exist debug\checkers.exe_manifest.bak $(LINKER) $(LFLAGS) /MANIFEST /MANIFESTFILE:debug\checkers.exe.embed.manifest /OUT:$(DESTDIR_TARGET) @<<
-$(OBJECTS) $(LIBS) debug\checkers.exe_manifest.res
-<<
-	if exist debug\checkers.exe_manifest.bak del debug\checkers.exe_manifest.bak
+	mt.exe /nologo /manifest release\checkers.exe.embed.manifest /outputresource:$(DESTDIR_TARGET);1
 
 qmake: FORCE
-	@$(QMAKE) -spec win32-msvc2012 CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug -o Makefile.Debug ..\checkers\checkers.pro
+	@$(QMAKE) -spec win32-msvc2012 -o Makefile.Release ..\checkers\checkers.pro
 
 qmake_all: FORCE
 
 dist:
-	$(ZIP) checkers.zip $(SOURCES) $(DIST) ..\checkers\checkers.pro ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\spec_pre.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\common\shell-win32.conf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\qconfig.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_axbase.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_axbase_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_axcontainer.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_axcontainer_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_axserver.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_axserver_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_bluetooth.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_bluetooth_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_bootstrap_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_clucene_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_concurrent.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_concurrent_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_core.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_core_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_declarative.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_declarative_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_designer.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_designer_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_designercomponents_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_gui.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_gui_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_help.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_help_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_multimedia.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_multimedia_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_multimediawidgets.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_multimediawidgets_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_network.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_network_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_nfc.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_nfc_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_opengl.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_opengl_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_openglextensions.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_openglextensions_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_platformsupport_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_positioning.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_positioning_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_printsupport.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_printsupport_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_qml.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_qml_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_qmldevtools_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_qmltest.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_qmltest_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_quick.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_quick_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_quickparticles_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_script.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_script_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_scripttools.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_scripttools_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_sensors.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_sensors_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_serialport.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_serialport_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_sql.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_sql_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_svg.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_svg_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_testlib.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_testlib_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_uitools.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_uitools_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_webkit.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_webkit_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_webkitwidgets.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_webkitwidgets_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_widgets.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_widgets_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_winextras.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_winextras_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_xml.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_xml_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_xmlpatterns.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_xmlpatterns_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\qt_functions.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\qt_config.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\win32-msvc2012\qmake.conf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\spec_post.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\exclusive_builds.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\default_pre.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\win32\default_pre.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\resolve_config.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\exclusive_builds_post.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\default_post.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\build_pass.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\qml_debug.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\declarative_debug.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\win32\rtti.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\warn_on.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\qt.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\resources.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\moc.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\win32\opengl.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\uic.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\win32\windows.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\testcase_targets.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\exceptions.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\yacc.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\lex.prf ..\checkers\checkers.pro C:/Qt/Qt5.2.1/5.2.1/msvc2012_64/lib/Qt5Widgetsd.prl C:/Qt/Qt5.2.1/5.2.1/msvc2012_64/lib/Qt5Guid.prl C:/Qt/Qt5.2.1/5.2.1/msvc2012_64/lib/Qt5Cored.prl C:/Qt/Qt5.2.1/5.2.1/msvc2012_64/lib/libEGLd.prl C:/Qt/Qt5.2.1/5.2.1/msvc2012_64/lib/libGLESv2d.prl  RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES FORMS YACCSOURCES YACCSOURCES LEXSOURCES 
+	$(ZIP) checkers.zip $(SOURCES) $(DIST) ..\checkers\checkers.pro ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\spec_pre.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\common\shell-win32.conf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\qconfig.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_axbase.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_axbase_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_axcontainer.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_axcontainer_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_axserver.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_axserver_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_bluetooth.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_bluetooth_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_bootstrap_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_clucene_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_concurrent.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_concurrent_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_core.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_core_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_declarative.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_declarative_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_designer.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_designer_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_designercomponents_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_gui.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_gui_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_help.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_help_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_multimedia.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_multimedia_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_multimediawidgets.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_multimediawidgets_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_network.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_network_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_nfc.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_nfc_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_opengl.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_opengl_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_openglextensions.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_openglextensions_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_platformsupport_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_positioning.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_positioning_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_printsupport.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_printsupport_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_qml.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_qml_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_qmldevtools_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_qmltest.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_qmltest_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_quick.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_quick_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_quickparticles_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_script.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_script_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_scripttools.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_scripttools_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_sensors.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_sensors_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_serialport.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_serialport_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_sql.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_sql_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_svg.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_svg_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_testlib.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_testlib_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_uitools.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_uitools_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_webkit.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_webkit_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_webkitwidgets.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_webkitwidgets_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_widgets.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_widgets_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_winextras.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_winextras_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_xml.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_xml_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_xmlpatterns.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\modules\qt_lib_xmlpatterns_private.pri ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\qt_functions.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\qt_config.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\win32-msvc2012\qmake.conf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\spec_post.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\exclusive_builds.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\default_pre.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\win32\default_pre.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\resolve_config.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\exclusive_builds_post.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\default_post.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\build_pass.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\win32\rtti.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\warn_on.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\qt.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\resources.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\moc.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\win32\opengl.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\uic.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\win32\windows.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\testcase_targets.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\exceptions.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\yacc.prf ..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\mkspecs\features\lex.prf ..\checkers\checkers.pro C:/Qt/Qt5.2.1/5.2.1/msvc2012_64/lib/Qt5Widgets.prl C:/Qt/Qt5.2.1/5.2.1/msvc2012_64/lib/Qt5Gui.prl C:/Qt/Qt5.2.1/5.2.1/msvc2012_64/lib/Qt5Core.prl C:/Qt/Qt5.2.1/5.2.1/msvc2012_64/lib/libEGL.prl C:/Qt/Qt5.2.1/5.2.1/msvc2012_64/lib/libGLESv2.prl  RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES FORMS YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
-	-$(DEL_FILE) debug\mainwindow.obj debug\Checkerboard.obj debug\Player.obj debug\game.obj debug\labelcase.obj debug\Tools.obj debug\moc_mainwindow.obj debug\moc_labelcase.obj
-	-$(DEL_FILE) debug\checkers.exp debug\checkers.ilk debug\checkers.idb debug\checkers.exe.embed.manifest debug\checkers.exe_manifest.rc debug\checkers.exe_manifest.res
+	-$(DEL_FILE) release\mainwindow.obj release\Checkerboard.obj release\Player.obj release\game.obj release\labelcase.obj release\Tools.obj release\moc_mainwindow.obj release\moc_labelcase.obj
+	-$(DEL_FILE) release\checkers.exp release\checkers.exe.embed.manifest
 
 distclean: clean
-	-$(DEL_FILE) debug\checkers.pdb
 	-$(DEL_FILE) $(DESTDIR_TARGET)
-	-$(DEL_FILE) Makefile.Debug
+	-$(DEL_FILE) Makefile.Release
 
 mocclean: compiler_moc_header_clean compiler_moc_source_clean
 
@@ -176,10 +164,10 @@ check: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: debug\moc_mainwindow.cpp debug\moc_labelcase.cpp
+compiler_moc_header_make_all: release\moc_mainwindow.cpp release\moc_labelcase.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) debug\moc_mainwindow.cpp debug\moc_labelcase.cpp
-debug\moc_mainwindow.cpp: ..\checkers\include.h \
+	-$(DEL_FILE) release\moc_mainwindow.cpp release\moc_labelcase.cpp
+release\moc_mainwindow.cpp: ..\checkers\include.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\QTimer \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\qtimer.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\qglobal.h \
@@ -365,9 +353,9 @@ debug\moc_mainwindow.cpp: ..\checkers\include.h \
 		..\checkers\Checkerboard.h \
 		..\checkers\Player.h \
 		..\checkers\mainwindow.h
-	C:\Qt\Qt5.2.1\5.2.1\msvc2012_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1700 -D_WIN32 -D_WIN64 $(INCPATH) ..\checkers\mainwindow.h -o debug\moc_mainwindow.cpp
+	C:\Qt\Qt5.2.1\5.2.1\msvc2012_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1700 -D_WIN32 -D_WIN64 $(INCPATH) ..\checkers\mainwindow.h -o release\moc_mainwindow.cpp
 
-debug\moc_labelcase.cpp: ..\checkers\include.h \
+release\moc_labelcase.cpp: ..\checkers\include.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\QTimer \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\qtimer.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\qglobal.h \
@@ -512,7 +500,7 @@ debug\moc_labelcase.cpp: ..\checkers\include.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtGui\QMouseEvent \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QLayoutItem \
 		..\checkers\labelcase.h
-	C:\Qt\Qt5.2.1\5.2.1\msvc2012_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1700 -D_WIN32 -D_WIN64 $(INCPATH) ..\checkers\labelcase.h -o debug\moc_labelcase.cpp
+	C:\Qt\Qt5.2.1\5.2.1\msvc2012_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1700 -D_WIN32 -D_WIN64 $(INCPATH) ..\checkers\labelcase.h -o release\moc_labelcase.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -534,7 +522,7 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 
 ####### Compile
 
-debug\mainwindow.obj: ..\checkers\mainwindow.cpp ..\checkers\mainwindow.h \
+release\mainwindow.obj: ..\checkers\mainwindow.cpp ..\checkers\mainwindow.h \
 		..\checkers\include.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\QTimer \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\qtimer.h \
@@ -721,7 +709,7 @@ debug\mainwindow.obj: ..\checkers\mainwindow.cpp ..\checkers\mainwindow.h \
 		..\checkers\Checkerboard.h \
 		..\checkers\Player.h
 
-debug\Checkerboard.obj: ..\checkers\Checkerboard.cpp ..\checkers\Checkerboard.h \
+release\Checkerboard.obj: ..\checkers\Checkerboard.cpp ..\checkers\Checkerboard.h \
 		..\checkers\include.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\QTimer \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\qtimer.h \
@@ -870,7 +858,7 @@ debug\Checkerboard.obj: ..\checkers\Checkerboard.cpp ..\checkers\Checkerboard.h 
 		..\checkers\labelcase.h \
 		..\checkers\Tools.h
 
-debug\Player.obj: ..\checkers\Player.cpp ..\checkers\Player.h \
+release\Player.obj: ..\checkers\Player.cpp ..\checkers\Player.h \
 		..\checkers\include.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\QTimer \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\qtimer.h \
@@ -1020,7 +1008,7 @@ debug\Player.obj: ..\checkers\Player.cpp ..\checkers\Player.h \
 		..\checkers\labelcase.h \
 		..\checkers\Checkerboard.h
 
-debug\game.obj: ..\checkers\game.cpp ..\checkers\game.h \
+release\game.obj: ..\checkers\game.cpp ..\checkers\game.h \
 		..\checkers\include.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\QTimer \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\qtimer.h \
@@ -1171,7 +1159,7 @@ debug\game.obj: ..\checkers\game.cpp ..\checkers\game.h \
 		..\checkers\Checkerboard.h \
 		..\checkers\Player.h
 
-debug\labelcase.obj: ..\checkers\labelcase.cpp ..\checkers\labelcase.h \
+release\labelcase.obj: ..\checkers\labelcase.cpp ..\checkers\labelcase.h \
 		..\checkers\include.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\QTimer \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\qtimer.h \
@@ -1317,11 +1305,11 @@ debug\labelcase.obj: ..\checkers\labelcase.cpp ..\checkers\labelcase.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtGui\QMouseEvent \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QLayoutItem
 
-debug\Tools.obj: ..\checkers\Tools.cpp 
+release\Tools.obj: ..\checkers\Tools.cpp 
 
-debug\moc_mainwindow.obj: debug\moc_mainwindow.cpp 
+release\moc_mainwindow.obj: release\moc_mainwindow.cpp 
 
-debug\moc_labelcase.obj: debug\moc_labelcase.cpp 
+release\moc_labelcase.obj: release\moc_labelcase.cpp 
 
 ####### Install
 

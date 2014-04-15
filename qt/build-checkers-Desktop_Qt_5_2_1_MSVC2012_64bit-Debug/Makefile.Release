@@ -69,26 +69,6 @@ DESTDIR_TARGET = release\checkers.exe
 
 .SUFFIXES: .c .cpp .cc .cxx
 
-{.}.cpp{release\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
-	$<
-<<
-
-{.}.cc{release\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
-	$<
-<<
-
-{.}.cxx{release\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
-	$<
-<<
-
-{.}.c{release\}.obj::
-	$(CC) -c $(CFLAGS) $(INCPATH) -Forelease\ @<<
-	$<
-<<
-
 {release}.cpp{release\}.obj::
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
 	$<
@@ -125,6 +105,26 @@ DESTDIR_TARGET = release\checkers.exe
 <<
 
 {..\checkers}.c{release\}.obj::
+	$(CC) -c $(CFLAGS) $(INCPATH) -Forelease\ @<<
+	$<
+<<
+
+{.}.cpp{release\}.obj::
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
+	$<
+<<
+
+{.}.cc{release\}.obj::
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
+	$<
+<<
+
+{.}.cxx{release\}.obj::
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
+	$<
+<<
+
+{.}.c{release\}.obj::
 	$(CC) -c $(CFLAGS) $(INCPATH) -Forelease\ @<<
 	$<
 <<
@@ -320,12 +320,8 @@ release\moc_mainwindow.cpp: ..\checkers\include.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qactiongroup.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QButtonGroup \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qbuttongroup.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QHeaderView \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qheaderview.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractitemview.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractscrollarea.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\qabstractitemmodel.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\qitemselectionmodel.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QComboBox \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qcombobox.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractitemdelegate.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qstyleoption.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractspinbox.h \
@@ -336,6 +332,14 @@ release\moc_mainwindow.cpp: ..\checkers\include.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qstyle.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qtabbar.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qrubberband.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\qabstractitemmodel.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QGroupBox \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qgroupbox.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QHeaderView \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qheaderview.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractitemview.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractscrollarea.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\qitemselectionmodel.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QMenuBar \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qmenubar.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qmenu.h \
@@ -672,12 +676,8 @@ release\mainwindow.obj: ..\checkers\mainwindow.cpp ..\checkers\mainwindow.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qactiongroup.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QButtonGroup \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qbuttongroup.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QHeaderView \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qheaderview.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractitemview.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractscrollarea.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\qabstractitemmodel.h \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\qitemselectionmodel.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QComboBox \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qcombobox.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractitemdelegate.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qstyleoption.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractspinbox.h \
@@ -688,6 +688,14 @@ release\mainwindow.obj: ..\checkers\mainwindow.cpp ..\checkers\mainwindow.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qstyle.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qtabbar.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qrubberband.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\qabstractitemmodel.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QGroupBox \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qgroupbox.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QHeaderView \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qheaderview.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractitemview.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractscrollarea.h \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtCore\qitemselectionmodel.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QMenuBar \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qmenubar.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qmenu.h \

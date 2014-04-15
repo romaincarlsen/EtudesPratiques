@@ -26,9 +26,9 @@ Game::Game(int size, int nbLineP1, int nbLineP2, int p1, int p2) {
 
 
 Game::~Game() {
-        delete board ;
-        delete P1 ;
-        delete P2 ;
+    delete board ;
+    delete P1 ;
+    delete P2 ;
 }
 
 Checkerboard* Game::getBoard() {
@@ -39,26 +39,26 @@ bool Game::execMove(int x, int y, int xDest, int yDest){
 
     if(x!=-1 && y!=-1) {
         switch (state) {
-            case WHITE_SELECT :     state = select(P1, x, y) ;
-                                    return true ;
-            case BLACK_SELECT :     state = select(P2, x, y) ;
-                                    return true ;
+        case WHITE_SELECT :     state = select(P1, x, y) ;
+            return true ;
+        case BLACK_SELECT :     state = select(P2, x, y) ;
+            return true ;
         }
     }
     if(xDest!=-1 && yDest!=-1) {
         switch (state) {
-            case WHITE_DEST :       state = dest(P1, P2, xDest, yDest) ;
-                                    return true ;
+        case WHITE_DEST :       state = dest(P1, P2, xDest, yDest) ;
+            return true ;
 
-            case BLACK_DEST :       state = dest(P2, P1, xDest, yDest) ;
-                                    return true ;
+        case BLACK_DEST :       state = dest(P2, P1, xDest, yDest) ;
+            return true ;
         }
     }
     return false ;
 }
 
 bool Game::isCPTurn() {
-     return isWhiteState(state) && P1->isCP() || isBlackState(state) && P2->isCP() ;
+    return isWhiteState(state) && P1->isCP() || isBlackState(state) && P2->isCP() ;
 }
 
 bool Game::isFinish() {
@@ -71,12 +71,11 @@ MOVE Game::negaMax() {
 
     int value ;
     if (isWhiteState(state) && P1->isCP()) {
-
-        value = -negaMax(board, P1->getLevel(), WHITE, P1, P2, m) ;
+        value = ((int)WHITE) * negaMax(board, P1->getLevel(), WHITE, P1, P2, m) ;
     }
     if (isBlackState(state) && P2->isCP()) {
 
-        value = negaMax(board, P2->getLevel(), BLACK, P1, P2, m) ;
+        value = ((int)BLACK) * negaMax(board, P2->getLevel(), BLACK, P1, P2, m) ;
 
     }
     if (m.empty()) {
@@ -119,10 +118,10 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
         if (valid) {
             bool wasKill = player->isKillOnBoard(board->getSquare(player->x,player->y),player->x,player->y,xDest,yDest,board) ;
             if(!(valid=!(canKill && !wasKill))) {
-                    txt += "\nYou have to kill !\n" ;
-                    txt += "select (ex : A1) :   " ;
-                    board->deselect();
-                    return player->state_select ;
+                txt += "\nYou have to kill !\n" ;
+                txt += "select (ex : A1) :   " ;
+                board->deselect();
+                return player->state_select ;
             }
             else {
                 if (!(valid = !wasKill || player->isTheBestKillOnBoard(board->getSquare(player->x,player->y),player->x,player->y,xDest,yDest, board))) {
@@ -155,7 +154,7 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
                 }
                 else {
                     if (Tools::isPiece(board->getSquare(player->x,player->y)) && player->isOnKingLineOnBoard(player->y, board))
-                       board->setSquare(player->x, player->y, player->king);
+                        board->setSquare(player->x, player->y, player->king);
                 }
 
                 txt = opponent->toString() + "\n\n" ;
@@ -181,10 +180,10 @@ void Game::paint(QGridLayout* board_gl) {
 }
 
 
-int Game::costFunction(Checkerboard* board, Player* player) {
+int Game::costFunction(Checkerboard* board, Player* player, COLOR color) {
     int nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing ;
     player->scanNumberOfOnBoard(nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing, board) ;
-    return nbMinePiece - nbOpponentPiece + (nbMineKing - nbOpponentKing)*3 ;
+    return ((int)color) * (nbMinePiece - nbOpponentPiece + (nbMineKing - nbOpponentKing)*3) ;
 }
 
 std::vector<MOVE> Game::findMoveOnBoard(Checkerboard* board, COLOR color, Player* player) {
@@ -208,7 +207,7 @@ std::vector<MOVE> Game::findMoveOnBoard(Checkerboard* board, COLOR color, Player
                                         move.xDest = xDest ;
                                         move.yDest = yDest ;
                                         m[m.size()-1] = move ;
-                                      }
+                                    }
                                 }
                             }
                         }
@@ -239,7 +238,7 @@ int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Playe
     Player* opponent = (color==WHITE ? P2 : P1) ;
 
     if (depth==0 || board->isWin()){
-        return ((int)color) * costFunction(board, player);
+        return ((int)color) * costFunction(board, player, color);
     }
     std::vector<MOVE> move = findMoveOnBoard(board,color, player) ;
 

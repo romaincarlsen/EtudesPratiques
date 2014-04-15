@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHeaderView>
@@ -21,7 +22,6 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
@@ -43,13 +43,9 @@ public:
     QWidget *gridLayoutWidget;
     QGridLayout *board_gl;
     QGroupBox *modeP1_gr;
-    QRadioButton *IA_niv1_P1_r;
-    QRadioButton *manualP1_r;
-    QRadioButton *IA_niv2_P1_r;
+    QComboBox *modeP1_IA;
     QGroupBox *modeP2_gr;
-    QRadioButton *IA_niv1_P2_r;
-    QRadioButton *manual_P2_r;
-    QRadioButton *IA_niv2_P2_r;
+    QComboBox *modeP2_IA;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -84,7 +80,7 @@ public:
         nbLineP2_l->setGeometry(QRect(510, 120, 81, 20));
         board_l = new QLabel(centralWidget);
         board_l->setObjectName(QStringLiteral("board_l"));
-        board_l->setGeometry(QRect(510, 250, 271, 171));
+        board_l->setGeometry(QRect(500, 250, 291, 171));
         gridLayoutWidget = new QWidget(centralWidget);
         gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
         gridLayoutWidget->setGeometry(QRect(10, 10, 471, 421));
@@ -95,30 +91,16 @@ public:
         board_gl->setContentsMargins(0, 0, 0, 0);
         modeP1_gr = new QGroupBox(centralWidget);
         modeP1_gr->setObjectName(QStringLiteral("modeP1_gr"));
-        modeP1_gr->setGeometry(QRect(510, 60, 271, 51));
-        IA_niv1_P1_r = new QRadioButton(modeP1_gr);
-        IA_niv1_P1_r->setObjectName(QStringLiteral("IA_niv1_P1_r"));
-        IA_niv1_P1_r->setGeometry(QRect(100, 20, 82, 17));
-        manualP1_r = new QRadioButton(modeP1_gr);
-        manualP1_r->setObjectName(QStringLiteral("manualP1_r"));
-        manualP1_r->setGeometry(QRect(20, 20, 82, 17));
-        manualP1_r->setChecked(true);
-        IA_niv2_P1_r = new QRadioButton(modeP1_gr);
-        IA_niv2_P1_r->setObjectName(QStringLiteral("IA_niv2_P1_r"));
-        IA_niv2_P1_r->setGeometry(QRect(180, 20, 82, 17));
+        modeP1_gr->setGeometry(QRect(510, 60, 171, 51));
+        modeP1_IA = new QComboBox(modeP1_gr);
+        modeP1_IA->setObjectName(QStringLiteral("modeP1_IA"));
+        modeP1_IA->setGeometry(QRect(30, 20, 121, 22));
         modeP2_gr = new QGroupBox(centralWidget);
         modeP2_gr->setObjectName(QStringLiteral("modeP2_gr"));
-        modeP2_gr->setGeometry(QRect(510, 150, 271, 51));
-        IA_niv1_P2_r = new QRadioButton(modeP2_gr);
-        IA_niv1_P2_r->setObjectName(QStringLiteral("IA_niv1_P2_r"));
-        IA_niv1_P2_r->setGeometry(QRect(100, 20, 82, 17));
-        IA_niv1_P2_r->setChecked(true);
-        manual_P2_r = new QRadioButton(modeP2_gr);
-        manual_P2_r->setObjectName(QStringLiteral("manual_P2_r"));
-        manual_P2_r->setGeometry(QRect(20, 20, 82, 17));
-        IA_niv2_P2_r = new QRadioButton(modeP2_gr);
-        IA_niv2_P2_r->setObjectName(QStringLiteral("IA_niv2_P2_r"));
-        IA_niv2_P2_r->setGeometry(QRect(180, 20, 82, 17));
+        modeP2_gr->setGeometry(QRect(510, 150, 171, 51));
+        modeP2_IA = new QComboBox(modeP2_gr);
+        modeP2_IA->setObjectName(QStringLiteral("modeP2_IA"));
+        modeP2_IA->setGeometry(QRect(20, 20, 121, 22));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -144,14 +126,8 @@ public:
         nbLineP1_l->setText(QApplication::translate("MainWindow", "nb line player 1", 0));
         nbLineP2_l->setText(QApplication::translate("MainWindow", "nb line player 2", 0));
         board_l->setText(QApplication::translate("MainWindow", "board", 0));
-        modeP1_gr->setTitle(QApplication::translate("MainWindow", "Mode de jeu (\303\240 transformer en liste d\303\251roulante)", 0));
-        IA_niv1_P1_r->setText(QApplication::translate("MainWindow", "IA level 1", 0));
-        manualP1_r->setText(QApplication::translate("MainWindow", "manual", 0));
-        IA_niv2_P1_r->setText(QApplication::translate("MainWindow", "IA level 2", 0));
-        modeP2_gr->setTitle(QApplication::translate("MainWindow", "Mode de jeu (\303\240 transformer en liste d\303\251roulante)", 0));
-        IA_niv1_P2_r->setText(QApplication::translate("MainWindow", "IA level 1", 0));
-        manual_P2_r->setText(QApplication::translate("MainWindow", "manual", 0));
-        IA_niv2_P2_r->setText(QApplication::translate("MainWindow", "IA level 2", 0));
+        modeP1_gr->setTitle(QApplication::translate("MainWindow", "Mode de jeu", 0));
+        modeP2_gr->setTitle(QApplication::translate("MainWindow", "Mode de jeu", 0));
     } // retranslateUi
 
 };

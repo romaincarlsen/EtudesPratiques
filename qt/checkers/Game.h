@@ -52,7 +52,7 @@ public:
 
     void paint(QGridLayout* board_gl) ;
 
-    int costFunction(Checkerboard* board, Player* player) ;
+    int costFunction(Checkerboard* board, Player* player, COLOR color) ;
 
     std::vector<MOVE> findMoveOnBoard(Checkerboard* board, COLOR color, Player* player) ;
 
