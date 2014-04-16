@@ -1,5 +1,6 @@
 #include "Player.h"
 
+
 //Create the player
 Player::Player(int nbLinePiece, Checkerboard* board, DIRECTION direction, int level)
 {
@@ -215,9 +216,15 @@ bool Player::isKingMoveOnBoard(SQUARE playerPiece, int x, int y, int xDest, int 
     if (!Tools::isKing(playerPiece) || !isMine(playerPiece))
 		return false ;	
 	int cpt = 0 ;
+    if (abs(x-xDest)!=abs(y-yDest))
+        return false ;
 	//Loop for each square from piece to destination
-	for ( (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y-- ; x!=xDest && y!=yDest ; (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y--)
-        cpt += Tools::isNotEmpty(board->getSquare(x,y)) ;
+    /*for ( (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y-- ; x!=xDest && y!=yDest ; (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y--)
+        cpt += Tools::isNotEmpty(board->getSquare(x,y)) ;*/
+    int a=(x-xDest)<0 ? 1 : -1;
+    int b=(y-yDest)<0 ? 1 : -1;
+    for (int i=1; x+a*i!=xDest;i++)
+        cpt += Tools::isNotEmpty(board->getSquare(x+a*i,y+b*i)) ;
 	return cpt==0 ;
 }
 
@@ -225,13 +232,22 @@ bool Player::isKingMoveOnBoard(SQUARE playerPiece, int x, int y, int xDest, int 
 bool Player::isKingKillOnBoard(SQUARE playerPiece, int x, int y, int xDest, int yDest, Checkerboard* board) const{
     if (!Tools::isKing(playerPiece) || !isMine(playerPiece))
 		return false ;
+    if (abs(x-xDest)!=abs(y-yDest))
+        return false ;
 	int cpt = 0 ;
 	int cptOpp = 0 ;
 	//Loop for each square from piece to destination
-	for ( (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y-- ; x!=xDest && y!=yDest ; (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y--) {
+    /*for ( (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y-- ; x!=xDest && y!=yDest ; (x-xDest)<0 ? x++ : x--, (y-yDest)<0 ? y++ : y--) {
         cpt += (isMine(board->getSquare(x,y)) || board->getSquare(x,y)==GHOST) ;
         cptOpp += isOpponent(board->getSquare(x,y)) ;
-	}
+    }*/
+    int a=(x-xDest)<0 ? 1 : -1;
+    int b=(y-yDest)<0 ? 1 : -1;
+    for (int i=1; x+a*i!=xDest;i++){
+        cpt += (isMine(board->getSquare(x+a*i,y+b*i)) || board->getSquare(x+a*i,y+b*i)==GHOST) ;
+        cptOpp += isOpponent(board->getSquare(x+a*i,y+b*i)) ;
+    }
+
 	return cpt==0 && cptOpp==1 ;
 }
 

@@ -8,6 +8,7 @@
 #include <time.h>       /* time */
 #include <iostream>
 #include <QTimer>
+#include <math.h>       /* fabs */
 
 #include <QApplication>
 #include <QtCore/QCoreApplication>
