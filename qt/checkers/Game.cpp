@@ -68,16 +68,24 @@ bool Game::isFinish() {
 MOVE Game::negaMax() {
     std::vector<MOVE> m ;
     m.resize(0);
+    QFile fichier("coup.txt");
+    fichier.open(QIODevice::WriteOnly | QIODevice::Text);
 
+    QString arbre;
+
+    arbre += board->toString();
     int value ;
     if (isWhiteState(state) && P1->isCP()) {
-        value = ((int)WHITE) * negaMax(board, P1->getLevel(), WHITE, P1, P2, m) ;
+        value = ((int)WHITE) * negaMax(board, P1->getLevel(), WHITE, P1, P2, m, arbre) ;
     }
     if (isBlackState(state) && P2->isCP()) {
 
-        value = ((int)BLACK) * negaMax(board, P2->getLevel(), BLACK, P1, P2, m) ;
+        value = ((int)BLACK) * negaMax(board, P2->getLevel(), BLACK, P1, P2, m, arbre) ;
 
     }
+    QTextStream flux(&fichier);
+    flux<<arbre;
+    fichier.close();
     if (m.empty()) {
         MOVE error ;
         error.x = error.y = error.xDest = error.yDest = -1 ;
@@ -233,7 +241,7 @@ std::vector<MOVE> Game::findMoveOnBoard(Checkerboard* board, COLOR color, Player
 //
 //Initial call for Player B's root node
 //rootNodeValue := -negamax( rootNode, depth, -1)
-int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best) {
+int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, QString &arbre) {
     Player* player = (color==WHITE ? P1 : P2) ;
     Player* opponent = (color==WHITE ? P2 : P1) ;
 
@@ -246,7 +254,9 @@ int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Playe
     if (move.size()>0) {
         Checkerboard* child = new Checkerboard(board) ;
         player->moveOnBoard(move[0].x,move[0].y,move[0].xDest,move[0].yDest,child) ;
-        value = -negaMax(child, depth - 1, (COLOR)(-(int)color), P1, P2, best) ;
+
+        arbre += child->toString();
+        value = -negaMax(child, depth - 1, (COLOR)(-(int)color), P1, P2, best, arbre) ;
         if (depth == playerTurn()->getLevel()) {
             best.resize(best.size()+1) ;
             best[best.size()-1] = move[0] ;
@@ -256,7 +266,8 @@ int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Playe
     for (int i = 1 ; i<move.size() ; i++) {
         Checkerboard* child = new Checkerboard(board) ;
         player->moveOnBoard(move[i].x,move[i].y,move[i].xDest,move[i].yDest,child) ;
-        int value_child = -negaMax(child, depth - 1, (COLOR)(-(int)color),P1, P2, best) ;
+        arbre += child->toString();
+        int value_child = -negaMax(child, depth - 1, (COLOR)(-(int)color),P1, P2, best, arbre) ;
         if (value_child > value) {
             value = value_child ;
             if (depth == playerTurn()->getLevel()) {

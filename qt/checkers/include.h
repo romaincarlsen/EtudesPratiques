@@ -9,6 +9,9 @@
 #include <iostream>
 #include <QTimer>
 #include <math.h>       /* fabs */
+#include <QFile> /* manip fichiers*/
+#include <QTextStream> /* écriture dans le fichier*/
+
 
 #include <QApplication>
 #include <QtCore/QCoreApplication>

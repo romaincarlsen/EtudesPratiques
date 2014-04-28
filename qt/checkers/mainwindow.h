@@ -40,7 +40,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     //Nettoye la grille du jeu
-    void MainWindow::clear();
+    void clear();
 
 private:
     Ui::MainWindow *ui;

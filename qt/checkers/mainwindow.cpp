@@ -57,6 +57,7 @@ void MainWindow::clear(){
 void MainWindow::launchIA() {
     if (game->isCPTurn()) {
         if (!game->isFinish()) {
+
             MOVE mv = game->negaMax() ;
 
             qDebug() << mv.x << " " << mv.y << " " << mv.xDest << " " << mv.yDest << endl ;

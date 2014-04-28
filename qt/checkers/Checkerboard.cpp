@@ -133,6 +133,18 @@ bool Checkerboard::isWin() const {
         }
     return !nbWhite || !nbBlack ;
 }
+// scan the checkerboard in a file
+QString Checkerboard::toString()
+{   QString res ="";
+    for (int y=0 ; y<this->_size ; y++) {
+        for (int x=0 ; x<this->_size ; x++) {
+            res += Tools::square_to_char(_square[x][y].square);
+        }
+      res +=  "\n";
+    }
+    res +=  "\n";
+    return res;
+}
 
 // print checkerboard
 void Checkerboard::paint(QGridLayout* board_gl)
