@@ -142,7 +142,6 @@ QString Checkerboard::toString()
         }
       res +=  "\n";
     }
-    res +=  "\n";
     return res;
 }
 

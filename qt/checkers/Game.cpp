@@ -73,7 +73,7 @@ MOVE Game::negaMax() {
 
     QString arbre;
 
-    arbre += board->toString();
+
     int value ;
     if (isWhiteState(state) && P1->isCP()) {
         value = ((int)WHITE) * negaMax(board, P1->getLevel(), WHITE, P1, P2, m, arbre) ;
@@ -83,6 +83,12 @@ MOVE Game::negaMax() {
         value = ((int)BLACK) * negaMax(board, P2->getLevel(), BLACK, P1, P2, m, arbre) ;
 
     }
+
+    arbre += board->toString();
+    arbre += "valeur:";
+    arbre += QString::number(value);
+
+
     QTextStream flux(&fichier);
     flux<<arbre;
     fichier.close();
@@ -255,8 +261,12 @@ int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Playe
         Checkerboard* child = new Checkerboard(board) ;
         player->moveOnBoard(move[0].x,move[0].y,move[0].xDest,move[0].yDest,child) ;
 
-        arbre += child->toString();
+
         value = -negaMax(child, depth - 1, (COLOR)(-(int)color), P1, P2, best, arbre) ;
+        arbre =  "\n\n" + arbre;
+        arbre = QString::number(value)+arbre;
+        arbre = "valeur:"+arbre;
+        arbre = child->toString() + arbre;
         if (depth == playerTurn()->getLevel()) {
             best.resize(best.size()+1) ;
             best[best.size()-1] = move[0] ;
@@ -266,8 +276,12 @@ int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Playe
     for (int i = 1 ; i<move.size() ; i++) {
         Checkerboard* child = new Checkerboard(board) ;
         player->moveOnBoard(move[i].x,move[i].y,move[i].xDest,move[i].yDest,child) ;
-        arbre += child->toString();
+
         int value_child = -negaMax(child, depth - 1, (COLOR)(-(int)color),P1, P2, best, arbre) ;
+        arbre =  "\n\n"+arbre;
+        arbre = QString::number(value_child)+arbre;
+        arbre = "valeur:"+arbre;
+        arbre = child->toString() + arbre;
         if (value_child > value) {
             value = value_child ;
             if (depth == playerTurn()->getLevel()) {
