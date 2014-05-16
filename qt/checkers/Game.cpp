@@ -78,21 +78,18 @@ MOVE Game::negaMax() {
 
     int value ;
     if (isWhiteState(state) && P1->isCP()) {
+
         value = ((int)WHITE) * negaMax(board, P1->getLevel(), WHITE, P1, P2, m,text) ;
         text.resize(text.size()+3);
-        char* s;
-        text[text.size()-3]=itoa(value,s, 10);
-        qDebug()<<itoa(P1->getLevel(),s, 10);
-        text[text.size()-2]=itoa(P1->getLevel(),s, 10);
+        text[text.size()-3]=static_cast<ostringstream*>( &(ostringstream() << value) )->str();
+        text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << P1->getLevel()) )->str();
     }
     if (isBlackState(state) && P2->isCP()) {
 
         value = ((int)BLACK) * negaMax(board, P2->getLevel(), BLACK, P1, P2, m,text) ;
         text.resize(text.size()+3);
-        char* s;
-        qDebug()<< "oooo";
-        text[text.size()-3]=itoa(value,s, 10);
-        text[text.size()-2]=itoa(P2->getLevel(),s, 10);
+        text[text.size()-3]=static_cast<ostringstream*>( &(ostringstream() << value) )->str();
+        text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << P2->getLevel()) )->str();
     }
 
 
@@ -102,6 +99,7 @@ MOVE Game::negaMax() {
     QTextStream flux(&fichier);
 
     flux<<board->getSize();
+    flux<<";";
 
     for (int i=0; i<text.size();i++){
         QString res =QString::fromStdString(text[i]);
@@ -278,6 +276,8 @@ int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Playe
     Player* opponent = (color==WHITE ? P2 : P1) ;
 
     if (depth==0 || board->isWin()){
+        text.resize(text.size()+1);
+        text[text.size()-1]=static_cast<ostringstream*>( &(ostringstream() << 0) )->str();
         return ((int)color) * costFunction(board, player, color);
     }
     std::vector<MOVE> move = findMoveOnBoard(board,color, player) ;
@@ -290,8 +290,8 @@ int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Playe
 
         value = -negaMax(child, depth - 1, (COLOR)(-(int)color), P1, P2, best,text) ;
         text.resize(text.size()+3);
-        text[text.size()-3]=value;
-        text[text.size()-2]=depth;
+        text[text.size()-3]=static_cast<ostringstream*>( &(ostringstream() << value) )->str();
+        text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << depth) )->str();
         text[text.size()-1]=child->toString();
         if (depth == playerTurn()->getLevel()) {
             best.resize(best.size()+1) ;
@@ -313,8 +313,8 @@ int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Playe
 
 
         text.resize(text.size()+3);
-        text[text.size()-3]=value;
-        text[text.size()-2]=depth;
+        text[text.size()-3]=static_cast<ostringstream*>( &(ostringstream() << value) )->str();
+        text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << depth) )->str();
         text[text.size()-1]=child->toString();
         if (value_child > value) {
             value = value_child ;
@@ -334,6 +334,8 @@ int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Playe
         }
         delete child ;
     }
+    text.resize(text.size()+1);
+    text[text.size()-1]=static_cast<ostringstream*>( &(ostringstream() << move.size()) )->str();
     return value ;
 }
 
@@ -342,6 +344,8 @@ int Game::alphabeta(Checkerboard* board, int depth, COLOR color, Player* P1, Pla
     Player* opponent = (color==WHITE ? P2 : P1) ;
 
     if (depth==0 || board->isWin()){
+        text.resize(text.size()+1);
+        text[text.size()-1]=static_cast<ostringstream*>( &(ostringstream() << 0) )->str();
         return ((int)color) * costFunction(board, player, color);
     }
     std::vector<MOVE> move = findMoveOnBoard(board,color, player) ;
@@ -354,8 +358,8 @@ int Game::alphabeta(Checkerboard* board, int depth, COLOR color, Player* P1, Pla
 
         value = -negaMax(child, depth - 1, (COLOR)(-(int)color), P1, P2, best,text) ;
         text.resize(text.size()+3);
-        text[text.size()-3]=value;
-        text[text.size()-2]=depth;
+        text[text.size()-3]=static_cast<ostringstream*>( &(ostringstream() << value) )->str();
+        text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << depth) )->str();
         text[text.size()-1]=child->toString();
         if (depth == playerTurn()->getLevel()) {
             best.resize(best.size()+1) ;
@@ -370,8 +374,8 @@ int Game::alphabeta(Checkerboard* board, int depth, COLOR color, Player* P1, Pla
 
         int value_child = -alphabeta(child, depth - 1, (COLOR)(-(int)color),P1, P2, best,text, -value) ;
         text.resize(text.size()+3);
-        text[text.size()-3]=value;
-        text[text.size()-2]=depth;
+        text[text.size()-3]=static_cast<ostringstream*>( &(ostringstream() << value) )->str();
+        text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << depth) )->str();
         text[text.size()-1]=child->toString();
         if (value_child > value) {
             value = value_child ;
@@ -391,7 +395,8 @@ int Game::alphabeta(Checkerboard* board, int depth, COLOR color, Player* P1, Pla
         }
         delete child ;
     }
-
+    text.resize(text.size()+1);
+    text[text.size()-1]=static_cast<ostringstream*>( &(ostringstream() << move.size()) )->str();
     return value ;
 }
 
