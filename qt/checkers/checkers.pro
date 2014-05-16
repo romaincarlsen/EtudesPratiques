@@ -29,4 +29,5 @@ HEADERS  += mainwindow.h \
     game.h \
     labelcase.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    mainwindow2.ui

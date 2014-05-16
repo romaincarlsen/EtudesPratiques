@@ -108,6 +108,7 @@ void MainWindow::start_click(){
         for (int j = 0; j< game->getBoard()->getSize(); j++){
             LabelCase* label = game->getBoard()->getQSquare(i,j).label;
             label->connect(label, SIGNAL(clicked(int,int)), this, SLOT(click(int, int)));
+            label->connect(label, SIGNAL(deselect()), this, SLOT(deselect()));
         }
     }
     this->ui->board_l->setText(game->toString()) ;
@@ -117,6 +118,12 @@ void MainWindow::start_click(){
     iTimer->start();
 
     //launchIA() ;
+}
+
+//Méthode qui deselectionne le pion courant lorsque l'on fait un clic droit
+void MainWindow::deselect(){
+    game->deselect();
+    game->paint(this->ui->board_gl);
 }
 
 //modifie le type de joueur (manuel ou IA) et le niveau dans le cas de l'IA

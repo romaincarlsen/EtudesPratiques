@@ -20,6 +20,7 @@ public slots :
 
 signals:
     void clicked(int, int);
+    void deselect();
 };
 
 #endif // LABELCASE_H

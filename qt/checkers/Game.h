@@ -47,6 +47,9 @@ public:
     STATE select(Player* player, int x, int y) ;
     STATE dest(Player* player,  Player* opponent, int xDest, int yDest) ;
 
+    //Méthode qui déselectionne le pion sélectionné.
+    void deselect();
+
     // print game
     QString toString() ;
 

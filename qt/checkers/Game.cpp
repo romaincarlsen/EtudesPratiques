@@ -185,6 +185,13 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
     return state ;
 }
 
+void Game::deselect(){
+    if(isWhiteState(state)){
+        state = WHITE_SELECT;
+    }else state = BLACK_SELECT;
+    board->deselect();
+}
+
 QString Game::toString() {
     return txt ;
 }

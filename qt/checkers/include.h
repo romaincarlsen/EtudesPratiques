@@ -25,7 +25,6 @@
 #include <vector>
 #include <QMouseEvent>
 #include <QLayoutItem>
-
 using namespace std ;
 
 #endif // INCLUDE_H
