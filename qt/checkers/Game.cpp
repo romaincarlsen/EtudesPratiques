@@ -284,7 +284,7 @@ int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Playe
         Checkerboard* child = new Checkerboard(board) ;
         player->moveOnBoard(move[i].x,move[i].y,move[i].xDest,move[i].yDest,child) ;
 
-        int value_child = -negaMax(child, depth - 1, (COLOR)(-(int)color),P1, P2, best, arbre) ;
+        int value_child = -alphabeta(child, depth - 1, (COLOR)(-(int)color),P1, P2, best, arbre, -value) ;
         arbre =  "\n\n"+arbre;
         arbre = QString::number(value_child)+arbre;
         arbre = "valeur:"+arbre;
@@ -307,6 +307,64 @@ int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Playe
         }
         delete child ;
     }
+    return value ;
+}
+
+int Game::alphabeta(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, QString &arbre, int maxprec) {
+    Player* player = (color==WHITE ? P1 : P2) ;
+    Player* opponent = (color==WHITE ? P2 : P1) ;
+
+    if (depth==0 || board->isWin()){
+        return ((int)color) * costFunction(board, player, color);
+    }
+    std::vector<MOVE> move = findMoveOnBoard(board,color, player) ;
+
+    int value ;
+    if (move.size()>0) {
+        Checkerboard* child = new Checkerboard(board) ;
+        player->moveOnBoard(move[0].x,move[0].y,move[0].xDest,move[0].yDest,child) ;
+
+
+        value = -negaMax(child, depth - 1, (COLOR)(-(int)color), P1, P2, best, arbre) ;
+        arbre =  "\n\n" + arbre;
+        arbre = QString::number(value)+arbre;
+        arbre = "valeur:"+arbre;
+        arbre = child->toString() + arbre;
+        if (depth == playerTurn()->getLevel()) {
+            best.resize(best.size()+1) ;
+            best[best.size()-1] = move[0] ;
+        }
+        delete child ;
+    }
+    int i;
+    for (i = 1 ; i<move.size() && value<maxprec ; i++) {
+        Checkerboard* child = new Checkerboard(board) ;
+        player->moveOnBoard(move[i].x,move[i].y,move[i].xDest,move[i].yDest,child) ;
+
+        int value_child = -alphabeta(child, depth - 1, (COLOR)(-(int)color),P1, P2, best, arbre, -value) ;
+        arbre =  "\n\n"+arbre;
+        arbre = QString::number(value_child)+arbre;
+        arbre = "valeur:"+arbre;
+        arbre = child->toString() + arbre;
+        if (value_child > value) {
+            value = value_child ;
+            if (depth == playerTurn()->getLevel()) {
+                best.clear();
+                best.resize(best.size()+1) ;
+                best[best.size()-1] = move[i] ;
+            }
+        }
+        else {
+            if (value_child == value) {
+                if (depth == playerTurn()->getLevel()) {
+                    best.resize(best.size()+1) ;
+                    best[best.size()-1] = move[i] ;
+                }
+            }
+        }
+        delete child ;
+    }
+    arbre = QString::number(move.size()) + " " + QString::number(i) + " " + arbre;
     return value ;
 }
 
