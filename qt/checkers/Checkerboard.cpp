@@ -134,13 +134,13 @@ bool Checkerboard::isWin() const {
     return !nbWhite || !nbBlack ;
 }
 // scan the checkerboard in a file
-QString Checkerboard::toString()
-{   QString res ="";
+
+string Checkerboard::toString()
+{   string res ="";
     for (int y=0 ; y<this->_size ; y++) {
         for (int x=0 ; x<this->_size ; x++) {
             res += Tools::square_to_char(_square[x][y].square);
         }
-      res +=  "\n";
     }
     return res;
 }

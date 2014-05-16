@@ -4,7 +4,7 @@
 #include "include.h"
 
 #include "struct.h"
-#include "ui_mainwindow2.h"
+#include "ui_mainwindow.h"
 #include "game.h"
 #include "labelcase.h"
 #include <sstream>

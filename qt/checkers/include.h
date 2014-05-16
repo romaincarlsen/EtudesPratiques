@@ -8,6 +8,8 @@
 #include <time.h>       /* time */
 #include <iostream>
 #include <QTimer>
+#include <algorithm>    // std::reverse
+#include <string>     // std::to_string
 #include <math.h>       /* fabs */
 #include <QFile> /* manip fichiers*/
 #include <QTextStream> /* écriture dans le fichier*/

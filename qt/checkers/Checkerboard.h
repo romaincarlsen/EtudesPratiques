@@ -53,7 +53,7 @@ public:
     void select(int x, int y);
     //déselectionne la case
     void deselect();
-    QString toString();
+    string toString();
     void paint(QGridLayout* board_gl) ;
 
     //affiche la case sélectionnée
