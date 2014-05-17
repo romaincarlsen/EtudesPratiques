@@ -17,7 +17,7 @@ function initReporting() {
 			readReporting() ;
 			loaded = true ;
 			tree_node_dimension = analyse_tree_dimension() ;
-			tree_width = (tree.width + marge_width)*tree_node_dimension.x ;
+			tree_width = (tree.width + marge_width)*(tree_node_dimension.x+1) ;
 			tree_height = (tree.height + marge_height)*tree_node_dimension.y ;
 						
 			resize() ;
