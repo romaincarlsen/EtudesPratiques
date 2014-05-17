@@ -9,10 +9,12 @@
 	}
 	
 	function resize() {
-		canvas.width = window.innerWidth*95/100;
-		canvas.height = window.innerHeight*90/100;
+			
+		canvas.width = tree_width ;
+		canvas.height = tree_height ;
+		
 		if (loaded)
-			tree.draw() ;
+			repaint() ;
 	}
 	
 	function initFrame() {
