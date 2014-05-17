@@ -67,6 +67,7 @@ bool Game::isFinish() {
 }
 
 MOVE Game::negaMax() {
+    #pragma parallel section
     std::vector<MOVE> m ;
     m.resize(0);
     QFile fichier("coup.txt");
@@ -80,19 +81,15 @@ MOVE Game::negaMax() {
     if (isWhiteState(state) && P1->isCP()) {
 
         value = ((int)WHITE) * negaMax(board, P1->getLevel(), WHITE, P1, P2, m,text) ;
-        text.resize(text.size()+3);
-        text[text.size()-3]=static_cast<ostringstream*>( &(ostringstream() << value) )->str();
-        text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << P1->getLevel()) )->str();
     }
     if (isBlackState(state) && P2->isCP()) {
 
         value = ((int)BLACK) * negaMax(board, P2->getLevel(), BLACK, P1, P2, m,text) ;
-        text.resize(text.size()+3);
-        text[text.size()-3]=static_cast<ostringstream*>( &(ostringstream() << value) )->str();
-        text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << P2->getLevel()) )->str();
+
     }
 
-
+    text.resize(text.size()+2);
+    text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << value) )->str();
     text[text.size()-1]=board->toString();
     std::reverse(text.begin(),text.end());
 
@@ -276,7 +273,8 @@ int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Playe
     Player* opponent = (color==WHITE ? P2 : P1) ;
 
     if (depth==0 || board->isWin()){
-        text.resize(text.size()+1);
+        text.resize(text.size()+2);
+        text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << 0) )->str();
         text[text.size()-1]=static_cast<ostringstream*>( &(ostringstream() << 0) )->str();
         return ((int)color) * costFunction(board, player, color);
     }
@@ -289,9 +287,8 @@ int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Playe
 
 
         value = -negaMax(child, depth - 1, (COLOR)(-(int)color), P1, P2, best,text) ;
-        text.resize(text.size()+3);
-        text[text.size()-3]=static_cast<ostringstream*>( &(ostringstream() << value) )->str();
-        text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << depth) )->str();
+        text.resize(text.size()+2);
+        text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << value) )->str();
         text[text.size()-1]=child->toString();
         if (depth == playerTurn()->getLevel()) {
             best.resize(best.size()+1) ;
@@ -299,7 +296,8 @@ int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Playe
         }
         delete child ;
     }
-    for (int i = 1 ; i<move.size() ; i++) {
+    int i;
+    for (i = 1 ; i<move.size() ; i++) {
         Checkerboard* child = new Checkerboard(board) ;
         player->moveOnBoard(move[i].x,move[i].y,move[i].xDest,move[i].yDest,child) ;
         int value_child;
@@ -312,9 +310,8 @@ int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Playe
         }
 
 
-        text.resize(text.size()+3);
-        text[text.size()-3]=static_cast<ostringstream*>( &(ostringstream() << value) )->str();
-        text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << depth) )->str();
+        text.resize(text.size()+2);
+        text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << value) )->str();
         text[text.size()-1]=child->toString();
         if (value_child > value) {
             value = value_child ;
@@ -334,7 +331,8 @@ int Game::negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Playe
         }
         delete child ;
     }
-    text.resize(text.size()+1);
+    text.resize(text.size()+2);
+    text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << i) )->str();
     text[text.size()-1]=static_cast<ostringstream*>( &(ostringstream() << move.size()) )->str();
     return value ;
 }
@@ -344,7 +342,8 @@ int Game::alphabeta(Checkerboard* board, int depth, COLOR color, Player* P1, Pla
     Player* opponent = (color==WHITE ? P2 : P1) ;
 
     if (depth==0 || board->isWin()){
-        text.resize(text.size()+1);
+        text.resize(text.size()+2);
+        text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << 0) )->str();
         text[text.size()-1]=static_cast<ostringstream*>( &(ostringstream() << 0) )->str();
         return ((int)color) * costFunction(board, player, color);
     }
@@ -357,9 +356,8 @@ int Game::alphabeta(Checkerboard* board, int depth, COLOR color, Player* P1, Pla
 
 
         value = -negaMax(child, depth - 1, (COLOR)(-(int)color), P1, P2, best,text) ;
-        text.resize(text.size()+3);
-        text[text.size()-3]=static_cast<ostringstream*>( &(ostringstream() << value) )->str();
-        text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << depth) )->str();
+        text.resize(text.size()+2);
+        text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << value) )->str();
         text[text.size()-1]=child->toString();
         if (depth == playerTurn()->getLevel()) {
             best.resize(best.size()+1) ;
@@ -368,7 +366,10 @@ int Game::alphabeta(Checkerboard* board, int depth, COLOR color, Player* P1, Pla
         delete child ;
     }
     int i;
-    for (i = 1 ; i<move.size() && value<maxprec ; i++) {
+    //#pragma omp single
+    //#pragma omp parallel for
+    for (i = 1 ; i<move.size() && value<=maxprec ; i++) {
+    //#pragma omp task
         Checkerboard* child = new Checkerboard(board) ;
         player->moveOnBoard(move[i].x,move[i].y,move[i].xDest,move[i].yDest,child) ;
 
@@ -394,9 +395,12 @@ int Game::alphabeta(Checkerboard* board, int depth, COLOR color, Player* P1, Pla
             }
         }
         delete child ;
+    //#pragma omp taskwait
     }
-    text.resize(text.size()+1);
+    text.resize(text.size()+2);
+    text[text.size()-2]=static_cast<ostringstream*>( &(ostringstream() << i) )->str();
     text[text.size()-1]=static_cast<ostringstream*>( &(ostringstream() << move.size()) )->str();
+
     return value ;
 }
 

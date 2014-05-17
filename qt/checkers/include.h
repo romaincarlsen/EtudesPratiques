@@ -11,6 +11,8 @@
 #include <algorithm>    // std::reverse
 #include <sstream>      // ostringstream
 #include <math.h>       /* fabs */
+#include <cmath>        //pragma
+#include <omp.h>
 #include <QFile> /* manip fichiers*/
 #include <QTextStream> /* écriture dans le fichier*/
 
