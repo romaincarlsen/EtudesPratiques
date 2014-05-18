@@ -25,14 +25,14 @@ private:
     int nbLinePiece1 ;
     int nbLinePiece2 ;
 
-    QString url_reporting = "coup.txt" ;
+    QString url_reporting;
     std::vector<string> reporting ;
 
 public:
 
-    bool with_alphabeta = false ;
-    bool with_thread = false ;
-    int nb_thread = 4 ;
+    bool with_alphabeta;
+    bool with_thread;
+    int nb_thread;
 
     // create game with dimension parameters
     Game(int size, int nbLineP1, int nbLineP2, int p1 = -1, int p2 =-1) ;

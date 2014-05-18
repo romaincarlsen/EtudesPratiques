@@ -21,6 +21,11 @@ Game::Game(int size, int nbLineP1, int nbLineP2, int p1, int p2) {
     txt += "select (ex : A1) :   " ;
 
     state = WHITE_SELECT ;
+
+    url_reporting = "coup.txt" ;
+    with_alphabeta = false ;
+    with_thread = false ;
+    nb_thread = 4;
 }
 
 

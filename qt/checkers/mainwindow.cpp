@@ -16,22 +16,19 @@ MainWindow::MainWindow(QWidget *parent) :
     _p2 = -1;
 
     //mise en place des listes pour le choix du mode de jeu: manuel ou IA et niveau de l'IA
-
-    //joueur 2
-    ui->modeP2_IA->addItem("manual");
-    for(int i = 1; i<5;i++){
-        QString s = "IA level : ";
-        QString nb(QString::number(i));
-        ui->modeP2_IA->addItem(s+nb);
-        ui->modeP2_IA->connect(ui->modeP2_IA,SIGNAL(currentIndexChanged(int)),this,SLOT(selectLevelPlayer2(int)));
-    }
-    //joueur 1
     ui->modeP1_IA->addItem("manual");
-    for(int i = 1; i<5;i++){
+    ui->modeP2_IA->addItem("manual");
+
+    for(int i = 1; i<11;i++){
         QString s = "IA level : ";
         QString nb(QString::number(i));
+        //joueur 1
         ui->modeP1_IA->addItem(s+nb);
         ui->modeP1_IA->connect(ui->modeP1_IA,SIGNAL(currentIndexChanged(int)),this,SLOT(selectLevelPlayer1(int)));
+
+        //joueur 2
+        ui->modeP2_IA->addItem(s+nb);
+        ui->modeP2_IA->connect(ui->modeP2_IA,SIGNAL(currentIndexChanged(int)),this,SLOT(selectLevelPlayer2(int)));
     }
 
     iTimer = new QTimer(this);
