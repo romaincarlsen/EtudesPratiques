@@ -27,6 +27,9 @@ private:
 
 public:
 
+    bool with_alphabeta = true ;
+    bool with_thread = false ;
+
     // create game with dimension parameters
     Game(int size, int nbLineP1, int nbLineP2, int p1 = -1, int p2 =-1) ;
     ~Game();
@@ -38,8 +41,6 @@ public:
     bool isCPTurn() ;
 
     bool isFinish() ;
-
-    MOVE negaMax() ;
 
     bool isWhiteState(STATE state) ;
     bool isBlackState(STATE state) ;
@@ -59,8 +60,15 @@ public:
 
     std::vector<MOVE> findMoveOnBoard(Checkerboard* board, COLOR color, Player* player) ;
 
-    int negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, std::vector<string> &text) ;
-    int alphabeta(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, std::vector<string> &text, int maxprec);
+
+    MOVE negaMax(bool with_thread_param) ;
+    int negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, std::vector<string> &text) ;
+    int negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, std::vector<string> &text) ;
+
+    MOVE alphaBeta(bool with_thread_param) ;
+    int alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, std::vector<string> &text, int maxprec, bool ismaxprec);
+    int alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, std::vector<string> &text, int maxprec, bool ismaxprec);
+
     Player* playerTurn() ;
 
 };

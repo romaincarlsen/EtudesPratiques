@@ -58,7 +58,11 @@ void MainWindow::launchIA() {
     if (game->isCPTurn()) {
         if (!game->isFinish()) {
 
-            MOVE mv = game->negaMax() ;
+            MOVE mv ;
+            if (game->with_alphabeta)
+                mv = game->alphaBeta(game->with_thread) ;
+            else
+                mv = game->negaMax(game->with_thread) ;
 
             qDebug() << mv.x << " " << mv.y << " " << mv.xDest << " " << mv.yDest << endl ;
 
