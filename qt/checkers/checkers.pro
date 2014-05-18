@@ -31,4 +31,5 @@ HEADERS  += mainwindow.h \
     labelcase.h
 
 FORMS    += mainwindow.ui \
-    mainwindow2.ui
+    mainwindow2.ui \
+    mainwindow3.ui

@@ -118,7 +118,7 @@
       <height>421</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="board_gl">
+    <layout class="QGridLayout" name="board_gl" rowminimumheight="0" columnminimumwidth="0">
      <property name="spacing">
       <number>0</number>
      </property>
