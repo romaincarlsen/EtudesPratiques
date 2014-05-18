@@ -133,6 +133,7 @@ bool Checkerboard::isWin() const {
         }
     return !nbWhite || !nbBlack ;
 }
+
 // scan the checkerboard in a file
 
 string Checkerboard::toString()

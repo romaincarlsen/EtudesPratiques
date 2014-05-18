@@ -35,8 +35,10 @@ typedef struct{
 
 // struct with move and his value for negaMax algorithm
 typedef struct {
-    MOVE m ;
+    MOVE move ;
+    void * board ;
+    bool valued ;
     int value ;
-} MOVEVALUE ;
+} CHILD ;
 
 #endif // STRUCT_H

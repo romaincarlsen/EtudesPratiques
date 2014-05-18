@@ -64,6 +64,15 @@ bool Game::isFinish() {
     return state == END ;
 }
 
+
+bool Game::isFinishOnBoard(Checkerboard* board) {
+    return board->isWin() || isEqualityOnBoard(board) ;
+}
+
+bool Game::isEqualityOnBoard(Checkerboard* board) {
+    return findMoveOnBoard(board,WHITE,this->P1).size()==0 && findMoveOnBoard(board,BLACK,this->P2).size()==0 ;
+}
+
 bool Game::isWhiteState(STATE state) {
     return state == WHITE_SELECT || state == WHITE_DEST ;
 }
@@ -115,10 +124,14 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
             }
             player->xDest = xDest ;
             player->yDest = yDest ;
-            if(player->moveOnBoard(player->x,player->y,player->xDest,player->yDest, board)) {
-                winner = (player->isWhite() ? 1 : 2);
+            bool isWin = player->moveOnBoard(player->x,player->y,player->xDest,player->yDest, board) ;
+            if(isWin || isEqualityOnBoard(this->board)) {
+                winner = (isWin ? (player->isWhite() ? 1 : 2) : 0) ;
                 board->ghostBuster() ;
-                txt = "winner = " + player->toString() ;
+                if (winner == 0)
+                    txt = "equality" ;
+                else
+                    txt = "winner = " + player->toString() ;
                 board->deselect();
                 return END ;
             }
@@ -203,12 +216,40 @@ std::vector<MOVE> Game::findMoveOnBoard(Checkerboard* board, COLOR color, Player
     return m ;
 }
 
+std::vector<CHILD> Game::findChild(Checkerboard* board, COLOR color, Player* player) {
+    std::vector<CHILD> child ;
+    std::vector<MOVE> move = findMoveOnBoard(board,color, player) ;
+    child.resize(move.size());
+    for (int i = 0 ; i<child.size() ; i++) {
+        child[i].move = move[i] ;
+        child[i].board = (void*)(new Checkerboard(board)) ;
+        player->moveOnBoard(child[i].move.x,child[i].move.y,child[i].move.xDest,child[i].move.yDest,(Checkerboard*)(child[i].board)) ;
+        child[i].valued = false ;
+    }
+    return child ;
+}
+
+int Game::findBestChild(std::vector<CHILD> child, std::vector<MOVE> & best) {
+    int value ;
+    for (int i = 0 ; i<child.size() ; i++) {
+        //if (depth == playerTurn()->getLevel()) {
+            if (i==0 || child[i].value >= value) {
+                if (i==0 || child[i].value > value) {
+                    value = child[i].value ;
+                    best.clear();
+                }
+                best.resize(best.size()+1) ;
+                best[best.size()-1] = child[i].move ;
+            }
+        //}
+    }
+    return value ;
+}
+
 MOVE Game::negaMax(bool with_thread_param) {
     std::vector<MOVE> m ;
     m.resize(0);
-
     init_reporting();
-
     int value ;
     if (isWhiteState(state) && P1->isCP()) {
         if (with_thread_param) {
@@ -226,12 +267,7 @@ MOVE Game::negaMax(bool with_thread_param) {
         else
             value = ((int)BLACK) * negaMaxClassic(board, P2->getLevel(), BLACK, P1, P2, m) ;
     }
-
-    add_in_reporting(static_cast<ostringstream*>( &(ostringstream() << value) )->str());
-    add_in_reporting(board->toString());
-
     save_reporting();
-
     if (m.empty()) {
         MOVE error ;
         error.x = error.y = error.xDest = error.yDest = -1 ;
@@ -257,137 +293,102 @@ MOVE Game::negaMax(bool with_thread_param) {
 int Game::negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best) {
     Player* player = (color==WHITE ? P1 : P2) ;
     Player* opponent = (color==WHITE ? P2 : P1) ;
-
-    if (depth==0 || board->isWin()){
-        add_in_reporting(static_cast<ostringstream*>( &(ostringstream() << 0) )->str());
-        add_in_reporting(static_cast<ostringstream*>( &(ostringstream() << 0) )->str());
-        return ((int)color) * costFunction(board, player, color);
-    }
-
-    std::vector<MOVE> move = findMoveOnBoard(board,color, player) ;
-
     int value ;
-    int i ;
-    for (i = 0 ; i<move.size() ; i++) {
-        Checkerboard* child = new Checkerboard(board) ;
-        player->moveOnBoard(move[i].x,move[i].y,move[i].xDest,move[i].yDest,child) ;
-        int value_child = - negaMaxClassic(child, depth - 1, (COLOR)(-(int)color),P1, P2, best) ;
+    std::vector<CHILD> child ;
+    child.resize(0) ;
+    if (depth==0 || isFinishOnBoard(board)){
+        value = ((int)color) * costFunction(board, player, color) ;
 
-        add_in_reporting(static_cast<ostringstream*>( &(ostringstream() << value_child) )->str()) ;
-        add_in_reporting(child->toString()) ;
+        add_node_reporting(board,value,child.size(),child.size()) ;
 
-        if (depth == playerTurn()->getLevel()) {
-            if (i==0 || value_child >= value) {
-                if (i==0 || value_child > value) {
-                    value = value_child ;
-                    best.clear();
-                }
-                best.resize(best.size()+1) ;
-                best[best.size()-1] = move[i] ;
-            }
-        }
-        delete child ;
+        return value ;
     }
-
-    add_in_reporting(static_cast<ostringstream*>( &(ostringstream() << i) )->str());
-    add_in_reporting(static_cast<ostringstream*>( &(ostringstream() << move.size()) )->str());
-
+    child = findChild(board,color, player) ;
+    omp_set_num_threads(this->nb_thread);
+    double* time_finish_loop = new double [child.size()] ;
+    double time_begin = omp_get_wtime();
+    for (int i = 0 ; i<child.size() ; i++) {
+        child[i].value = - negaMaxClassic((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best) ;
+        time_finish_loop[i] = omp_get_wtime();
+    }
+    double time_finish = omp_get_wtime();
+    value = findBestChild(child,best) ;
+    add_node_reporting(board,value,child.size(),child.size()) ;
+    for (int i = 0 ; i<child.size() ; i++)
+        qDebug() << "child " << i << " : " << 1000000*(time_finish_loop[i]-time_begin);
+    qDebug() << "total : " << 1000000*(time_finish-time_begin) ;
+    for (int i = 0 ; i<child.size() ; i++) {
+        delete (Checkerboard*)(child[i].board) ;
+    }
     return value ;
 }
 
+/*int core;
+struct timespec start;
+struct timespec stop;
+double delay;
+double *test;
+double test0;
+test = new double [4];
+omp_set_num_threads(4);
+clock_gettime(CLOCK_MONOTONIC, &start);
+test0 = omp_get_wtime();
+#pragma omp parallel for
+for ( core = 0 ; core < 4 ; core++)
+{
+   // ptModule[core].Main();
+    test[core] = omp_get_wtime();
+}
 
+// Setting the Stop timestamp for compute time
+clock_gettime(CLOCK_MONOTONIC, &stop);
+
+// Compute time delay
+for ( core = 0 ; core < 4 ; core++)
+    qDebug() << "core " << core << " : " << 1000000*(test[core]-test0);
+delay = ( stop.tv_sec - start.tv_sec ) + (double) ( stop.tv_nsec - start.tv_nsec ) / 1000000000;
+qDebug() << "total : " << 1000000*delay ;*/
 int Game::negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best) {
     Player* player = (color==WHITE ? P1 : P2) ;
     Player* opponent = (color==WHITE ? P2 : P1) ;
-
-    if (depth==0 || board->isWin()){
-        return ((int)color) * costFunction(board, player, color);
-    }
-
-    std::vector<MOVE> move = findMoveOnBoard(board,color, player) ;
-
-
-
-    int nb_thread = move.size()-1 ;
-    double stop_omp ;
-    double *test;
-    double test0;
-    test = new double [nb_thread];
-    omp_set_num_threads(nb_thread);
-
-    test0 = omp_get_wtime();
-
     int value ;
-    int i ;
+    std::vector<CHILD> child ;
+    child.resize(0) ;
+    if (depth==0 || isFinishOnBoard(board)){
+        value = ((int)color) * costFunction(board, player, color) ;
+
+        add_node_reporting(board,value,child.size(),child.size()) ;
+
+        return value ;
+    }
+    child = findChild(board,color, player) ;
+    omp_set_num_threads(this->nb_thread);
+    double* time_finish_loop = new double [child.size()] ;
+    double time_begin = omp_get_wtime();
     //#pragma omp single
     //#pragma omp parallel for
-    for (i = 0 ; i<move.size() ; i++) {
+    for (int i = 0 ; i<child.size() ; i++) {
         //#pragma omp task
-
-        Checkerboard* child = new Checkerboard(board) ;
-        player->moveOnBoard(move[i].x,move[i].y,move[i].xDest,move[i].yDest,child) ;
-        int value_child = - negaMaxClassic(child, depth - 1, (COLOR)(-(int)color),P1, P2, best) ;
-
-        if (depth == playerTurn()->getLevel()) {
-            if (i==0 || value_child >= value) {
-                if (i==0 || value_child > value) {
-                    value = value_child ;
-                    best.clear();
-                }
-                best.resize(best.size()+1) ;
-                best[best.size()-1] = move[i] ;
-            }
-        }
-        delete child ;
-
-        test[i-1] = omp_get_wtime();
-
+        child[i].value = - negaMaxThread((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best) ;
+        time_finish_loop[i] = omp_get_wtime();
         //#pragma omp taskwait
     }
-
-    stop_omp = omp_get_wtime();
-
-    // Compute time delay
-    for ( int j = 0 ; j < nb_thread ; j++)
-        qDebug() << "thread " << j << " : " << 1000000*(test[j]-test0);
-    qDebug() << "total : " << 1000000*(stop_omp-test0) ;
-
-    return value ;
-
-    /*int core;
-    struct timespec start;
-    struct timespec stop;
-    double delay;
-    double *test;
-    double test0;
-    test = new double [4];
-    omp_set_num_threads(4);
-    clock_gettime(CLOCK_MONOTONIC, &start);
-    test0 = omp_get_wtime();
-    #pragma omp parallel for
-    for ( core = 0 ; core < 4 ; core++)
-    {
-       // ptModule[core].Main();
-        test[core] = omp_get_wtime();
+    double time_finish = omp_get_wtime();
+    value = findBestChild(child,best) ;
+    add_node_reporting(board,value,child.size(),child.size()) ;
+    for (int i = 0 ; i<child.size() ; i++)
+        qDebug() << "child " << i << " : " << 1000000*(time_finish_loop[i]-time_begin);
+    qDebug() << "total : " << 1000000*(time_finish-time_begin) ;
+    for (int i = 0 ; i<child.size() ; i++) {
+        delete (Checkerboard*)(child[i].board) ;
     }
-
-    // Setting the Stop timestamp for compute time
-    clock_gettime(CLOCK_MONOTONIC, &stop);
-
-    // Compute time delay
-    for ( core = 0 ; core < 4 ; core++)
-        qDebug() << "core " << core << " : " << 1000000*(test[core]-test0);
-    delay = ( stop.tv_sec - start.tv_sec ) + (double) ( stop.tv_nsec - start.tv_nsec ) / 1000000000;
-    qDebug() << "total : " << 1000000*delay ;*/
+    return value ;
 }
 
 MOVE Game::alphaBeta(bool with_thread_param) {
-
     std::vector<MOVE> m ;
     m.resize(0);
-
     init_reporting() ;
-
     int value ;
     if (isWhiteState(state) && P1->isCP()) {
         if (with_thread_param) {
@@ -405,12 +406,7 @@ MOVE Game::alphaBeta(bool with_thread_param) {
         else
             value = ((int)BLACK) * alphaBetaClassic(board, P2->getLevel(), BLACK, P1, P2, m,-value,false) ;
     }
-
-    add_in_reporting(static_cast<ostringstream*>( &(ostringstream() << value) )->str()) ;
-    add_in_reporting(board->toString()) ;
-
     save_reporting() ;
-
     if (m.empty()) {
         MOVE error ;
         error.x = error.y = error.xDest = error.yDest = -1 ;
@@ -422,92 +418,86 @@ MOVE Game::alphaBeta(bool with_thread_param) {
 int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec) {
     Player* player = (color==WHITE ? P1 : P2) ;
     Player* opponent = (color==WHITE ? P2 : P1) ;
-
-    if (depth==0 || board->isWin()){
-        add_in_reporting("0");
-        add_in_reporting("0");
-        return ((int)color) * costFunction(board, player, color);
-    }
-    std::vector<MOVE> move = findMoveOnBoard(board,color, player) ;
-
     int value ;
-    int i;
-    int nb_move = move.size() ;
-    int nb_move_treated = nb_move ;
+    std::vector<CHILD> child ;
+    child.resize(0) ;
+    int nb_child_treated = 0 ;
+    if (depth==0 || board->isWin()){
+        value = ((int)color) * costFunction(board, player, color);
 
-    for (i = 0 ; i<nb_move /*&& value<=maxprec*/ ; i++) {
+         add_node_reporting(board,value,child.size(),nb_child_treated) ;
 
-        if (i!=0 && ismaxprec && value>maxprec && nb_move_treated==nb_move) {
-            nb_move_treated = i ;
+        return value ;
+    }
+    child = findChild(board,color, player) ;
+    nb_child_treated = child.size() ;
+    omp_set_num_threads(this->nb_thread);
+    double* time_finish_loop = new double [child.size()] ;
+    double time_begin = omp_get_wtime();
+    for (int i = 0 ; i<child.size() ; i++) {
+        if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
+            nb_child_treated = i ;
         }
         else {
-            Checkerboard* child = new Checkerboard(board) ;
-            player->moveOnBoard(move[i].x,move[i].y,move[i].xDest,move[i].yDest,child) ;
-            int value_child = -alphaBetaClassic(child, depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0) ;
-
-            add_in_reporting(static_cast<ostringstream*>( &(ostringstream() << value_child) )->str());
-            add_in_reporting(child->toString()) ;
-
-            if (depth == playerTurn()->getLevel()) {
-                if (i==0 || value_child >= value) {
-                    if (i==0 || value_child > value) {
-                        value = value_child ;
-                        best.clear();
-                    }
-                    best.resize(best.size()+1) ;
-                    best[best.size()-1] = move[i] ;
-                }
-            }
-
-            delete child ;
+            child[i].value = -alphaBetaClassic((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0) ;
+            time_finish_loop[i] = omp_get_wtime();
         }
     }
+    double time_finish = omp_get_wtime();
+    value = findBestChild(child,best) ;
+    add_node_reporting(board,value,child.size(),nb_child_treated) ;
+    for (int i = 0 ; i<child.size() ; i++)
+        qDebug() << "child " << i << " : " << 1000000*(time_finish_loop[i]-time_begin);
+    qDebug() << "total : " << 1000000*(time_finish-time_begin) ;
 
-    add_in_reporting(static_cast<ostringstream*>( &(ostringstream() << nb_move_treated) )->str());
-    add_in_reporting(static_cast<ostringstream*>( &(ostringstream() << nb_move) )->str()) ;
-
+    for (int i = 0 ; i<child.size() ; i++) {
+        delete (Checkerboard*)(child[i].board) ;
+    }
     return value ;
 }
 
 int Game::alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec) {
     Player* player = (color==WHITE ? P1 : P2) ;
     Player* opponent = (color==WHITE ? P2 : P1) ;
-
-    if (depth==0 || board->isWin()){
-        return ((int)color) * costFunction(board, player, color);
-    }
-    std::vector<MOVE> move = findMoveOnBoard(board,color, player) ;
-
     int value ;
-    int i;
-    int nb_move = move.size() ;
-    int nb_move_treated = nb_move ;
+    std::vector<CHILD> child ;
+    child.resize(0) ;
+    int nb_child_treated = 0 ;
+    if (depth==0 || board->isWin()){
+        value = ((int)color) * costFunction(board, player, color);
 
-    for (i = 0 ; i<nb_move /*&& value<=maxprec*/ ; i++) {
+         add_node_reporting(board,value,child.size(),nb_child_treated) ;
 
-        if (i!=0 && ismaxprec && value>maxprec && nb_move_treated==nb_move) {
-            nb_move_treated = i ;
+        return value ;
+    }
+    child = findChild(board,color, player) ;
+    nb_child_treated = child.size() ;
+    omp_set_num_threads(this->nb_thread);
+    double* time_finish_loop = new double [child.size()] ;
+    double time_begin = omp_get_wtime();
+    //#pragma omp single
+    //#pragma omp parallel for
+    for (int i = 0 ; i<child.size() ; i++) {
+        if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
+            nb_child_treated = i ;
         }
         else {
-            Checkerboard* child = new Checkerboard(board) ;
-            player->moveOnBoard(move[i].x,move[i].y,move[i].xDest,move[i].yDest,child) ;
-            int value_child = -alphaBetaClassic(child, depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0) ;
-
-            if (depth == playerTurn()->getLevel()) {
-                if (i==0 || value_child >= value) {
-                    if (i==0 || value_child > value) {
-                        value = value_child ;
-                        best.clear();
-                    }
-                    best.resize(best.size()+1) ;
-                    best[best.size()-1] = move[i] ;
-                }
-            }
-
-            delete child ;
+            //#pragma omp task
+            child[i].value = -alphaBetaThread((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0) ;
+            time_finish_loop[i] = omp_get_wtime();
+            //#pragma omp taskwait
         }
     }
+    double time_finish = omp_get_wtime();
+    value = findBestChild(child,best) ;
+    add_node_reporting(board,value,child.size(),nb_child_treated) ;
+    for (int i = 0 ; i<child.size() ; i++)
+        qDebug() << "child " << i << " : " << 1000000*(time_finish_loop[i]-time_begin);
+    qDebug() << "total : " << 1000000*(time_finish-time_begin) ;
 
+    for (int i = 0 ; i<child.size() ; i++) {
+        delete (Checkerboard*)(child[i].board) ;
+    }
     return value ;
 }
 
@@ -519,9 +509,12 @@ void Game::init_reporting() {
     reporting.resize(0);
 }
 
-void Game::add_in_reporting(string val) {
-    reporting.resize(reporting.size()+1);
-    reporting[reporting.size()-1]= val ;
+void Game::add_node_reporting(Checkerboard* board, int value, int nb_child, int nb_child_treated) {
+    reporting.resize(reporting.size()+4);
+    reporting[reporting.size()-4]= static_cast<ostringstream*>( &(ostringstream() << nb_child_treated) )->str() ;
+    reporting[reporting.size()-3]= static_cast<ostringstream*>( &(ostringstream() << nb_child) )->str() ;
+    reporting[reporting.size()-2]= static_cast<ostringstream*>( &(ostringstream() << value) )->str() ;
+    reporting[reporting.size()-1]= board->toString() ;
 }
 
 void Game:: save_reporting() {

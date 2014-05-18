@@ -30,8 +30,9 @@ private:
 
 public:
 
-    bool with_alphabeta = true ;
-    bool with_thread = true ;
+    bool with_alphabeta = false ;
+    bool with_thread = false ;
+    int nb_thread = 4 ;
 
     // create game with dimension parameters
     Game(int size, int nbLineP1, int nbLineP2, int p1 = -1, int p2 =-1) ;
@@ -44,6 +45,9 @@ public:
     bool isCPTurn() ;
 
     bool isFinish() ;
+
+    bool isFinishOnBoard(Checkerboard* board) ;
+    bool isEqualityOnBoard(Checkerboard* board) ;
 
     bool isWhiteState(STATE state) ;
     bool isBlackState(STATE state) ;
@@ -63,6 +67,8 @@ public:
 
     std::vector<MOVE> findMoveOnBoard(Checkerboard* board, COLOR color, Player* player) ;
 
+    std::vector<CHILD> findChild(Checkerboard* board, COLOR color, Player* player) ;
+    int findBestChild(std::vector<CHILD> child, std::vector<MOVE> & best) ;
 
     MOVE negaMax(bool with_thread_param) ;
     int negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best) ;
@@ -75,7 +81,7 @@ public:
     Player* playerTurn() ;
 
     void init_reporting() ;
-    void add_in_reporting(string val) ;
+    void add_node_reporting(Checkerboard* board, int value, int nb_child, int nb_child_treated) ;
     void save_reporting() ;
 };
 

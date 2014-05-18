@@ -9,9 +9,14 @@
 	}
 	
 	function resize() {
-			
-		canvas.width = tree_width ;
-		canvas.height = tree_height ;
+		if (tree_width > internet_browser_canvas_size_limit)
+			canvas.width = internet_browser_canvas_size_limit ;
+		else
+			canvas.width = tree_width ;
+		if (tree_height > internet_browser_canvas_size_limit)
+			canvas.height = internet_browser_canvas_size_limit ;
+		else
+			canvas.height = tree_height ;
 		
 		if (loaded)
 			repaint() ;
