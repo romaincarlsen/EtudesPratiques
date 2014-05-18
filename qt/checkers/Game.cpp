@@ -422,7 +422,7 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
     std::vector<CHILD> child ;
     child.resize(0) ;
     int nb_child_treated = 0 ;
-    if (depth==0 || board->isWin()){
+    if (depth==0 || isFinishOnBoard(board)){
         value = ((int)color) * costFunction(board, player, color);
 
          add_node_reporting(board,value,child.size(),nb_child_treated) ;
@@ -463,7 +463,7 @@ int Game::alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P
     std::vector<CHILD> child ;
     child.resize(0) ;
     int nb_child_treated = 0 ;
-    if (depth==0 || board->isWin()){
+    if (depth==0 || isFinishOnBoard(board)){
         value = ((int)color) * costFunction(board, player, color);
 
          add_node_reporting(board,value,child.size(),nb_child_treated) ;
