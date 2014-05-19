@@ -114,17 +114,27 @@ void MainWindow::start_click(){
     }
     this->ui->board_l->setText(game->toString()) ;
     game->paint(this->ui->board_gl);
-
+    this->ui->border->setFrameShape(QFrame::Box);
     iTimer->setInterval(1000);
     iTimer->start();
 
     //launchIA() ;
 }
 
-//Méthode qui deselectionne le pion courant lorsque l'on fait un clic droit
+//Méthode qui deselectionne le pion courant lorsque l'on fait un clic droit sauf si une prise est en cours
 void MainWindow::deselect(){
-    game->deselect();
-    game->paint(this->ui->board_gl);
+    Checkerboard* board = game->getBoard();
+    int size = game->getSize();
+    bool enCours = false;
+    for(int i = 0; i<size; i++){
+        for(int j = 0; j<size; j++){
+            if(board->getQSquare(i,j).square == GHOST) {enCours = false;}
+        }
+    }
+    if(!enCours){
+        game->deselect();
+        game->paint(this->ui->board_gl);
+    }
 }
 
 //modifie le type de joueur (manuel ou IA) et le niveau dans le cas de l'IA
@@ -135,8 +145,8 @@ void MainWindow::selectLevelPlayer1(int lvl){
 }
 
 void MainWindow::selectLevelPlayer2(int lvl){
-   if (lvl == 0) _p2 = -1;
-   else _p2 = lvl;
+    if (lvl == 0) _p2 = -1;
+    else _p2 = lvl;
 }
 
 int main(int argc, char *argv[])

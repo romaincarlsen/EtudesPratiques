@@ -39,6 +39,7 @@ public:
     ~Game();
 
     Checkerboard* getBoard() ;
+    int getSize();
 
     bool execMove(int x, int y, int xDest, int yDest) ;
 

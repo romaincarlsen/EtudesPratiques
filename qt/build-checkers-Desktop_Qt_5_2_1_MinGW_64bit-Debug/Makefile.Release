@@ -134,7 +134,7 @@ DESTDIR_TARGET = release\checkers.exe
 first: all
 all: Makefile.Release $(DESTDIR_TARGET)
 
-$(DESTDIR_TARGET): ui_mainwindow.h ui_mainwindow2.h ui_mainwindow3.h $(OBJECTS) 
+$(DESTDIR_TARGET): ui_mainwindow.h ui_mainwindow2.h ui_mainwindow3.h ui_mainwindow4.h $(OBJECTS) 
 	$(LINKER) $(LFLAGS) /MANIFEST /MANIFESTFILE:release\checkers.exe.embed.manifest /OUT:$(DESTDIR_TARGET) @<<
 $(OBJECTS) $(LIBS)
 <<
@@ -313,9 +313,10 @@ release\moc_mainwindow.cpp: ..\checkers\include.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractbutton.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtGui\QMouseEvent \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QLayoutItem \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QFrame \
 		..\checkers\struct.h \
 		..\checkers\labelcase.h \
-		ui_mainwindow3.h \
+		ui_mainwindow4.h \
 		..\checkers\game.h \
 		..\checkers\Tools.h \
 		..\checkers\Checkerboard.h \
@@ -469,14 +470,15 @@ release\moc_labelcase.cpp: ..\checkers\include.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractbutton.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtGui\QMouseEvent \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QLayoutItem \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QFrame \
 		..\checkers\labelcase.h
 	C:\Qt\Qt5.2.1\5.2.1\msvc2012_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1700 -D_WIN32 -D_WIN64 $(INCPATH) ..\checkers\labelcase.h -o release\moc_labelcase.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h ui_mainwindow2.h ui_mainwindow3.h
+compiler_uic_make_all: ui_mainwindow.h ui_mainwindow2.h ui_mainwindow3.h ui_mainwindow4.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h ui_mainwindow2.h ui_mainwindow3.h
+	-$(DEL_FILE) ui_mainwindow.h ui_mainwindow2.h ui_mainwindow3.h ui_mainwindow4.h
 ui_mainwindow.h: ..\checkers\mainwindow.ui
 	C:\Qt\Qt5.2.1\5.2.1\msvc2012_64\bin\uic.exe ..\checkers\mainwindow.ui -o ui_mainwindow.h
 
@@ -485,6 +487,9 @@ ui_mainwindow2.h: ..\checkers\mainwindow2.ui
 
 ui_mainwindow3.h: ..\checkers\mainwindow3.ui
 	C:\Qt\Qt5.2.1\5.2.1\msvc2012_64\bin\uic.exe ..\checkers\mainwindow3.ui -o ui_mainwindow3.h
+
+ui_mainwindow4.h: ..\checkers\mainwindow4.ui
+	C:\Qt\Qt5.2.1\5.2.1\msvc2012_64\bin\uic.exe ..\checkers\mainwindow4.ui -o ui_mainwindow4.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -645,9 +650,10 @@ release\mainwindow.obj: ..\checkers\mainwindow.cpp ..\checkers\mainwindow.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractbutton.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtGui\QMouseEvent \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QLayoutItem \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QFrame \
 		..\checkers\struct.h \
 		..\checkers\labelcase.h \
-		ui_mainwindow3.h \
+		ui_mainwindow4.h \
 		..\checkers\game.h \
 		..\checkers\Tools.h \
 		..\checkers\Checkerboard.h \
@@ -800,6 +806,7 @@ release\Checkerboard.obj: ..\checkers\Checkerboard.cpp ..\checkers\Checkerboard.
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractbutton.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtGui\QMouseEvent \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QLayoutItem \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QFrame \
 		..\checkers\struct.h \
 		..\checkers\labelcase.h \
 		..\checkers\Tools.h
@@ -951,6 +958,7 @@ release\Player.obj: ..\checkers\Player.cpp ..\checkers\Player.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractbutton.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtGui\QMouseEvent \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QLayoutItem \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QFrame \
 		..\checkers\Tools.h \
 		..\checkers\struct.h \
 		..\checkers\labelcase.h \
@@ -1103,6 +1111,7 @@ release\game.obj: ..\checkers\game.cpp ..\checkers\game.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractbutton.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtGui\QMouseEvent \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QLayoutItem \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QFrame \
 		..\checkers\Tools.h \
 		..\checkers\struct.h \
 		..\checkers\labelcase.h \
@@ -1255,7 +1264,8 @@ release\labelcase.obj: ..\checkers\labelcase.cpp ..\checkers\labelcase.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qpushbutton.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\qabstractbutton.h \
 		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtGui\QMouseEvent \
-		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QLayoutItem
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QLayoutItem \
+		..\..\..\..\..\..\..\Qt\Qt5.2.1\5.2.1\msvc2012_64\include\QtWidgets\QFrame
 
 release\Tools.obj: ..\checkers\Tools.cpp 
 

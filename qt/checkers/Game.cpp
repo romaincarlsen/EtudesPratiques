@@ -39,6 +39,10 @@ Checkerboard* Game::getBoard() {
     return board ;
 }
 
+int Game::getSize() {
+    return size ;
+}
+
 bool Game::execMove(int x, int y, int xDest, int yDest){
 
     if(x!=-1 && y!=-1) {
@@ -304,7 +308,7 @@ int Game::negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1
     if (depth==0 || isFinishOnBoard(board)){
         value = ((int)color) * costFunction(board, player, color) ;
 
-        add_node_reporting(board,value,child.size(),child.size()) ;
+        //add_node_reporting(board,value,child.size(),child.size()) ;
 
         return value ;
     }
@@ -318,9 +322,9 @@ int Game::negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1
     }
     double time_finish = omp_get_wtime();
     value = findBestChild(child,best) ;
-    add_node_reporting(board,value,child.size(),child.size()) ;
-    for (int i = 0 ; i<child.size() ; i++)
-        qDebug() << "child " << i << " : " << 1000000*(time_finish_loop[i]-time_begin);
+    //add_node_reporting(board,value,child.size(),child.size()) ;
+    //for (int i = 0 ; i<child.size() ; i++)
+        //qDebug() << "child " << i << " : " << 1000000*(time_finish_loop[i]-time_begin);
     qDebug() << "total : " << 1000000*(time_finish-time_begin) ;
     for (int i = 0 ; i<child.size() ; i++) {
         delete (Checkerboard*)(child[i].board) ;
@@ -430,7 +434,7 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
     if (depth==0 || isFinishOnBoard(board)){
         value = ((int)color) * costFunction(board, player, color);
 
-         add_node_reporting(board,value,child.size(),nb_child_treated) ;
+         //add_node_reporting(board,value,child.size(),nb_child_treated) ;
 
         return value ;
     }
@@ -450,7 +454,7 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
     }
     double time_finish = omp_get_wtime();
     value = findBestChild(child,best) ;
-    add_node_reporting(board,value,child.size(),nb_child_treated) ;
+    //add_node_reporting(board,value,child.size(),nb_child_treated) ;
     /*for (int i = 0 ; i<child.size() ; i++)
         qDebug() << "child " << i << " : " << 1000000*(time_finish_loop[i]-time_begin);
     qDebug() << "total : " << 1000000*(time_finish-time_begin) ;*/

@@ -34,7 +34,7 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QHBoxLayout *horizontalLayout_7;
-    QFrame *frame;
+    QFrame *border;
     QHBoxLayout *horizontalLayout;
     QGridLayout *board_gl;
     QVBoxLayout *verticalLayout;
@@ -62,6 +62,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
+        MainWindow->setEnabled(true);
         MainWindow->resize(800, 600);
         QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         sizePolicy.setHorizontalStretch(0);
@@ -72,34 +73,35 @@ public:
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         horizontalLayout_7 = new QHBoxLayout(centralwidget);
         horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
-        frame = new QFrame(centralwidget);
-        frame->setObjectName(QStringLiteral("frame"));
+        border = new QFrame(centralwidget);
+        border->setObjectName(QStringLiteral("border"));
+        border->setEnabled(true);
         QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Minimum);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(frame->sizePolicy().hasHeightForWidth());
-        frame->setSizePolicy(sizePolicy1);
-        frame->setMinimumSize(QSize(0, 0));
-        frame->setSizeIncrement(QSize(1, 1));
-        frame->setFrameShape(QFrame::Box);
-        frame->setFrameShadow(QFrame::Plain);
-        frame->setLineWidth(3);
-        frame->setMidLineWidth(20);
-        horizontalLayout = new QHBoxLayout(frame);
+        sizePolicy1.setHeightForWidth(border->sizePolicy().hasHeightForWidth());
+        border->setSizePolicy(sizePolicy1);
+        border->setMinimumSize(QSize(0, 0));
+        border->setSizeIncrement(QSize(1, 1));
+        border->setFrameShape(QFrame::NoFrame);
+        border->setFrameShadow(QFrame::Plain);
+        border->setLineWidth(3);
+        border->setMidLineWidth(20);
+        horizontalLayout = new QHBoxLayout(border);
         horizontalLayout->setSpacing(0);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalLayout->setSizeConstraint(QLayout::SetNoConstraint);
+        horizontalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
         board_gl = new QGridLayout();
         board_gl->setSpacing(0);
         board_gl->setObjectName(QStringLiteral("board_gl"));
-        board_gl->setSizeConstraint(QLayout::SetNoConstraint);
+        board_gl->setSizeConstraint(QLayout::SetDefaultConstraint);
         board_gl->setContentsMargins(0, 0, 0, 0);
 
         horizontalLayout->addLayout(board_gl);
 
 
-        horizontalLayout_7->addWidget(frame);
+        horizontalLayout_7->addWidget(border);
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));

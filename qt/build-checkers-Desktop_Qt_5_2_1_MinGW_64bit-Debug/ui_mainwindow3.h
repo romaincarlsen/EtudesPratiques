@@ -44,7 +44,7 @@ public:
     QComboBox *modeP2_IA;
     QLineEdit *nbLineP1_tb;
     QLabel *size_l;
-    QFrame *frame;
+    QFrame *border;
     QWidget *gridLayoutWidget_2;
     QGridLayout *board_gl;
     QMenuBar *menubar;
@@ -93,16 +93,17 @@ public:
         size_l = new QLabel(centralwidget);
         size_l->setObjectName(QStringLiteral("size_l"));
         size_l->setGeometry(QRect(515, 10, 51, 20));
-        frame = new QFrame(centralwidget);
-        frame->setObjectName(QStringLiteral("frame"));
-        frame->setGeometry(QRect(30, 20, 451, 391));
-        frame->setFrameShape(QFrame::Box);
-        frame->setFrameShadow(QFrame::Plain);
-        frame->setLineWidth(5);
-        frame->setMidLineWidth(20);
-        gridLayoutWidget_2 = new QWidget(frame);
+        border = new QFrame(centralwidget);
+        border->setObjectName(QStringLiteral("border"));
+        border->setEnabled(true);
+        border->setGeometry(QRect(30, 20, 451, 391));
+        border->setFrameShape(QFrame::NoFrame);
+        border->setFrameShadow(QFrame::Plain);
+        border->setLineWidth(5);
+        border->setMidLineWidth(20);
+        gridLayoutWidget_2 = new QWidget(border);
         gridLayoutWidget_2->setObjectName(QStringLiteral("gridLayoutWidget_2"));
-        gridLayoutWidget_2->setGeometry(QRect(0, 0, 451, 391));
+        gridLayoutWidget_2->setGeometry(QRect(0, -10, 451, 391));
         board_gl = new QGridLayout(gridLayoutWidget_2);
         board_gl->setSpacing(0);
         board_gl->setObjectName(QStringLiteral("board_gl"));
@@ -123,7 +124,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Jeu de dames", 0));
         board_l->setText(QApplication::translate("MainWindow", "board", 0));
         start->setText(QApplication::translate("MainWindow", "start", 0));
         nbLineP1_l->setText(QApplication::translate("MainWindow", "nb line player 1", 0));

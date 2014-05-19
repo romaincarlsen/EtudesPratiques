@@ -32,4 +32,5 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     mainwindow2.ui \
-    mainwindow3.ui
+    mainwindow3.ui \
+    mainwindow4.ui
