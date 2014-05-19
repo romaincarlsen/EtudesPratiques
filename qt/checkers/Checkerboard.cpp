@@ -23,6 +23,7 @@ Checkerboard::Checkerboard(int size) : _size(size)
             //_square[x][y].label = new QLabel();
             //gestion des labels contenant leur position :
             _square[x][y].label = new LabelCase(x,y);
+            _square[x][y].label->setMinimumSize(0,0);
         }
     }
 }
@@ -133,6 +134,7 @@ bool Checkerboard::isWin() const {
         }
     return !nbWhite || !nbBlack ;
 }
+
 // scan the checkerboard in a file
 
 string Checkerboard::toString()

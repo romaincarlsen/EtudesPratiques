@@ -47,6 +47,7 @@ char Tools::square_to_char(SQUARE square) {
         case WHITE_PIECE :	return 'x' ;
         case WHITE_KING :	return 'X' ;
         case LOCK :			return '#' ;
+        case GHOST :        return 'v' ;
         default :			return 'e' ;
     }
 }

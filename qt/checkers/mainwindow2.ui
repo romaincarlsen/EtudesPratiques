@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -10,16 +13,101 @@
     <height>600</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Jeu de dames</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout_7">
     <item>
-     <layout class="QGridLayout" name="board_gl"/>
+     <widget class="QFrame" name="border">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="sizeIncrement">
+       <size>
+        <width>1</width>
+        <height>1</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth">
+       <number>3</number>
+      </property>
+      <property name="midLineWidth">
+       <number>20</number>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <layout class="QGridLayout" name="board_gl">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetDefaultConstraint</enum>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
+        </layout>
+       </item>
+      </layout>
+     </widget>
     </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetMinimumSize</enum>
+      </property>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
@@ -49,21 +137,27 @@
        </layout>
       </item>
       <item>
-       <widget class="QGroupBox" name="modeP1_gr">
-        <property name="title">
-         <string>mode de jeu</string>
-        </property>
-        <widget class="QComboBox" name="modeP1_IA">
-         <property name="geometry">
-          <rect>
-           <x>190</x>
-           <y>20</y>
-           <width>161</width>
-           <height>22</height>
-          </rect>
-         </property>
-        </widget>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLineEdit" name="lineEdit">
+          <property name="minimumSize">
+           <size>
+            <width>160</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Mode de jeu du joueur 1</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="modeP1_IA"/>
+        </item>
+       </layout>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -80,21 +174,27 @@
        </layout>
       </item>
       <item>
-       <widget class="QGroupBox" name="modeP2_gr">
-        <property name="title">
-         <string>mode de jeu</string>
-        </property>
-        <widget class="QComboBox" name="modeP2_IA">
-         <property name="geometry">
-          <rect>
-           <x>190</x>
-           <y>20</y>
-           <width>161</width>
-           <height>22</height>
-          </rect>
-         </property>
-        </widget>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLineEdit" name="lineEdit_2">
+          <property name="minimumSize">
+           <size>
+            <width>160</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Mode de jeu du joueur 2</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="modeP2_IA"/>
+        </item>
+       </layout>
       </item>
       <item>
        <widget class="QPushButton" name="start">

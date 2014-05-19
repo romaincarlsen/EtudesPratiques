@@ -1,6 +1,7 @@
 // paramétrable
 
-var square_size = 3 ;
+var internet_browser_canvas_size_limit = 32000 ;
+var square_size = 10 ;
 var text_size = 15 ;
 var marge_height = 50 ;
 var marge_width = 10 ;
@@ -13,8 +14,6 @@ var img_black_piece =  loadImage("img/black_piece.png") ;
 var img_black_king =  loadImage("img/black_king.png") ;
 var img_empty =  loadImage("img/empty.png") ;
 var img_lock =  loadImage("img/lock.png") ;
-
-
 
 
 //----------------------------------------------------------------------------------------

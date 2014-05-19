@@ -16,22 +16,19 @@ MainWindow::MainWindow(QWidget *parent) :
     _p2 = -1;
 
     //mise en place des listes pour le choix du mode de jeu: manuel ou IA et niveau de l'IA
-
-    //joueur 2
-    ui->modeP2_IA->addItem("manual");
-    for(int i = 1; i<5;i++){
-        QString s = "IA level : ";
-        QString nb(QString::number(i));
-        ui->modeP2_IA->addItem(s+nb);
-        ui->modeP2_IA->connect(ui->modeP2_IA,SIGNAL(currentIndexChanged(int)),this,SLOT(selectLevelPlayer2(int)));
-    }
-    //joueur 1
     ui->modeP1_IA->addItem("manual");
-    for(int i = 1; i<5;i++){
+    ui->modeP2_IA->addItem("manual");
+
+    for(int i = 1; i<11;i++){
         QString s = "IA level : ";
         QString nb(QString::number(i));
+        //joueur 1
         ui->modeP1_IA->addItem(s+nb);
         ui->modeP1_IA->connect(ui->modeP1_IA,SIGNAL(currentIndexChanged(int)),this,SLOT(selectLevelPlayer1(int)));
+
+        //joueur 2
+        ui->modeP2_IA->addItem(s+nb);
+        ui->modeP2_IA->connect(ui->modeP2_IA,SIGNAL(currentIndexChanged(int)),this,SLOT(selectLevelPlayer2(int)));
     }
 
     iTimer = new QTimer(this);
@@ -58,9 +55,13 @@ void MainWindow::launchIA() {
     if (game->isCPTurn()) {
         if (!game->isFinish()) {
 
-            MOVE mv = game->negaMax() ;
+            MOVE mv ;
+            if (game->with_alphabeta)
+                mv = game->alphaBeta(game->with_thread) ;
+            else
+                mv = game->negaMax(game->with_thread) ;
 
-            qDebug() << mv.x << " " << mv.y << " " << mv.xDest << " " << mv.yDest << endl ;
+            //qDebug() << mv.x << " " << mv.y << " " << mv.xDest << " " << mv.yDest << endl ;
 
             if (game->execMove(mv.x,mv.y,-1,-1)) {
                 this->ui->board_l->setText(game->toString()) ;
@@ -113,17 +114,27 @@ void MainWindow::start_click(){
     }
     this->ui->board_l->setText(game->toString()) ;
     game->paint(this->ui->board_gl);
-
+    this->ui->border->setFrameShape(QFrame::Box);
     iTimer->setInterval(1000);
     iTimer->start();
 
     //launchIA() ;
 }
 
-//Méthode qui deselectionne le pion courant lorsque l'on fait un clic droit
+//Méthode qui deselectionne le pion courant lorsque l'on fait un clic droit sauf si une prise est en cours
 void MainWindow::deselect(){
-    game->deselect();
-    game->paint(this->ui->board_gl);
+    Checkerboard* board = game->getBoard();
+    int size = game->getSize();
+    bool enCours = false;
+    for(int i = 0; i<size; i++){
+        for(int j = 0; j<size; j++){
+            if(board->getQSquare(i,j).square == GHOST) {enCours = false;}
+        }
+    }
+    if(!enCours){
+        game->deselect();
+        game->paint(this->ui->board_gl);
+    }
 }
 
 //modifie le type de joueur (manuel ou IA) et le niveau dans le cas de l'IA
@@ -134,8 +145,8 @@ void MainWindow::selectLevelPlayer1(int lvl){
 }
 
 void MainWindow::selectLevelPlayer2(int lvl){
-   if (lvl == 0) _p2 = -1;
-   else _p2 = lvl;
+    if (lvl == 0) _p2 = -1;
+    else _p2 = lvl;
 }
 
 int main(int argc, char *argv[])

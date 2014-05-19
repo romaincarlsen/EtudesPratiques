@@ -10,8 +10,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = checkers
 TEMPLATE = app
-QMAKE_CXXFLAGS+= -openmp
-QMAKE_LFLAGS +=  -openmp
+QMAKE_CXXFLAGS+= -fopenmp
+QMAKE_LFLAGS +=  -fopenmp
 
 SOURCES +=\
         mainwindow.cpp \
@@ -31,4 +31,6 @@ HEADERS  += mainwindow.h \
     labelcase.h
 
 FORMS    += mainwindow.ui \
-    mainwindow2.ui
+    mainwindow2.ui \
+    mainwindow3.ui \
+    mainwindow4.ui

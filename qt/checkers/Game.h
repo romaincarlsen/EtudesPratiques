@@ -25,13 +25,21 @@ private:
     int nbLinePiece1 ;
     int nbLinePiece2 ;
 
+    QString url_reporting;
+    std::vector<string> reporting ;
+
 public:
+
+    bool with_alphabeta;
+    bool with_thread;
+    int nb_thread;
 
     // create game with dimension parameters
     Game(int size, int nbLineP1, int nbLineP2, int p1 = -1, int p2 =-1) ;
     ~Game();
 
     Checkerboard* getBoard() ;
+    int getSize();
 
     bool execMove(int x, int y, int xDest, int yDest) ;
 
@@ -39,7 +47,8 @@ public:
 
     bool isFinish() ;
 
-    MOVE negaMax() ;
+    bool isFinishOnBoard(Checkerboard* board, Player *player) ;
+    bool isEqualityOnBoard(Checkerboard* board, Player *player) ;
 
     bool isWhiteState(STATE state) ;
     bool isBlackState(STATE state) ;
@@ -59,10 +68,22 @@ public:
 
     std::vector<MOVE> findMoveOnBoard(Checkerboard* board, COLOR color, Player* player) ;
 
-    int negaMax(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, std::vector<string> &text) ;
-    int alphabeta(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, std::vector<string> &text, int maxprec);
+    std::vector<CHILD> findChild(Checkerboard* board, COLOR color, Player* player) ;
+    int findBestChild(std::vector<CHILD> child, std::vector<MOVE> & best) ;
+
+    MOVE negaMax(bool with_thread_param) ;
+    int negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best) ;
+    int negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best) ;
+
+    MOVE alphaBeta(bool with_thread_param) ;
+    int alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec);
+    int alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec);
+
     Player* playerTurn() ;
 
+    void init_reporting() ;
+    void add_node_reporting(Checkerboard* board, int value, int nb_child, int nb_child_treated) ;
+    void save_reporting() ;
 };
 
 #endif
