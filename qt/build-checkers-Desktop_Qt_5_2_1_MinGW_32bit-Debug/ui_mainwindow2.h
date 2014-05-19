@@ -14,8 +14,8 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QComboBox>
+#include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
-#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -33,6 +33,8 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
+    QHBoxLayout *horizontalLayout_7;
+    QFrame *border;
     QHBoxLayout *horizontalLayout;
     QGridLayout *board_gl;
     QVBoxLayout *verticalLayout;
@@ -42,12 +44,14 @@ public:
     QHBoxLayout *horizontalLayout_3;
     QLabel *nbLineP1_l;
     QLineEdit *nbLineP1_tb;
-    QGroupBox *modeP1_gr;
+    QHBoxLayout *horizontalLayout_5;
+    QLineEdit *lineEdit;
     QComboBox *modeP1_IA;
     QHBoxLayout *horizontalLayout_2;
     QLabel *nbLineP2_l;
     QLineEdit *nbLineP2_tb;
-    QGroupBox *modeP2_gr;
+    QHBoxLayout *horizontalLayout_6;
+    QLineEdit *lineEdit_2;
     QComboBox *modeP2_IA;
     QPushButton *start;
     QLabel *board_l;
@@ -58,18 +62,50 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
+        MainWindow->setEnabled(true);
         MainWindow->resize(800, 600);
+        QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
+        MainWindow->setSizePolicy(sizePolicy);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        horizontalLayout = new QHBoxLayout(centralwidget);
+        horizontalLayout_7 = new QHBoxLayout(centralwidget);
+        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
+        border = new QFrame(centralwidget);
+        border->setObjectName(QStringLiteral("border"));
+        border->setEnabled(true);
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(border->sizePolicy().hasHeightForWidth());
+        border->setSizePolicy(sizePolicy1);
+        border->setMinimumSize(QSize(0, 0));
+        border->setSizeIncrement(QSize(1, 1));
+        border->setFrameShape(QFrame::NoFrame);
+        border->setFrameShadow(QFrame::Plain);
+        border->setLineWidth(3);
+        border->setMidLineWidth(20);
+        horizontalLayout = new QHBoxLayout(border);
+        horizontalLayout->setSpacing(0);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
         board_gl = new QGridLayout();
+        board_gl->setSpacing(0);
         board_gl->setObjectName(QStringLiteral("board_gl"));
+        board_gl->setSizeConstraint(QLayout::SetDefaultConstraint);
+        board_gl->setContentsMargins(0, 0, 0, 0);
 
         horizontalLayout->addLayout(board_gl);
 
+
+        horizontalLayout_7->addWidget(border);
+
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setSizeConstraint(QLayout::SetMinimumSize);
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         size_l = new QLabel(centralwidget);
@@ -100,13 +136,22 @@ public:
 
         verticalLayout->addLayout(horizontalLayout_3);
 
-        modeP1_gr = new QGroupBox(centralwidget);
-        modeP1_gr->setObjectName(QStringLiteral("modeP1_gr"));
-        modeP1_IA = new QComboBox(modeP1_gr);
-        modeP1_IA->setObjectName(QStringLiteral("modeP1_IA"));
-        modeP1_IA->setGeometry(QRect(190, 20, 161, 22));
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        lineEdit = new QLineEdit(centralwidget);
+        lineEdit->setObjectName(QStringLiteral("lineEdit"));
+        lineEdit->setMinimumSize(QSize(160, 20));
+        lineEdit->setReadOnly(true);
 
-        verticalLayout->addWidget(modeP1_gr);
+        horizontalLayout_5->addWidget(lineEdit);
+
+        modeP1_IA = new QComboBox(centralwidget);
+        modeP1_IA->setObjectName(QStringLiteral("modeP1_IA"));
+
+        horizontalLayout_5->addWidget(modeP1_IA);
+
+
+        verticalLayout->addLayout(horizontalLayout_5);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
@@ -123,13 +168,22 @@ public:
 
         verticalLayout->addLayout(horizontalLayout_2);
 
-        modeP2_gr = new QGroupBox(centralwidget);
-        modeP2_gr->setObjectName(QStringLiteral("modeP2_gr"));
-        modeP2_IA = new QComboBox(modeP2_gr);
-        modeP2_IA->setObjectName(QStringLiteral("modeP2_IA"));
-        modeP2_IA->setGeometry(QRect(190, 20, 161, 22));
+        horizontalLayout_6 = new QHBoxLayout();
+        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
+        lineEdit_2 = new QLineEdit(centralwidget);
+        lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
+        lineEdit_2->setMinimumSize(QSize(160, 20));
+        lineEdit_2->setReadOnly(true);
 
-        verticalLayout->addWidget(modeP2_gr);
+        horizontalLayout_6->addWidget(lineEdit_2);
+
+        modeP2_IA = new QComboBox(centralwidget);
+        modeP2_IA->setObjectName(QStringLiteral("modeP2_IA"));
+
+        horizontalLayout_6->addWidget(modeP2_IA);
+
+
+        verticalLayout->addLayout(horizontalLayout_6);
 
         start = new QPushButton(centralwidget);
         start->setObjectName(QStringLiteral("start"));
@@ -143,7 +197,7 @@ public:
         verticalLayout->addWidget(board_l);
 
 
-        horizontalLayout->addLayout(verticalLayout);
+        horizontalLayout_7->addLayout(verticalLayout);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
@@ -161,12 +215,12 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Jeu de dames", 0));
         size_l->setText(QApplication::translate("MainWindow", "size", 0));
         nbLineP1_l->setText(QApplication::translate("MainWindow", "nb line player 1", 0));
-        modeP1_gr->setTitle(QApplication::translate("MainWindow", "mode de jeu", 0));
+        lineEdit->setText(QApplication::translate("MainWindow", "Mode de jeu du joueur 1", 0));
         nbLineP2_l->setText(QApplication::translate("MainWindow", "nb line player 2", 0));
-        modeP2_gr->setTitle(QApplication::translate("MainWindow", "mode de jeu", 0));
+        lineEdit_2->setText(QApplication::translate("MainWindow", "Mode de jeu du joueur 2", 0));
         start->setText(QApplication::translate("MainWindow", "start", 0));
         board_l->setText(QApplication::translate("MainWindow", "board", 0));
     } // retranslateUi

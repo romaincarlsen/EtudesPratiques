@@ -120,7 +120,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Jeu de dames", 0));
         start->setText(QApplication::translate("MainWindow", "start", 0));
         size_l->setText(QApplication::translate("MainWindow", "size", 0));
         nbLineP1_l->setText(QApplication::translate("MainWindow", "nb line player 1", 0));

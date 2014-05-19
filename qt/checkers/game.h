@@ -47,8 +47,8 @@ public:
 
     bool isFinish() ;
 
-    bool isFinishOnBoard(Checkerboard* board) ;
-    bool isEqualityOnBoard(Checkerboard* board) ;
+    bool isFinishOnBoard(Checkerboard* board, Player *player) ;
+    bool isEqualityOnBoard(Checkerboard* board, Player *player) ;
 
     bool isWhiteState(STATE state) ;
     bool isBlackState(STATE state) ;
