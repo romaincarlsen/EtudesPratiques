@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Jeu de dames</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QPushButton" name="start">
@@ -118,7 +118,7 @@
       <height>421</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="board_gl">
+    <layout class="QGridLayout" name="board_gl" rowminimumheight="0" columnminimumwidth="0">
      <property name="spacing">
       <number>0</number>
      </property>
