@@ -80,10 +80,11 @@ bool Game::isFinishOnBoard(Checkerboard* board, Player * player) {
 
 bool Game::isEqualityOnBoard(Checkerboard* board, Player* player) {
     if (player->isWhite()){
-        return (findMoveOnBoard(board,WHITE,player).size()==0);}
+        return (findMoveOnBoard(board,WHITE,player).size()==0 && !(board->isWin()));
+    }
     else{
-
-        return findMoveOnBoard(board,BLACK,player).size()==0;}
+        return (findMoveOnBoard(board,BLACK,player).size()==0  && !(board->isWin()));
+    }
 }
 
 bool Game::isWhiteState(STATE state) {
@@ -138,9 +139,10 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
             player->xDest = xDest ;
             player->yDest = yDest ;
             bool isWin = player->moveOnBoard(player->x,player->y,player->xDest,player->yDest, board) ;
-            if(isWin || isEqualityOnBoard(board , opponent)) {
+            bool equality = isEqualityOnBoard(board , player) ;
+            if(isWin || equality) {
                 board->ghostBuster() ;
-                if (isEqualityOnBoard(board , opponent))
+                if (equality)
                     txt = "equality" ;
                 else
                     txt = "winner = " + player->toString() ;
@@ -240,8 +242,44 @@ std::vector<CHILD> Game::findChild(Checkerboard* board, COLOR color, Player* pla
     for (int i = 0 ; i<child.size() ; i++) {
         child[i].move = move[i] ;
         child[i].board = (void*)(new Checkerboard(board)) ;
-        player->moveOnBoard(child[i].move.x,child[i].move.y,child[i].move.xDest,child[i].move.yDest,(Checkerboard*)(child[i].board)) ;
         child[i].valued = false ;
+
+        Checkerboard * tmp_board = (Checkerboard*)(child[i].board) ;
+        int x = child[i].move.x ;
+        int y = child[i].move.y ;
+        int xDest = child[i].move.xDest ;
+        int yDest = child[i].move.yDest ;
+        bool loop = true ;
+        do {
+            bool wasKill = player->isKillOnBoard(tmp_board->getSquare(x,y),x,y,xDest,yDest,tmp_board) ;
+            bool isWin = player->moveOnBoard(x,y,xDest,yDest,tmp_board) ;
+            bool equality = isEqualityOnBoard(tmp_board , player) ;
+            if(isWin || equality) {
+                tmp_board->ghostBuster() ;
+                loop = false ;
+            }
+            else {
+                x = xDest ;
+                y = yDest ;
+                loop = ((wasKill && player->canKillOnBoard(tmp_board->getSquare(x,y), x, y, tmp_board))) ;
+                if (loop) {
+                    std::vector<MOVE> moveLoop = findMoveOnBoard(tmp_board,color, player) ;
+                    for (int i=0 ; i<moveLoop.size() ; i++) {
+                        if (moveLoop[i].x == x && moveLoop[i].y == y) {
+                            xDest = moveLoop[i].xDest ;
+                            yDest = moveLoop[i].yDest ;
+                        }
+                    }
+                }
+                else {
+                    if (Tools::isPiece(tmp_board->getSquare(x,y)) && player->isOnKingLineOnBoard(y, tmp_board))
+                        tmp_board->setSquare(x, y, player->king);
+                }
+            }
+        } while (loop) ;
+
+        tmp_board->ghostBuster() ;
+
     }
     return child ;
 }
@@ -276,6 +314,7 @@ MOVE Game::negaMax(bool with_thread_param) {
         else
             value = ((int)WHITE) * negaMaxClassic(board, P1->getLevel(), WHITE, P1, P2, m) ;
     }
+
     if (isBlackState(state) && P2->isCP()) {
         if (with_thread_param) {
              #pragma parallel section
@@ -313,7 +352,7 @@ int Game::negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1
     int value ;
     std::vector<CHILD> child ;
     child.resize(0) ;
-    if (depth==0 || isFinishOnBoard(board, opponent)){
+    if (depth==0 || isFinishOnBoard(board, player)){
         value = ((int)color) * costFunction(board, player, color) ;
 
         add_node_reporting(board,value,child.size(),child.size()) ;
@@ -326,7 +365,9 @@ int Game::negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1
     double time_begin = omp_get_wtime();
     for (int i = 0 ; i<child.size() ; i++) {
         child[i].value = - negaMaxClassic((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best) ;
+
         time_finish_loop[i] = omp_get_wtime();
+
     }
     double time_finish = omp_get_wtime();
     value = findBestChild(child,best) ;
@@ -334,9 +375,6 @@ int Game::negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1
     //for (int i = 0 ; i<child.size() ; i++)
         //qDebug() << "child " << i << " : " << 1000000*(time_finish_loop[i]-time_begin);
     qDebug() << "total : " << 1000000*(time_finish-time_begin) ;
-    for (int i = 0 ; i<child.size() ; i++) {
-        delete (Checkerboard*)(child[i].board) ;
-    }
     return value ;
 }
 
@@ -371,7 +409,7 @@ int Game::negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1,
     int value ;
     std::vector<CHILD> child ;
     child.resize(0) ;
-    if (depth==0 || isFinishOnBoard(board, opponent)){
+    if (depth==0 || isFinishOnBoard(board, player)){
         value = ((int)color) * costFunction(board, player, color) ;
 
         add_node_reporting(board,value,child.size(),child.size()) ;
@@ -396,9 +434,6 @@ int Game::negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1,
     for (int i = 0 ; i<child.size() ; i++)
         qDebug() << "child " << i << " : " << 1000000*(time_finish_loop[i]-time_begin);
     qDebug() << "total : " << 1000000*(time_finish-time_begin) ;
-    for (int i = 0 ; i<child.size() ; i++) {
-        delete (Checkerboard*)(child[i].board) ;
-    }
     return value ;
 }
 
@@ -439,7 +474,7 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
     std::vector<CHILD> child ;
     child.resize(0) ;
     int nb_child_treated = 0 ;
-    if (depth==0 || isFinishOnBoard(board, opponent)){
+    if (depth==0 || isFinishOnBoard(board, player)){
         value = ((int)color) * costFunction(board, player, color);
 
          //add_node_reporting(board,value,child.size(),nb_child_treated) ;
@@ -466,10 +501,6 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
     /*for (int i = 0 ; i<child.size() ; i++)
         qDebug() << "child " << i << " : " << 1000000*(time_finish_loop[i]-time_begin);
     qDebug() << "total : " << 1000000*(time_finish-time_begin) ;*/
-
-    for (int i = 0 ; i<child.size() ; i++) {
-        delete (Checkerboard*)(child[i].board) ;
-    }
     return value ;
 }
 
@@ -480,7 +511,7 @@ int Game::alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P
     std::vector<CHILD> child ;
     child.resize(0) ;
     int nb_child_treated = 0 ;
-    if (depth==0 || isFinishOnBoard(board, opponent)){
+    if (depth==0 || isFinishOnBoard(board, player)){
         value = ((int)color) * costFunction(board, player, color);
 
          add_node_reporting(board,value,child.size(),nb_child_treated) ;
@@ -511,10 +542,6 @@ int Game::alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P
     for (int i = 0 ; i<child.size() ; i++)
         qDebug() << "child " << i << " : " << 1000000*(time_finish_loop[i]-time_begin);
     qDebug() << "total : " << 1000000*(time_finish-time_begin) ;
-
-    for (int i = 0 ; i<child.size() ; i++) {
-        delete (Checkerboard*)(child[i].board) ;
-    }
     return value ;
 }
 

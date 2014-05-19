@@ -61,18 +61,14 @@ void MainWindow::launchIA() {
             else
                 mv = game->negaMax(game->with_thread) ;
 
-            //qDebug() << mv.x << " " << mv.y << " " << mv.xDest << " " << mv.yDest << endl ;
-
             if (game->execMove(mv.x,mv.y,-1,-1)) {
                 this->ui->board_l->setText(game->toString()) ;
                 game->paint(this->ui->board_gl);
             }
-            /*else {*/
             if (game->execMove(-1,-1,mv.xDest,mv.yDest)) {
                 this->ui->board_l->setText(game->toString()) ;
                 game->paint(this->ui->board_gl);
             }
-            /*}*/
         }
         else {
             iTimer->stop();

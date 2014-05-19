@@ -9,14 +9,16 @@
 	}
 	
 	function resize() {
-		if (tree_width > internet_browser_canvas_size_limit)
+		var width = tree_width + marge_width_tree ;
+		var	height = tree_height + marge_height_tree ;
+		if (width > internet_browser_canvas_size_limit)
 			canvas.width = internet_browser_canvas_size_limit ;
 		else
-			canvas.width = tree_width ;
-		if (tree_height > internet_browser_canvas_size_limit)
+			canvas.width = width ;
+		if (height > internet_browser_canvas_size_limit)
 			canvas.height = internet_browser_canvas_size_limit ;
 		else
-			canvas.height = tree_height ;
+			canvas.height = height ;
 		
 		if (loaded)
 			repaint() ;
