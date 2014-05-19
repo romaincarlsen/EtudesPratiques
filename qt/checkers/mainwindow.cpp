@@ -64,7 +64,7 @@ void MainWindow::launchIA() {
             else
                 mv = game->negaMax(game->with_thread) ;
 
-            qDebug() << mv.x << " " << mv.y << " " << mv.xDest << " " << mv.yDest << endl ;
+            //qDebug() << mv.x << " " << mv.y << " " << mv.xDest << " " << mv.yDest << endl ;
 
             if (game->execMove(mv.x,mv.y,-1,-1)) {
                 this->ui->board_l->setText(game->toString()) ;

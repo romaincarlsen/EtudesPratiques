@@ -446,9 +446,9 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
     double time_finish = omp_get_wtime();
     value = findBestChild(child,best) ;
     add_node_reporting(board,value,child.size(),nb_child_treated) ;
-    for (int i = 0 ; i<child.size() ; i++)
+    /*for (int i = 0 ; i<child.size() ; i++)
         qDebug() << "child " << i << " : " << 1000000*(time_finish_loop[i]-time_begin);
-    qDebug() << "total : " << 1000000*(time_finish-time_begin) ;
+    qDebug() << "total : " << 1000000*(time_finish-time_begin) ;*/
 
     for (int i = 0 ; i<child.size() ; i++) {
         delete (Checkerboard*)(child[i].board) ;

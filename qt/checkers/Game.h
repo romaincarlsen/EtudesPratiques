@@ -30,7 +30,7 @@ private:
 
 public:
 
-    bool with_alphabeta = false ;
+    bool with_alphabeta = true ;
     bool with_thread = false ;
     int nb_thread = 4 ;
 
