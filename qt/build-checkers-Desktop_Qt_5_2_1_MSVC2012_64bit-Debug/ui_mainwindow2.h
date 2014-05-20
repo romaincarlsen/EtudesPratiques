@@ -73,7 +73,7 @@ public:
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         sizePolicy.setHeightForWidth(centralwidget->sizePolicy().hasHeightForWidth());
         centralwidget->setSizePolicy(sizePolicy);
-        centralwidget->setMaximumSize(QSize(1366, 768));
+        centralwidget->setMaximumSize(QSize(16777215, 16777215));
         horizontalLayout_7 = new QHBoxLayout(centralwidget);
         horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
         border = new QFrame(centralwidget);
