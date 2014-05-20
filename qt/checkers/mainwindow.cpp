@@ -10,6 +10,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->size_tb->setText("10") ;
     ui->nbLineP1_tb->setText("4") ;
     ui->nbLineP2_tb->setText("4") ;
+    //adaptation à la taille de l'écran (test)
+    QDesktopWidget *desktop = new QDesktopWidget;
+    int largeur = desktop->screenGeometry().width();
+    int hauteur = desktop->screenGeometry().height();
+    this->ui->centralwidget->setMaximumSize(largeur,hauteur);
 
     //valeur par défaut pour le mode de jeu : manuel
     _p1 = -1;

@@ -30,6 +30,7 @@
 #include <QMouseEvent>
 #include <QLayoutItem>
 #include <QFrame>
+#include <QDesktopWidget>
 using namespace std ;
 
 #endif // INCLUDE_H

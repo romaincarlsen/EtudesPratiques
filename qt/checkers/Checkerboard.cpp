@@ -24,6 +24,8 @@ Checkerboard::Checkerboard(int size) : _size(size)
             //gestion des labels contenant leur position :
             _square[x][y].label = new LabelCase(x,y);
             _square[x][y].label->setMinimumSize(0,0);
+            _square[x][y].label->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+            _square[x][y].label->setScaledContents(true);
         }
     }
 }
