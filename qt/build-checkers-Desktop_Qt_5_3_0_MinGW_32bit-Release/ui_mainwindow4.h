@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow4.ui'
 **
-** Created by: Qt User Interface Compiler version 5.2.1
+** Created by: Qt User Interface Compiler version 5.3.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -89,7 +89,9 @@ public:
         sizePolicy.setHeightForWidth(border->sizePolicy().hasHeightForWidth());
         border->setSizePolicy(sizePolicy);
         border->setMinimumSize(QSize(0, 0));
+        border->setMaximumSize(QSize(1366, 768));
         border->setSizeIncrement(QSize(1, 1));
+        border->setCursor(QCursor(Qt::OpenHandCursor));
         border->setFrameShape(QFrame::NoFrame);
         border->setFrameShadow(QFrame::Plain);
         border->setLineWidth(3);
@@ -200,6 +202,7 @@ public:
 
         board_l = new QLabel(scrollAreaWidgetContents_2);
         board_l->setObjectName(QStringLiteral("board_l"));
+        board_l->setMaximumSize(QSize(16777215, 16777215));
 
         verticalLayout_2->addWidget(board_l);
 
