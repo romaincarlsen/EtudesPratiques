@@ -38,6 +38,7 @@ static char square_to_char(SQUARE square) ;
 // return img corresponding to square type for consol printing
 static QPixmap square_to_img(SQUARE square) ;
 
+static double timediff(timeval begin, timeval end) ;
 
 };
 

@@ -47,11 +47,10 @@ char Tools::square_to_char(SQUARE square) {
         case WHITE_PIECE :	return 'x' ;
         case WHITE_KING :	return 'X' ;
         case LOCK :			return '#' ;
-        case GHOST :        return 'v' ;
+        case GHOST :        return 'g' ;
         default :			return 'e' ;
     }
 }
-
 
 // return img corresponding to square type for consol printing
 QPixmap Tools::square_to_img(SQUARE square) {
@@ -67,3 +66,6 @@ QPixmap Tools::square_to_img(SQUARE square) {
     }
 }
 
+double Tools::timediff(timeval begin, timeval end) {
+    return (double)(end.tv_sec*1000000 + end.tv_usec - (begin.tv_sec*1000000 + begin.tv_usec)) ;
+}

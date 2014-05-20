@@ -9,6 +9,7 @@ var marge_behind_text = 5 ;
 var line_width = 2 ;
 var marge_width_tree = 100 ;
 var marge_height_tree = 100 ;
+var cost_value_width = 50 ;
 
 var img_white_piece =  loadImage("img/white_piece.png") ;
 var img_white_king =  loadImage("img/white_king.png") ;

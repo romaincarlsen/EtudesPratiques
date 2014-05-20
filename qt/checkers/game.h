@@ -28,6 +28,10 @@ private:
     QString url_reporting;
     std::vector<string> reporting ;
 
+    //float time_IA_begin ;
+    //time_t time_IA_begin ;
+    timeval time_IA_begin ;
+
 public:
 
     bool with_alphabeta;
@@ -82,7 +86,7 @@ public:
     Player* playerTurn() ;
 
     void init_reporting() ;
-    void add_node_reporting(Checkerboard* board, int value, int nb_child, int nb_child_treated) ;
+    void add_node_reporting(Checkerboard* board, int value, double time, int nb_child, int nb_child_treated) ;
     void save_reporting() ;
 };
 

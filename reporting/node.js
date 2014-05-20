@@ -23,6 +23,8 @@
 			cursor++ ;
 			this.value = parseInt(data[cursor]) ;
 			cursor++ ;
+			this.time = parseInt(data[cursor]) ;
+			cursor++ ;
 			this.nb_child = parseInt(data[cursor]) ;
 			cursor++ ;
 			this.nb_child_treated = parseInt(data[cursor]) ;
@@ -48,10 +50,14 @@
 		    }
 		    else {
 			    ctx.fillText(this.value,x, y + text_size) ;
-			    
+				
+				ctx.font = "" + text_size*0.75 + "pt Calibri,Geneva,Arial";
+				ctx.fillStyle = "rgb(180,20,0)";  
+			    ctx.fillText(this.time,x + cost_value_width, y + text_size) ;
+				
 			    for (var i=0 ; i<this.board.length ; i++) {
 			    	var img = char_to_img(this.board[i]) ;
-				    ctx.drawImage(img, 0, 0, img.width, img.height, x + square_size*(i%this.size_board), y + text_size + marge_behind_text + square_size*(parseInt(i/this.size_board)), square_size, square_size);
+				    ctx.drawImage(img, 0, 0, img.width, img.height, x + square_size*(i%this.size_board), y + text_size + marge_behind_text + square_size*parseInt(i/this.size_board), square_size, square_size);
 			    }
 			       
 			    for (var i=0 ; i<this.child.length ; i++) {
