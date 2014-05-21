@@ -84,19 +84,22 @@ public:
         horizontalLayout_7 = new QHBoxLayout(centralwidget);
         horizontalLayout_7->setSpacing(3);
         horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
-        horizontalLayout_7->setContentsMargins(0, 0, 0, 0);
+        horizontalLayout_7->setContentsMargins(5, 5, 5, 5);
         border = new QFrame(centralwidget);
         border->setObjectName(QStringLiteral("border"));
         border->setEnabled(true);
-        sizePolicy1.setHeightForWidth(border->sizePolicy().hasHeightForWidth());
-        border->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(border->sizePolicy().hasHeightForWidth());
+        border->setSizePolicy(sizePolicy2);
         border->setMinimumSize(QSize(0, 0));
         border->setSizeIncrement(QSize(1, 1));
         border->setCursor(QCursor(Qt::OpenHandCursor));
         border->setFrameShape(QFrame::NoFrame);
         border->setFrameShadow(QFrame::Plain);
         border->setLineWidth(3);
-        border->setMidLineWidth(20);
+        border->setMidLineWidth(0);
         horizontalLayout = new QHBoxLayout(border);
         horizontalLayout->setSpacing(0);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
@@ -105,7 +108,7 @@ public:
         board_gl = new QGridLayout();
         board_gl->setSpacing(0);
         board_gl->setObjectName(QStringLiteral("board_gl"));
-        board_gl->setSizeConstraint(QLayout::SetFixedSize);
+        board_gl->setSizeConstraint(QLayout::SetMinimumSize);
         board_gl->setContentsMargins(0, 0, 0, 0);
 
         horizontalLayout->addLayout(board_gl);

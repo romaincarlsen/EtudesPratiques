@@ -467,7 +467,10 @@ int Game::negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1,
 
         child[i].value = - negaMaxThread((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best) ;
 
-        qDebug() << omp_get_thread_num() ;
+        //qDebug() << "thread" << omp_get_thread_num() ;
+        int nb_thread = omp_get_num_threads() ;
+        if (nb_thread > 1)
+            qDebug() << "nb threads = " << nb_thread ;
 
         //#pragma omp taskwait
     }
