@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->connect(this->ui->start, SIGNAL(clicked()), this, SLOT(start_click()));
     this->connect(iTimer, SIGNAL(timeout()), this, SLOT(launchIA()));
+    this->showMaximized();
 }
 
 MainWindow::~MainWindow()
