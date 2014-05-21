@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
@@ -23,6 +24,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -47,13 +49,22 @@ public:
     QHBoxLayout *horizontalLayout_5;
     QLineEdit *lineEdit;
     QComboBox *modeP1_IA;
+    QHBoxLayout *horizontalLayout_10;
+    QLineEdit *lineEdit_4;
+    QSpinBox *fctcout1;
     QHBoxLayout *horizontalLayout_2;
     QLabel *nbLineP2_l;
     QLineEdit *nbLineP2_tb;
     QHBoxLayout *horizontalLayout_6;
     QLineEdit *lineEdit_2;
     QComboBox *modeP2_IA;
+    QHBoxLayout *horizontalLayout_9;
+    QLineEdit *lineEdit_3;
+    QSpinBox *fctcout2;
+    QHBoxLayout *horizontalLayout_8;
     QPushButton *start;
+    QCheckBox *alphabeta;
+    QCheckBox *threads;
     QLabel *board_l;
     QMenuBar *menubar;
     QStatusBar *statusbar;
@@ -64,30 +75,38 @@ public:
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
         MainWindow->setEnabled(true);
         MainWindow->resize(800, 600);
-        QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        sizePolicy.setHeightForWidth(centralwidget->sizePolicy().hasHeightForWidth());
-        centralwidget->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(centralwidget->sizePolicy().hasHeightForWidth());
+        centralwidget->setSizePolicy(sizePolicy1);
         centralwidget->setMaximumSize(QSize(16777215, 16777215));
         horizontalLayout_7 = new QHBoxLayout(centralwidget);
+        horizontalLayout_7->setSpacing(3);
         horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
+        horizontalLayout_7->setContentsMargins(5, 5, 5, 5);
         border = new QFrame(centralwidget);
         border->setObjectName(QStringLiteral("border"));
         border->setEnabled(true);
-        sizePolicy.setHeightForWidth(border->sizePolicy().hasHeightForWidth());
-        border->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(border->sizePolicy().hasHeightForWidth());
+        border->setSizePolicy(sizePolicy2);
         border->setMinimumSize(QSize(0, 0));
         border->setSizeIncrement(QSize(1, 1));
         border->setCursor(QCursor(Qt::OpenHandCursor));
         border->setFrameShape(QFrame::NoFrame);
         border->setFrameShadow(QFrame::Plain);
         border->setLineWidth(3);
-        border->setMidLineWidth(20);
+        border->setMidLineWidth(0);
         horizontalLayout = new QHBoxLayout(border);
         horizontalLayout->setSpacing(0);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
@@ -96,7 +115,7 @@ public:
         board_gl = new QGridLayout();
         board_gl->setSpacing(0);
         board_gl->setObjectName(QStringLiteral("board_gl"));
-        board_gl->setSizeConstraint(QLayout::SetDefaultConstraint);
+        board_gl->setSizeConstraint(QLayout::SetMinimumSize);
         board_gl->setContentsMargins(0, 0, 0, 0);
 
         horizontalLayout->addLayout(board_gl);
@@ -154,6 +173,29 @@ public:
 
         verticalLayout->addLayout(horizontalLayout_5);
 
+        horizontalLayout_10 = new QHBoxLayout();
+        horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
+        lineEdit_4 = new QLineEdit(centralwidget);
+        lineEdit_4->setObjectName(QStringLiteral("lineEdit_4"));
+        lineEdit_4->setReadOnly(true);
+
+        horizontalLayout_10->addWidget(lineEdit_4);
+
+        fctcout1 = new QSpinBox(centralwidget);
+        fctcout1->setObjectName(QStringLiteral("fctcout1"));
+        QSizePolicy sizePolicy3(QSizePolicy::Minimum, QSizePolicy::Maximum);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(fctcout1->sizePolicy().hasHeightForWidth());
+        fctcout1->setSizePolicy(sizePolicy3);
+        fctcout1->setMinimum(1);
+        fctcout1->setMaximum(2);
+
+        horizontalLayout_10->addWidget(fctcout1);
+
+
+        verticalLayout->addLayout(horizontalLayout_10);
+
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         nbLineP2_l = new QLabel(centralwidget);
@@ -186,11 +228,46 @@ public:
 
         verticalLayout->addLayout(horizontalLayout_6);
 
+        horizontalLayout_9 = new QHBoxLayout();
+        horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
+        lineEdit_3 = new QLineEdit(centralwidget);
+        lineEdit_3->setObjectName(QStringLiteral("lineEdit_3"));
+        lineEdit_3->setReadOnly(true);
+
+        horizontalLayout_9->addWidget(lineEdit_3);
+
+        fctcout2 = new QSpinBox(centralwidget);
+        fctcout2->setObjectName(QStringLiteral("fctcout2"));
+        sizePolicy3.setHeightForWidth(fctcout2->sizePolicy().hasHeightForWidth());
+        fctcout2->setSizePolicy(sizePolicy3);
+        fctcout2->setMinimum(1);
+        fctcout2->setMaximum(2);
+
+        horizontalLayout_9->addWidget(fctcout2);
+
+
+        verticalLayout->addLayout(horizontalLayout_9);
+
+        horizontalLayout_8 = new QHBoxLayout();
+        horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
         start = new QPushButton(centralwidget);
         start->setObjectName(QStringLiteral("start"));
         start->setMaximumSize(QSize(75, 23));
 
-        verticalLayout->addWidget(start);
+        horizontalLayout_8->addWidget(start);
+
+        alphabeta = new QCheckBox(centralwidget);
+        alphabeta->setObjectName(QStringLiteral("alphabeta"));
+
+        horizontalLayout_8->addWidget(alphabeta);
+
+        threads = new QCheckBox(centralwidget);
+        threads->setObjectName(QStringLiteral("threads"));
+
+        horizontalLayout_8->addWidget(threads);
+
+
+        verticalLayout->addLayout(horizontalLayout_8);
 
         board_l = new QLabel(centralwidget);
         board_l->setObjectName(QStringLiteral("board_l"));
@@ -219,10 +296,14 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Jeu de dames", 0));
         size_l->setText(QApplication::translate("MainWindow", "size", 0));
         nbLineP1_l->setText(QApplication::translate("MainWindow", "nb line player 1", 0));
-        lineEdit->setText(QApplication::translate("MainWindow", "Mode de jeu du joueur 1", 0));
+        lineEdit->setText(QApplication::translate("MainWindow", "Mode de jeu du joueur blanc", 0));
+        lineEdit_4->setText(QApplication::translate("MainWindow", "Fonction de co\303\273t du joueur blanc", 0));
         nbLineP2_l->setText(QApplication::translate("MainWindow", "nb line player 2", 0));
-        lineEdit_2->setText(QApplication::translate("MainWindow", "Mode de jeu du joueur 2", 0));
+        lineEdit_2->setText(QApplication::translate("MainWindow", "Mode de jeu du joueur rouge", 0));
+        lineEdit_3->setText(QApplication::translate("MainWindow", "Fonction de co\303\273t du joueur rouge", 0));
         start->setText(QApplication::translate("MainWindow", "start", 0));
+        alphabeta->setText(QApplication::translate("MainWindow", "alpha-beta", 0));
+        threads->setText(QApplication::translate("MainWindow", "threads", 0));
         board_l->setText(QApplication::translate("MainWindow", "board", 0));
     } // retranslateUi
 

@@ -36,7 +36,7 @@ public:
 
     bool with_alphabeta;
     bool with_thread;
-    int nb_thread;
+    int nb_thread ;
     // create game with dimension parameters
     Game(int size, int nbLineP1, int nbLineP2, int p1 = -1,int costFunction1=1, int p2 =-1, int costFunction2=1, bool alphabeta=false, bool thread=false) ;
     ~Game();

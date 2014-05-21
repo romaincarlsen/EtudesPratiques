@@ -27,7 +27,8 @@ Game::Game(int size, int nbLineP1, int nbLineP2, int p1,int costFunction1, int p
     url_reporting = "coup.txt" ;
     with_alphabeta = alphabeta ;
     with_thread = thread ;
-    nb_thread = 4;
+    nb_thread = 8 ;
+
 }
 
 
@@ -342,9 +343,12 @@ MOVE Game::negaMax(bool with_thread_param) {
     //time_IA_begin = omp_get_wtime();
     gettimeofday(&time_IA_begin , NULL) ;
 
+    omp_set_num_threads(this->nb_thread) ;
+
     int value ;
     if (isWhiteState(state) && P1->isCP()) {
         if (with_thread_param) {
+            #pragma omp single
             value = ((int)WHITE) * negaMaxThread(board, P1->getLevel(), WHITE, P1, P2, m) ;
         }
         else
@@ -353,6 +357,7 @@ MOVE Game::negaMax(bool with_thread_param) {
 
     if (isBlackState(state) && P2->isCP()) {
         if (with_thread_param) {
+            #pragma omp single
             value = ((int)BLACK) * negaMaxThread(board, P2->getLevel(), BLACK, P1, P2, m) ;
         }
         else
@@ -391,24 +396,24 @@ int Game::negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1
         value = ((int)color) * costFunction(board, player, color) ;
 
         //add_node_reporting(board,value,omp_get_wtime()-time_IA_begin,child.size(),child.size()) ;
-
+/*
         timeval end ;
         gettimeofday(&end , NULL) ;
         add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),child.size()) ;
-
+*/
         return value ;
     }
     child = findChild(board,color, player) ;
-    omp_set_num_threads(this->nb_thread);
+
     for (int i = 0 ; i<child.size() ; i++) {
         child[i].value = - negaMaxClassic((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best) ;
     }
     value = findBestChild(child,best) ;
-
+/*
     timeval end ;
     gettimeofday(&end , NULL) ;
     add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),child.size()) ;
-
+*/
     return value ;
 }
 
@@ -446,39 +451,21 @@ int Game::negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1,
     if (depth==0 || isFinishOnBoard(board, player)){
         value = ((int)color) * costFunction(board, player, color) ;
 
-        timeval end ;
-        gettimeofday(&end , NULL) ;
-        add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),child.size()) ;
-
         return value ;
     }
     child = findChild(board,color, player) ;
+
     //#pragma parallel section
 
-    //omp_set_num_threads(this->nb_thread);
-
-    //omp_set_num_threads(child.size());
-
-    //#pragma omp single
-    #pragma omp parallel for num_threads(4) shared(child)
+    #pragma omp parallel for
     for (int i = 0 ; i<(int)child.size() ; i++) {
-        //#pragma omp task
-
-
+        #pragma omp task
+        if (omp_get_num_threads()>1)
+            qDebug() << "nb threads = " << omp_get_num_threads() ;
         child[i].value = - negaMaxThread((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best) ;
-
-        //qDebug() << "thread" << omp_get_thread_num() ;
-        int nb_thread = omp_get_num_threads() ;
-        if (nb_thread > 1)
-            qDebug() << "nb threads = " << nb_thread ;
-
-        //#pragma omp taskwait
+        #pragma omp taskwait
     }
     value = findBestChild(child,best) ;
-
-    timeval end ;
-    gettimeofday(&end , NULL) ;
-    add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),child.size()) ;
 
     return value ;
 }
@@ -489,6 +476,8 @@ MOVE Game::alphaBeta(bool with_thread_param) {
     init_reporting() ;
 
     gettimeofday(&time_IA_begin , NULL) ;
+
+    omp_set_num_threads(this->nb_thread) ;
 
     int value ;
     if (isWhiteState(state) && P1->isCP()) {
@@ -524,16 +513,15 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
     int nb_child_treated = 0 ;
     if (depth==0 || isFinishOnBoard(board, player)){
         value = ((int)color) * costFunction(board, player, color);
-
+/*
         timeval end ;
         gettimeofday(&end , NULL) ;
         add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),nb_child_treated) ;
-
+*/
         return value ;
     }
     child = findChild(board,color, player) ;
     nb_child_treated = child.size() ;
-    omp_set_num_threads(this->nb_thread);
 
     for (int i = 0 ; i<child.size() ; i++) {
         if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
@@ -544,11 +532,11 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
         }
     }
     value = findBestChild(child,best) ;
-
+/*
     timeval end ;
     gettimeofday(&end , NULL) ;
     add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),nb_child_treated) ;
-
+*/
     return value ;
 }
 
@@ -562,32 +550,26 @@ int Game::alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P
     if (depth==0 || isFinishOnBoard(board, player)){
         value = ((int)color) * costFunction(board, player, color);
 
-        timeval end ;
-        gettimeofday(&end , NULL) ;
-        add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),nb_child_treated) ;
-
         return value ;
     }
     child = findChild(board,color, player) ;
     nb_child_treated = child.size() ;
-    omp_set_num_threads(this->nb_thread);
+
     //#pragma omp single
-    //#pragma omp parallel for
+    #pragma omp parallel for
     for (int i = 0 ; i<child.size() ; i++) {
         if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
             nb_child_treated = i ;
         }
         else {
-            //#pragma omp task
+            #pragma omp task
+            if (omp_get_num_threads()>1)
+                qDebug() << "nb threads = " << omp_get_num_threads() ;
             child[i].value = -alphaBetaThread((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0) ;
-            //#pragma omp taskwait
+            #pragma omp taskwait
         }
     }
     value = findBestChild(child,best) ;
-
-    timeval end ;
-    gettimeofday(&end , NULL) ;
-    add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),nb_child_treated) ;
 
     return value ;
 }
