@@ -56,6 +56,7 @@ public:
     QHBoxLayout *horizontalLayout_13;
     QLineEdit *lineEdit_4;
     QComboBox *modeP2_IA;
+    QHBoxLayout *horizontalLayout_2;
     QPushButton *start;
     QLabel *board_l;
 
@@ -194,11 +195,16 @@ public:
 
         verticalLayout_2->addLayout(horizontalLayout_13);
 
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         start = new QPushButton(scrollAreaWidgetContents_2);
         start->setObjectName(QStringLiteral("start"));
         start->setMaximumSize(QSize(75, 23));
 
-        verticalLayout_2->addWidget(start);
+        horizontalLayout_2->addWidget(start);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_2);
 
         board_l = new QLabel(scrollAreaWidgetContents_2);
         board_l->setObjectName(QStringLiteral("board_l"));

@@ -450,10 +450,15 @@ int Game::negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1,
     //omp_set_num_threads(child.size());
 
     //#pragma omp single
-    #pragma omp parallel for
-    for (int i = 0 ; i<child.size() ; i++) {
+    #pragma omp parallel for num_threads(4) shared(child)
+    for (int i = 0 ; i<(int)child.size() ; i++) {
         //#pragma omp task
+
+
         child[i].value = - negaMaxThread((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best) ;
+
+        qDebug() << omp_get_thread_num() ;
+
         //#pragma omp taskwait
     }
     value = findBestChild(child,best) ;

@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
@@ -53,7 +54,10 @@ public:
     QHBoxLayout *horizontalLayout_6;
     QLineEdit *lineEdit_2;
     QComboBox *modeP2_IA;
+    QHBoxLayout *horizontalLayout_8;
     QPushButton *start;
+    QCheckBox *alphabeta;
+    QCheckBox *threads;
     QLabel *board_l;
     QMenuBar *menubar;
     QStatusBar *statusbar;
@@ -191,11 +195,26 @@ public:
 
         verticalLayout->addLayout(horizontalLayout_6);
 
+        horizontalLayout_8 = new QHBoxLayout();
+        horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
         start = new QPushButton(centralwidget);
         start->setObjectName(QStringLiteral("start"));
         start->setMaximumSize(QSize(75, 23));
 
-        verticalLayout->addWidget(start);
+        horizontalLayout_8->addWidget(start);
+
+        alphabeta = new QCheckBox(centralwidget);
+        alphabeta->setObjectName(QStringLiteral("alphabeta"));
+
+        horizontalLayout_8->addWidget(alphabeta);
+
+        threads = new QCheckBox(centralwidget);
+        threads->setObjectName(QStringLiteral("threads"));
+
+        horizontalLayout_8->addWidget(threads);
+
+
+        verticalLayout->addLayout(horizontalLayout_8);
 
         board_l = new QLabel(centralwidget);
         board_l->setObjectName(QStringLiteral("board_l"));
@@ -228,6 +247,8 @@ public:
         nbLineP2_l->setText(QApplication::translate("MainWindow", "nb line player 2", 0));
         lineEdit_2->setText(QApplication::translate("MainWindow", "Mode de jeu du joueur 2", 0));
         start->setText(QApplication::translate("MainWindow", "start", 0));
+        alphabeta->setText(QApplication::translate("MainWindow", "alpha-beta", 0));
+        threads->setText(QApplication::translate("MainWindow", "threads", 0));
         board_l->setText(QApplication::translate("MainWindow", "board", 0));
     } // retranslateUi
 
