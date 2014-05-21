@@ -32,6 +32,7 @@
 #include <QLayoutItem>
 #include <QFrame>
 #include <QDesktopWidget>
+#include <QCheckBox>
 using namespace std ;
 
 #endif // INCLUDE_H

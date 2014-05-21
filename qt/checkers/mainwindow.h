@@ -4,7 +4,7 @@
 #include "include.h"
 
 #include "struct.h"
-#include "ui_mainwindow3.h"
+#include "ui_mainwindow2.h"
 #include "game.h"
 #include "labelcase.h"
 #include <sstream>
@@ -32,6 +32,8 @@ public slots:
     void start_click() ;
     void click(int x, int y);
     void launchIA() ;
+    void setAlphaBeta(bool a);
+    void setThreads(bool t);
 
     //Méthode qui deselectionne le pion courant lorsque l'on fait un clic droit sauf si une prise est en cours
     void deselect();

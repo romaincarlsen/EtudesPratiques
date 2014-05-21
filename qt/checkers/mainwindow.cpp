@@ -36,6 +36,10 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->modeP2_IA->connect(ui->modeP2_IA,SIGNAL(currentIndexChanged(int)),this,SLOT(selectLevelPlayer2(int)));
     }
 
+    //Connection des checkboxs et des attributs activant ou désactivant l'alpha-béta et les threads
+    ui->alphabeta->connect(ui->alphabeta,SIGNAL(clicked(bool)),this,SLOT(setAlphaBeta(bool)));
+    ui->threads->connect(ui->threads,SIGNAL(clicked(bool)),this,SLOT(setThreads(bool)));
+
     iTimer = new QTimer(this);
 
     this->connect(this->ui->start, SIGNAL(clicked()), this, SLOT(start_click()));
@@ -148,6 +152,14 @@ void MainWindow::selectLevelPlayer1(int lvl){
 void MainWindow::selectLevelPlayer2(int lvl){
     if (lvl == 0) _p2 = -1;
     else _p2 = lvl;
+}
+
+void MainWindow::setAlphaBeta(bool a){
+    game->with_alphabeta = a;
+}
+
+void MainWindow::setThreads(bool t){
+    game->with_thread = t;
 }
 
 int main(int argc, char *argv[])
