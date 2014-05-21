@@ -26,7 +26,7 @@ Game::Game(int size, int nbLineP1, int nbLineP2, int p1, int p2) {
 
     url_reporting = "coup.txt" ;
     with_alphabeta = false ;
-    with_thread = false ;
+    with_thread = true ;
     nb_thread = 4;
 }
 
@@ -335,7 +335,6 @@ MOVE Game::negaMax(bool with_thread_param) {
     int value ;
     if (isWhiteState(state) && P1->isCP()) {
         if (with_thread_param) {
-            #pragma parallel section
             value = ((int)WHITE) * negaMaxThread(board, P1->getLevel(), WHITE, P1, P2, m) ;
         }
         else
@@ -344,7 +343,6 @@ MOVE Game::negaMax(bool with_thread_param) {
 
     if (isBlackState(state) && P2->isCP()) {
         if (with_thread_param) {
-             #pragma parallel section
             value = ((int)BLACK) * negaMaxThread(board, P2->getLevel(), BLACK, P1, P2, m) ;
         }
         else
@@ -445,9 +443,14 @@ int Game::negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1,
         return value ;
     }
     child = findChild(board,color, player) ;
-    omp_set_num_threads(this->nb_thread);
+    //#pragma parallel section
+
+    //omp_set_num_threads(this->nb_thread);
+
+    //omp_set_num_threads(child.size());
+
     //#pragma omp single
-    //#pragma omp parallel for
+    #pragma omp parallel for
     for (int i = 0 ; i<child.size() ; i++) {
         //#pragma omp task
         child[i].value = - negaMaxThread((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best) ;
@@ -480,8 +483,7 @@ MOVE Game::alphaBeta(bool with_thread_param) {
     }
     if (isBlackState(state) && P2->isCP()) {
         if (with_thread_param) {
-             #pragma parallel section
-            value = ((int)BLACK) * alphaBetaThread(board, P2->getLevel(), BLACK, P1, P2, m,-value,false) ;
+             value = ((int)BLACK) * alphaBetaThread(board, P2->getLevel(), BLACK, P1, P2, m,-value,false) ;
         }
         else
             value = ((int)BLACK) * alphaBetaClassic(board, P2->getLevel(), BLACK, P1, P2, m,-value,false) ;
