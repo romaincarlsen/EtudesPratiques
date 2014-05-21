@@ -10,6 +10,8 @@ Game::Game(int size, int nbLineP1, int nbLineP2, int p1, int p2) {
     // init players
     P1 = new Player(nbLinePiece1, board, NORD, p1) ;
     P2 = new Player(nbLinePiece2, board, SUD, p2) ;
+    P1->costFunction=1;
+    P2->costFunction=2;
     // current state of game loop in state machine
 
     txt = P1->toString() + "\n\n" ;
@@ -195,6 +197,43 @@ void Game::paint(QGridLayout* board_gl) {
 
 
 int Game::costFunction(Checkerboard* board, Player* player, COLOR color) {
+        switch (playerTurn()->costFunction) {
+        case 1:
+            return costFunction1(board, player, color);
+            break;
+        case 2:
+            return costFunction2(board, player, color);
+            break;
+        case 3:
+            return costFunction3(board, player, color);
+            break;
+        case 4:
+            return costFunction4(board, player, color);
+            break;
+        }
+}
+
+int Game::costFunction1(Checkerboard* board, Player* player, COLOR color) {
+    int nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing ;
+    player->scanNumberOfOnBoard(nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing, board) ;
+    return ((int)color) * (nbMinePiece - nbOpponentPiece + (nbMineKing - nbOpponentKing)*3) ;
+
+}
+
+int Game::costFunction2(Checkerboard* board, Player* player, COLOR color) {
+
+    return 0 ;
+
+}
+
+int Game::costFunction3(Checkerboard* board, Player* player, COLOR color) {
+    int nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing ;
+    player->scanNumberOfOnBoard(nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing, board) ;
+    return ((int)color) * (nbMinePiece - nbOpponentPiece + (nbMineKing - nbOpponentKing)*3) ;
+
+}
+
+int Game::costFunction4(Checkerboard* board, Player* player, COLOR color) {
     int nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing ;
     player->scanNumberOfOnBoard(nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing, board) ;
     return ((int)color) * (nbMinePiece - nbOpponentPiece + (nbMineKing - nbOpponentKing)*3) ;

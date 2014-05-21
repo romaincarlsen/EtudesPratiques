@@ -13,7 +13,7 @@ class Player
 public:
 
     int level ;
-
+    int costFunction;
 	//Indicate direction of the offensive
 	DIRECTION direction ;
 

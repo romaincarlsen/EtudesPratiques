@@ -259,13 +259,45 @@ release/moc_mainwindow.cpp: ../checkers/include.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QDesktopWidget \
 		../checkers/struct.h \
 		../checkers/labelcase.h \
-		ui_mainwindow2.h \
+		ui_mainwindow3.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore/QVariant \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QAction \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qaction.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qactiongroup.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QButtonGroup \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qbuttongroup.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QComboBox \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qcombobox.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qstyleoption.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtGui/qvalidator.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore/qregularexpression.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qslider.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qabstractslider.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qstyle.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qtabbar.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qrubberband.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QGroupBox \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qgroupbox.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QHeaderView \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qheaderview.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QMenuBar \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qmenubar.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qmenu.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QStatusBar \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qstatusbar.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QWidget \
 		../checkers/game.h \
 		../checkers/Tools.h \
 		../checkers/Checkerboard.h \
 		../checkers/Player.h \
 		../checkers/mainwindow.h
-	C:\Qt\Qt5.3.0\5.3\mingw482_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.3.0/5.3/mingw482_32/mkspecs/win32-g++ -IC:/Users/Utilisateur/Documents/GitHub/EtudesPratiques/qt/checkers -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtGui -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore -I. ..\checkers\mainwindow.h -o release\moc_mainwindow.cpp
+	C:\Qt\Qt5.3.0\5.3\mingw482_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.3.0/5.3/mingw482_32/mkspecs/win32-g++ -IC:/Users/fab/Documents/GitHub/EtudesPratiques/qt/checkers -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtGui -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore -I. ..\checkers\mainwindow.h -o release\moc_mainwindow.cpp
 
 release/moc_labelcase.cpp: ../checkers/include.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore/QTimer \
@@ -408,7 +440,7 @@ release/moc_labelcase.cpp: ../checkers/include.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QFrame \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QDesktopWidget \
 		../checkers/labelcase.h
-	C:\Qt\Qt5.3.0\5.3\mingw482_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.3.0/5.3/mingw482_32/mkspecs/win32-g++ -IC:/Users/Utilisateur/Documents/GitHub/EtudesPratiques/qt/checkers -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtGui -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore -I. ..\checkers\labelcase.h -o release\moc_labelcase.cpp
+	C:\Qt\Qt5.3.0\5.3\mingw482_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.3.0/5.3/mingw482_32/mkspecs/win32-g++ -IC:/Users/fab/Documents/GitHub/EtudesPratiques/qt/checkers -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtGui -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore -I. ..\checkers\labelcase.h -o release\moc_labelcase.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -582,7 +614,39 @@ release/mainwindow.o: ../checkers/mainwindow.cpp ../checkers/mainwindow.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QDesktopWidget \
 		../checkers/struct.h \
 		../checkers/labelcase.h \
-		ui_mainwindow2.h \
+		ui_mainwindow3.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore/QVariant \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QAction \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qaction.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qactiongroup.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QButtonGroup \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qbuttongroup.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QComboBox \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qcombobox.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qstyleoption.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtGui/qvalidator.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore/qregularexpression.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qslider.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qabstractslider.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qstyle.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qtabbar.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qrubberband.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QGroupBox \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qgroupbox.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QHeaderView \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qheaderview.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QMenuBar \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qmenubar.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qmenu.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QStatusBar \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qstatusbar.h \
+		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QWidget \
 		../checkers/game.h \
 		../checkers/Tools.h \
 		../checkers/Checkerboard.h \

@@ -5,7 +5,6 @@
 Player::Player(int nbLinePiece, Checkerboard* board, DIRECTION direction, int level)
 {
     this->level = level ;
-
 	//Indicate direction of the offensive
 	this->direction = direction ;
 	//Indicate the board where players play
