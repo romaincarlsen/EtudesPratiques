@@ -177,7 +177,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Mode de jeu du joueur 1</string>
+           <string>Mode de jeu du joueur blanc</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -186,6 +186,36 @@
         </item>
         <item>
          <widget class="QComboBox" name="modeP1_IA"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_10">
+        <item>
+         <widget class="QLineEdit" name="lineEdit_4">
+          <property name="text">
+           <string>Fonction de coût du joueur blanc</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="fctcout1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>2</number>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -214,7 +244,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Mode de jeu du joueur 2</string>
+           <string>Mode de jeu du joueur rouge</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -223,6 +253,36 @@
         </item>
         <item>
          <widget class="QComboBox" name="modeP2_IA"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <item>
+         <widget class="QLineEdit" name="lineEdit_3">
+          <property name="text">
+           <string>Fonction de coût du joueur rouge</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="fctcout2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>2</number>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

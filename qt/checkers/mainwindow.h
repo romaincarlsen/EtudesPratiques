@@ -28,12 +28,20 @@ private :
     int _p1;
     int _p2;
 
+    //attributs de stockage de la configuration du jeu (alphabéta, fonctions de coûts, parallélisation
+    bool with_alphabeta;
+    bool with_thread;
+    int costFunctionP1;
+    int costFunctionP2;
+
 public slots:
     void start_click() ;
     void click(int x, int y);
     void launchIA() ;
     void setAlphaBeta(bool a);
     void setThreads(bool t);
+    void setCostFunction1(int f);
+    void setCostFunction2(int f);
 
     //Méthode qui deselectionne le pion courant lorsque l'on fait un clic droit sauf si une prise est en cours
     void deselect();

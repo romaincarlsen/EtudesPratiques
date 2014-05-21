@@ -1,6 +1,6 @@
 #include "game.h"
 
-Game::Game(int size, int nbLineP1, int nbLineP2, int p1, int p2) {
+Game::Game(int size, int nbLineP1, int nbLineP2, int p1,int costFunction1, int p2, int costFunction2, bool alphabeta, bool thread){
     this->size = size ;
     this->nbLinePiece1 = nbLineP1 ;
     this->nbLinePiece2 = nbLineP2 ;
@@ -10,8 +10,8 @@ Game::Game(int size, int nbLineP1, int nbLineP2, int p1, int p2) {
     // init players
     P1 = new Player(nbLinePiece1, board, NORD, p1) ;
     P2 = new Player(nbLinePiece2, board, SUD, p2) ;
-    P1->costFunction=1;
-    P2->costFunction=2;
+    P1->costFunction=costFunction1;
+    P2->costFunction=costFunction2;
     // current state of game loop in state machine
 
     txt = P1->toString() + "\n\n" ;
@@ -25,8 +25,8 @@ Game::Game(int size, int nbLineP1, int nbLineP2, int p1, int p2) {
     state = WHITE_SELECT ;
 
     url_reporting = "coup.txt" ;
-    with_alphabeta = false ;
-    with_thread = true ;
+    with_alphabeta = alphabeta ;
+    with_thread = thread ;
     nb_thread = 4;
 }
 
@@ -43,6 +43,13 @@ Checkerboard* Game::getBoard() {
 
 int Game::getSize() {
     return size ;
+}
+Player* Game::getP1(){
+    return P1;
+}
+
+Player* Game::getP2(){
+    return P2;
 }
 
 bool Game::execMove(int x, int y, int xDest, int yDest){
@@ -97,6 +104,9 @@ bool Game::isBlackState(STATE state) {
     return state == BLACK_SELECT || state == BLACK_DEST ;
 }
 
+bool Game::isStateSelect(){
+    return state == WHITE_SELECT || state == BLACK_SELECT ;
+}
 
 STATE Game::select(Player* player, int x, int y) {
 

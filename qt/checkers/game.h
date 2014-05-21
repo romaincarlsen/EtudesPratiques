@@ -38,11 +38,13 @@ public:
     bool with_thread;
     int nb_thread;
     // create game with dimension parameters
-    Game(int size, int nbLineP1, int nbLineP2, int p1 = -1, int p2 =-1) ;
+    Game(int size, int nbLineP1, int nbLineP2, int p1 = -1,int costFunction1=1, int p2 =-1, int costFunction2=1, bool alphabeta=false, bool thread=false) ;
     ~Game();
 
     Checkerboard* getBoard() ;
     int getSize();
+    Player* getP1() ;
+    Player* getP2() ;
 
     bool execMove(int x, int y, int xDest, int yDest) ;
 
@@ -55,6 +57,7 @@ public:
 
     bool isWhiteState(STATE state) ;
     bool isBlackState(STATE state) ;
+    bool isStateSelect();
 
     STATE select(Player* player, int x, int y) ;
     STATE dest(Player* player,  Player* opponent, int xDest, int yDest) ;
