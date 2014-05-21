@@ -139,13 +139,9 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
             player->xDest = xDest ;
             player->yDest = yDest ;
             bool isWin = player->moveOnBoard(player->x,player->y,player->xDest,player->yDest, board) ;
-            bool equality = isEqualityOnBoard(board , player) ;
-            if(isWin || equality) {
+            if(isWin) {
                 board->ghostBuster() ;
-                if (equality)
-                    txt = "equality" ;
-                else
-                    txt = "winner = " + player->toString() ;
+                txt = "winner = " + player->toString() ;
                 board->deselect();
                 return END ;
             }
@@ -159,11 +155,18 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
                 else {
                     if (Tools::isPiece(board->getSquare(player->x,player->y)) && player->isOnKingLineOnBoard(player->y, board))
                         board->setSquare(player->x, player->y, player->king);
+                    board->ghostBuster() ;
+                    bool equality = isEqualityOnBoard(board , (player==P1 ? P2 : P1)) ;
+                    if (equality) {
+                        txt= "equality" ;
+                        board->deselect();
+                        return END ;
+                    }
                 }
 
                 txt = opponent->toString() + "\n\n" ;
                 // delete pieces which have been killed during last turn
-                board->ghostBuster() ;
+
 
                 // piece selection
                 txt += "select (ex : A1) :   " ;
@@ -246,36 +249,21 @@ std::vector<CHILD> Game::findChild(Checkerboard* board, COLOR color, Player* pla
         int xDest = child[i].move.xDest ;
         int yDest = child[i].move.yDest ;
         bool loop = true ;
-        do {
-            bool wasKill = player->isKillOnBoard(tmp_board->getSquare(x,y),x,y,xDest,yDest,tmp_board) ;
-            bool isWin = player->moveOnBoard(x,y,xDest,yDest,tmp_board) ;
-            bool equality = isEqualityOnBoard(tmp_board , player) ;
-            if(isWin || equality) {
-                tmp_board->ghostBuster() ;
-                loop = false ;
+
+        bool wasKill = player->isKillOnBoard(tmp_board->getSquare(x,y),x,y,xDest,yDest,tmp_board) ;
+        bool isWin = player->moveOnBoard(x,y,xDest,yDest,tmp_board) ;
+        if(isWin) {
+            tmp_board->ghostBuster() ;
+        }
+        else {
+            if ((wasKill && player->canKillOnBoard(tmp_board->getSquare(x,y), x, y, tmp_board))) {
             }
             else {
-                x = xDest ;
-                y = yDest ;
-                loop = ((wasKill && player->canKillOnBoard(tmp_board->getSquare(x,y), x, y, tmp_board))) ;
-                if (loop) {
-                    std::vector<MOVE> moveLoop = findMoveOnBoard(tmp_board,color, player) ;
-                    for (int i=0 ; i<moveLoop.size() ; i++) {
-                        if (moveLoop[i].x == x && moveLoop[i].y == y) {
-                            xDest = moveLoop[i].xDest ;
-                            yDest = moveLoop[i].yDest ;
-                        }
-                    }
-                }
-                else {
-                    if (Tools::isPiece(tmp_board->getSquare(x,y)) && player->isOnKingLineOnBoard(y, tmp_board))
-                        tmp_board->setSquare(x, y, player->king);
-                }
+                if (Tools::isPiece(tmp_board->getSquare(x,y)) && player->isOnKingLineOnBoard(y, tmp_board))
+                    tmp_board->setSquare(x, y, player->king);
+                tmp_board->ghostBuster() ;
             }
-        } while (loop) ;
-
-        tmp_board->ghostBuster() ;
-
+        }
     }
     return child ;
 }
