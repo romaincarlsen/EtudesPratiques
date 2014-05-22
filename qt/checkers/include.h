@@ -4,7 +4,7 @@
 #pragma once
 
 #include <stdio.h>
-#include <stdlib.h>     /* srand, rand */
+#include <stdlib.h>     /* srand, rand, quot */
 #include <time.h>       /* time */
 #include <sys/time.h>
 #include <iostream>

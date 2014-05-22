@@ -190,11 +190,23 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
     return state ;
 }
 
-void Game::deselect(){
-    if(isWhiteState(state)){
-        state = WHITE_SELECT;
-    }else state = BLACK_SELECT;
-    board->deselect();
+bool Game::deselect(){
+    bool enCours = false;
+    bool res = false ;
+    for(int i = 0; i<size; i++){
+        for(int j = 0; j<size; j++){
+            if(board->getQSquare(i,j).square == GHOST) {
+                enCours = true;
+            }
+        }
+    }
+    if(!enCours){
+        if(isWhiteState(state)){
+            state = WHITE_SELECT;
+        }else state = BLACK_SELECT;
+        res = board->deselect();
+    }
+    return res ;
 }
 
 QString Game::toString() {
@@ -283,14 +295,54 @@ std::vector<MOVE> Game::findMoveOnBoard(Checkerboard* board, COLOR color, Player
     return m ;
 }
 
-std::vector<CHILD> Game::findChild(Checkerboard* board, COLOR color, Player* player) {
+std::vector<MOVE> Game::findMoveOnBoardFrom(Checkerboard* board, COLOR color, Player* player, int xSelect, int ySelect) {
+    std::vector<MOVE> m ;
+    m.resize(0);
+    int x = xSelect ;
+    int y = ySelect ;
+
+    if (Tools::isWhite(board->getSquare(x,y)) && color==WHITE || Tools::isBlack(board->getSquare(x,y)) && color==BLACK) {
+        if (player->selectValidOnBoard(x,y, board)) {
+            for (int xDest=0 ; xDest<board->getSize() ; xDest++) {
+                for (int yDest=0 ; yDest<board->getSize() ; yDest++) {
+                    bool canKill = player->haveKillOnBoard(board) ;
+                    if (player->isMoveValidOnBoard(board->getSquare(x,y),x,y,xDest,yDest, board)) {
+                        bool wasKill = player->isKillOnBoard(board->getSquare(x,y),x,y,xDest,yDest,board) ;
+                        if (!(canKill && !wasKill)) {
+                            if (!wasKill || player->isTheBestKillOnBoard(board->getSquare(x,y),x,y,xDest,yDest, board)){
+                                m.resize(m.size()+1);
+                                MOVE move ;
+                                move.x = x ;
+                                move.y = y ;
+                                move.xDest = xDest ;
+                                move.yDest = yDest ;
+                                m[m.size()-1] = move ;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return m ;
+
+
+}
+
+std::vector<CHILD> Game::findChild(Checkerboard* board, COLOR color, Player* player, int xSelect, int ySelect) {
     std::vector<CHILD> child ;
-    std::vector<MOVE> move = findMoveOnBoard(board,color, player) ;
+    std::vector<MOVE> move ;
+   if (xSelect!=-1 && ySelect!=-1)
+       move = findMoveOnBoardFrom(board,color, player,xSelect,ySelect) ;
+   else
+        move = findMoveOnBoard(board,color, player) ;
     child.resize(move.size());
     for (int i = 0 ; i<child.size() ; i++) {
         child[i].move = move[i] ;
         child[i].board = (void*)(new Checkerboard(board)) ;
         child[i].valued = false ;
+        child[i].xSelect = -1 ;
+        child[i].ySelect = -1 ;
 
         Checkerboard * tmp_board = (Checkerboard*)(child[i].board) ;
         int x = child[i].move.x ;
@@ -305,11 +357,13 @@ std::vector<CHILD> Game::findChild(Checkerboard* board, COLOR color, Player* pla
             tmp_board->ghostBuster() ;
         }
         else {
-            if ((wasKill && player->canKillOnBoard(tmp_board->getSquare(x,y), x, y, tmp_board))) {
+            if ((wasKill && player->canKillOnBoard(tmp_board->getSquare(xDest,yDest), xDest, yDest, tmp_board))) {
+                child[i].xSelect = xDest ;
+                child[i].ySelect = yDest ;
             }
             else {
-                if (Tools::isPiece(tmp_board->getSquare(x,y)) && player->isOnKingLineOnBoard(y, tmp_board))
-                    tmp_board->setSquare(x, y, player->king);
+                if (Tools::isPiece(tmp_board->getSquare(xDest,yDest)) && player->isOnKingLineOnBoard(yDest, tmp_board))
+                    tmp_board->setSquare(xDest, yDest, player->king);
                 tmp_board->ghostBuster() ;
             }
         }
@@ -342,23 +396,30 @@ MOVE Game::negaMax(bool with_thread_param) {
     //time_IA_begin = omp_get_wtime();
     gettimeofday(&time_IA_begin , NULL) ;
 
+    int xSelect = -1 ;
+    int ySelect = -1 ;
+    if (board->selection.select) {
+        xSelect = board->selection.x ;
+        ySelect = board->selection.y ;
+    }
+
     int value ;
     if (isWhiteState(state) && P1->isCP()) {
         if (with_thread_param) {
             #pragma omp single
-            value = ((int)WHITE) * negaMaxThread(board, P1->getLevel(), WHITE, P1, P2, m) ;
+            value = ((int)WHITE) * negaMaxThread(board, P1->getLevel(), WHITE, P1, P2, m, xSelect, ySelect) ;
         }
         else
-            value = ((int)WHITE) * negaMaxClassic(board, P1->getLevel(), WHITE, P1, P2, m) ;
+            value = ((int)WHITE) * negaMaxClassic(board, P1->getLevel(), WHITE, P1, P2, m,xSelect, ySelect) ;
     }
 
     if (isBlackState(state) && P2->isCP()) {
         if (with_thread_param) {
             #pragma omp single
-            value = ((int)BLACK) * negaMaxThread(board, P2->getLevel(), BLACK, P1, P2, m) ;
+            value = ((int)BLACK) * negaMaxThread(board, P2->getLevel(), BLACK, P1, P2, m, xSelect, ySelect) ;
         }
         else
-            value = ((int)BLACK) * negaMaxClassic(board, P2->getLevel(), BLACK, P1, P2, m) ;
+            value = ((int)BLACK) * negaMaxClassic(board, P2->getLevel(), BLACK, P1, P2, m, xSelect, ySelect) ;
     }
     save_reporting();
     if (m.empty()) {
@@ -383,7 +444,7 @@ MOVE Game::negaMax(bool with_thread_param) {
 //
 //Initial call for Player B's root node
 //rootNodeValue := -negamax( rootNode, depth, -1)
-int Game::negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best) {
+int Game::negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int xSelect, int ySelect) {
     Player* player = (color==WHITE ? P1 : P2) ;
     Player* opponent = (color==WHITE ? P2 : P1) ;
     int value ;
@@ -400,12 +461,13 @@ int Game::negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1
 */
         return value ;
     }
-    child = findChild(board,color, player) ;
+    child = findChild(board,color, player, xSelect, ySelect) ;
 
     for (int i = 0 ; i<child.size() ; i++) {
-        child[i].value = - negaMaxClassic((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best) ;
+        child[i].value = - negaMaxClassic((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
     }
     value = findBestChild(child,best) ;
+
 /*
     timeval end ;
     gettimeofday(&end , NULL) ;
@@ -439,7 +501,7 @@ for ( core = 0 ; core < 4 ; core++)
     qDebug() << "core " << core << " : " << 1000000*(test[core]-test0);
 delay = ( stop.tv_sec - start.tv_sec ) + (double) ( stop.tv_nsec - start.tv_nsec ) / 1000000000;
 qDebug() << "total : " << 1000000*delay ;*/
-int Game::negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best) {
+int Game::negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best , int xSelect, int ySelect) {
     Player* player = (color==WHITE ? P1 : P2) ;
     Player* opponent = (color==WHITE ? P2 : P1) ;
     int value ;
@@ -450,7 +512,7 @@ int Game::negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1,
 
         return value ;
     }
-    child = findChild(board,color, player) ;
+    child = findChild(board,color, player, xSelect, ySelect) ;
 
     //#pragma parallel section
 
@@ -459,7 +521,7 @@ int Game::negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1,
         #pragma omp task
         if (omp_get_num_threads()>1)
             qDebug() << "nb threads = " << omp_get_num_threads() ;
-        child[i].value = - negaMaxThread((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best) ;
+        child[i].value = - negaMaxThread((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
         #pragma omp taskwait
     }
     value = findBestChild(child,best) ;
@@ -474,21 +536,28 @@ MOVE Game::alphaBeta(bool with_thread_param) {
 
     gettimeofday(&time_IA_begin , NULL) ;
 
+    int xSelect = -1 ;
+    int ySelect = -1 ;
+    if (board->selection.select) {
+        xSelect = board->selection.x ;
+        ySelect = board->selection.y ;
+    }
+
     int value ;
     if (isWhiteState(state) && P1->isCP()) {
         if (with_thread_param) {
             #pragma parallel section
-            value = ((int)WHITE) * alphaBetaThread(board, P1->getLevel(), WHITE, P1, P2, m,-value,false) ;
+            value = ((int)WHITE) * alphaBetaThread(board, P1->getLevel(), WHITE, P1, P2, m,-value,false, xSelect, ySelect) ;
         }
         else
-            value = ((int)WHITE) * alphaBetaClassic(board, P1->getLevel(), WHITE, P1, P2, m,-value,false) ;
+            value = ((int)WHITE) * alphaBetaClassic(board, P1->getLevel(), WHITE, P1, P2, m,-value,false, xSelect, ySelect) ;
     }
     if (isBlackState(state) && P2->isCP()) {
         if (with_thread_param) {
-             value = ((int)BLACK) * alphaBetaThread(board, P2->getLevel(), BLACK, P1, P2, m,-value,false) ;
+             value = ((int)BLACK) * alphaBetaThread(board, P2->getLevel(), BLACK, P1, P2, m,-value,false, xSelect, ySelect) ;
         }
         else
-            value = ((int)BLACK) * alphaBetaClassic(board, P2->getLevel(), BLACK, P1, P2, m,-value,false) ;
+            value = ((int)BLACK) * alphaBetaClassic(board, P2->getLevel(), BLACK, P1, P2, m,-value,false, xSelect, ySelect) ;
     }
     save_reporting() ;
     if (m.empty()) {
@@ -499,7 +568,7 @@ MOVE Game::alphaBeta(bool with_thread_param) {
     return m[rand()%m.size()];
 }
 
-int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec) {
+int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec , int xSelect, int ySelect) {
     Player* player = (color==WHITE ? P1 : P2) ;
     Player* opponent = (color==WHITE ? P2 : P1) ;
     int value ;
@@ -515,7 +584,7 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
 */
         return value ;
     }
-    child = findChild(board,color, player) ;
+    child = findChild(board,color, player, xSelect, ySelect) ;
     nb_child_treated = child.size() ;
 
     for (int i = 0 ; i<child.size() ; i++) {
@@ -523,7 +592,7 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
             nb_child_treated = i ;
         }
         else {
-            child[i].value = -alphaBetaClassic((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0) ;
+            child[i].value = -alphaBetaClassic((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0, child[i].xSelect, child[i].ySelect) ;
         }
     }
     value = findBestChild(child,best) ;
@@ -535,7 +604,7 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
     return value ;
 }
 
-int Game::alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec) {
+int Game::alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec, int xSelect, int ySelect) {
     Player* player = (color==WHITE ? P1 : P2) ;
     Player* opponent = (color==WHITE ? P2 : P1) ;
     int value ;
@@ -547,7 +616,7 @@ int Game::alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P
 
         return value ;
     }
-    child = findChild(board,color, player) ;
+    child = findChild(board,color, player, xSelect, ySelect) ;
     nb_child_treated = child.size() ;
 
     //#pragma omp single
@@ -560,7 +629,7 @@ int Game::alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P
             #pragma omp task
             if (omp_get_num_threads()>1)
                 qDebug() << "nb threads = " << omp_get_num_threads() ;
-            child[i].value = -alphaBetaThread((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0) ;
+            child[i].value = -alphaBetaThread((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0, child[i].xSelect, child[i].ySelect) ;
             #pragma omp taskwait
         }
     }

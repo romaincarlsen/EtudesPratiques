@@ -63,7 +63,7 @@ public:
     STATE dest(Player* player,  Player* opponent, int xDest, int yDest) ;
 
     //Méthode qui déselectionne le pion sélectionné.
-    void deselect();
+    bool deselect();
 
     // print game
     QString toString() ;
@@ -81,16 +81,18 @@ public:
 
     std::vector<MOVE> findMoveOnBoard(Checkerboard* board, COLOR color, Player* player) ;
 
-    std::vector<CHILD> findChild(Checkerboard* board, COLOR color, Player* player) ;
+    std::vector<MOVE> findMoveOnBoardFrom(Checkerboard* board, COLOR color, Player* player, int xSelect, int ySelect) ;
+
+    std::vector<CHILD> findChild(Checkerboard* board, COLOR color, Player* player, int xSelect, int ySelect) ;
     int findBestChild(std::vector<CHILD> child, std::vector<MOVE> & best) ;
 
     MOVE negaMax(bool with_thread_param) ;
-    int negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best) ;
-    int negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best) ;
+    int negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int xSelect, int ySelect) ;
+    int negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int xSelect, int ySelect) ;
 
     MOVE alphaBeta(bool with_thread_param) ;
-    int alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec);
-    int alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec);
+    int alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec, int xSelect, int ySelect);
+    int alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec, int xSelect, int ySelect);
 
     Player* playerTurn() ;
 

@@ -122,8 +122,19 @@ void Checkerboard::select(int x, int y){
 }
 
 //déselectionne la case
-void Checkerboard::deselect(){
-    selection.select = false;
+bool Checkerboard::deselect(){
+    bool enCours = false;
+    for(int i = 0; i<_size; i++){
+        for(int j = 0; j<_size; j++){
+            if(getQSquare(i,j).square == GHOST) {
+                enCours = true;
+            }
+        }
+    }
+    if(!enCours){
+        selection.select = false;
+    }
+    return !selection.select ;
 }
 
 // indicate if the checkerboard have a winner (if one player haven't pieces)

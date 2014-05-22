@@ -263,9 +263,47 @@ debug/moc_mainwindow.cpp: ../checkers/include.h \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QLayoutItem \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QFrame \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QDesktopWidget \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QCheckBox \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qcheckbox.h \
 		../checkers/struct.h \
 		../checkers/labelcase.h \
-		ui_mainwindow3.h \
+		ui_mainwindow2.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtCore/QVariant \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QAction \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qaction.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qactiongroup.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QButtonGroup \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qbuttongroup.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QComboBox \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qcombobox.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qabstractitemdelegate.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qstyleoption.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qabstractspinbox.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtGui/qvalidator.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtCore/qregularexpression.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qslider.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qabstractslider.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qstyle.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qtabbar.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qrubberband.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtCore/qabstractitemmodel.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QHBoxLayout \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QHeaderView \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qheaderview.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qabstractitemview.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qabstractscrollarea.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtCore/qitemselectionmodel.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QMenuBar \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qmenubar.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qmenu.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QSpinBox \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qspinbox.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QStatusBar \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qstatusbar.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QToolButton \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qtoolbutton.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QVBoxLayout \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QWidget \
 		../checkers/game.h \
 		../checkers/Tools.h \
 		../checkers/Checkerboard.h \
@@ -421,6 +459,8 @@ debug/moc_labelcase.cpp: ../checkers/include.h \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QLayoutItem \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QFrame \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QDesktopWidget \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QCheckBox \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qcheckbox.h \
 		../checkers/labelcase.h
 	C:\Qt\5.2.1\mingw48_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 $(INCPATH) ..\checkers\labelcase.h -o debug\moc_labelcase.cpp
 
@@ -602,9 +642,47 @@ debug/mainwindow.o: ../checkers/mainwindow.cpp ../checkers/mainwindow.h \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QLayoutItem \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QFrame \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QDesktopWidget \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QCheckBox \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qcheckbox.h \
 		../checkers/struct.h \
 		../checkers/labelcase.h \
-		ui_mainwindow3.h \
+		ui_mainwindow2.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtCore/QVariant \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QAction \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qaction.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qactiongroup.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QButtonGroup \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qbuttongroup.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QComboBox \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qcombobox.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qabstractitemdelegate.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qstyleoption.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qabstractspinbox.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtGui/qvalidator.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtCore/qregularexpression.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qslider.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qabstractslider.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qstyle.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qtabbar.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qrubberband.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtCore/qabstractitemmodel.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QHBoxLayout \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QHeaderView \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qheaderview.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qabstractitemview.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qabstractscrollarea.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtCore/qitemselectionmodel.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QMenuBar \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qmenubar.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qmenu.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QSpinBox \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qspinbox.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QStatusBar \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qstatusbar.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QToolButton \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qtoolbutton.h \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QVBoxLayout \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QWidget \
 		../checkers/game.h \
 		../checkers/Tools.h \
 		../checkers/Checkerboard.h \
@@ -760,6 +838,8 @@ debug/Checkerboard.o: ../checkers/Checkerboard.cpp ../checkers/Checkerboard.h \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QLayoutItem \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QFrame \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QDesktopWidget \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QCheckBox \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qcheckbox.h \
 		../checkers/struct.h \
 		../checkers/labelcase.h \
 		../checkers/Tools.h
@@ -914,6 +994,8 @@ debug/Player.o: ../checkers/Player.cpp ../checkers/Player.h \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QLayoutItem \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QFrame \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QDesktopWidget \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QCheckBox \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qcheckbox.h \
 		../checkers/Tools.h \
 		../checkers/struct.h \
 		../checkers/labelcase.h \
@@ -1069,6 +1151,8 @@ debug/game.o: ../checkers/game.cpp ../checkers/game.h \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QLayoutItem \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QFrame \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QDesktopWidget \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QCheckBox \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qcheckbox.h \
 		../checkers/Tools.h \
 		../checkers/struct.h \
 		../checkers/labelcase.h \
@@ -1224,7 +1308,9 @@ debug/labelcase.o: ../checkers/labelcase.cpp ../checkers/labelcase.h \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtGui/QMouseEvent \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QLayoutItem \
 		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QFrame \
-		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QDesktopWidget
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QDesktopWidget \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/QCheckBox \
+		../../../../../../../Qt/5.2.1/mingw48_32/include/QtWidgets/qcheckbox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\labelcase.o ..\checkers\labelcase.cpp
 
 debug/Tools.o: ../checkers/Tools.cpp 

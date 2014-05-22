@@ -24,7 +24,9 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -44,16 +46,23 @@ public:
     QLineEdit *size_tb;
     QHBoxLayout *horizontalLayout_3;
     QLabel *nbLineP1_l;
+    QToolButton *toolButton;
     QLineEdit *nbLineP1_tb;
     QHBoxLayout *horizontalLayout_5;
     QLineEdit *lineEdit;
     QComboBox *modeP1_IA;
+    QHBoxLayout *horizontalLayout_10;
+    QLineEdit *lineEdit_4;
+    QSpinBox *fctcout1;
     QHBoxLayout *horizontalLayout_2;
     QLabel *nbLineP2_l;
     QLineEdit *nbLineP2_tb;
     QHBoxLayout *horizontalLayout_6;
     QLineEdit *lineEdit_2;
     QComboBox *modeP2_IA;
+    QHBoxLayout *horizontalLayout_9;
+    QLineEdit *lineEdit_3;
+    QSpinBox *fctcout2;
     QHBoxLayout *horizontalLayout_8;
     QPushButton *start;
     QCheckBox *alphabeta;
@@ -141,6 +150,11 @@ public:
 
         horizontalLayout_3->addWidget(nbLineP1_l);
 
+        toolButton = new QToolButton(centralwidget);
+        toolButton->setObjectName(QStringLiteral("toolButton"));
+
+        horizontalLayout_3->addWidget(toolButton);
+
         nbLineP1_tb = new QLineEdit(centralwidget);
         nbLineP1_tb->setObjectName(QStringLiteral("nbLineP1_tb"));
 
@@ -165,6 +179,29 @@ public:
 
 
         verticalLayout->addLayout(horizontalLayout_5);
+
+        horizontalLayout_10 = new QHBoxLayout();
+        horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
+        lineEdit_4 = new QLineEdit(centralwidget);
+        lineEdit_4->setObjectName(QStringLiteral("lineEdit_4"));
+        lineEdit_4->setReadOnly(true);
+
+        horizontalLayout_10->addWidget(lineEdit_4);
+
+        fctcout1 = new QSpinBox(centralwidget);
+        fctcout1->setObjectName(QStringLiteral("fctcout1"));
+        QSizePolicy sizePolicy3(QSizePolicy::Minimum, QSizePolicy::Maximum);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(fctcout1->sizePolicy().hasHeightForWidth());
+        fctcout1->setSizePolicy(sizePolicy3);
+        fctcout1->setMinimum(1);
+        fctcout1->setMaximum(2);
+
+        horizontalLayout_10->addWidget(fctcout1);
+
+
+        verticalLayout->addLayout(horizontalLayout_10);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
@@ -197,6 +234,26 @@ public:
 
 
         verticalLayout->addLayout(horizontalLayout_6);
+
+        horizontalLayout_9 = new QHBoxLayout();
+        horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
+        lineEdit_3 = new QLineEdit(centralwidget);
+        lineEdit_3->setObjectName(QStringLiteral("lineEdit_3"));
+        lineEdit_3->setReadOnly(true);
+
+        horizontalLayout_9->addWidget(lineEdit_3);
+
+        fctcout2 = new QSpinBox(centralwidget);
+        fctcout2->setObjectName(QStringLiteral("fctcout2"));
+        sizePolicy3.setHeightForWidth(fctcout2->sizePolicy().hasHeightForWidth());
+        fctcout2->setSizePolicy(sizePolicy3);
+        fctcout2->setMinimum(1);
+        fctcout2->setMaximum(2);
+
+        horizontalLayout_9->addWidget(fctcout2);
+
+
+        verticalLayout->addLayout(horizontalLayout_9);
 
         horizontalLayout_8 = new QHBoxLayout();
         horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
@@ -246,9 +303,12 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Jeu de dames", 0));
         size_l->setText(QApplication::translate("MainWindow", "size", 0));
         nbLineP1_l->setText(QApplication::translate("MainWindow", "nb line player 1", 0));
-        lineEdit->setText(QApplication::translate("MainWindow", "Mode de jeu du joueur 1", 0));
+        toolButton->setText(QApplication::translate("MainWindow", "...", 0));
+        lineEdit->setText(QApplication::translate("MainWindow", "Mode de jeu du joueur blanc", 0));
+        lineEdit_4->setText(QApplication::translate("MainWindow", "Fonction de co\303\273t du joueur blanc", 0));
         nbLineP2_l->setText(QApplication::translate("MainWindow", "nb line player 2", 0));
-        lineEdit_2->setText(QApplication::translate("MainWindow", "Mode de jeu du joueur 2", 0));
+        lineEdit_2->setText(QApplication::translate("MainWindow", "Mode de jeu du joueur rouge", 0));
+        lineEdit_3->setText(QApplication::translate("MainWindow", "Fonction de co\303\273t du joueur rouge", 0));
         start->setText(QApplication::translate("MainWindow", "start", 0));
         alphabeta->setText(QApplication::translate("MainWindow", "alpha-beta", 0));
         threads->setText(QApplication::translate("MainWindow", "threads", 0));

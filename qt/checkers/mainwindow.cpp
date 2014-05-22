@@ -154,20 +154,13 @@ void MainWindow::start_click(){
 }
 
 //Méthode qui deselectionne le pion courant lorsque l'on fait un clic droit sauf si une prise est en cours
-void MainWindow::deselect(){
-    Checkerboard* board = game->getBoard();
-    int size = game->getSize();
-    bool enCours = false;
-    for(int i = 0; i<size; i++){
-        for(int j = 0; j<size; j++){
-            if(board->getQSquare(i,j).square == GHOST) {enCours = true;}
-        }
-    }
-    if(!enCours){
-        game->deselect();
+bool MainWindow::deselect(){
+    if (game->deselect()) {
         game->paint(this->ui->board_gl);
+        ui->border->setCursor(Qt::OpenHandCursor);
+        return true ;
     }
-    ui->border->setCursor(Qt::OpenHandCursor);
+    return false ;
 }
 
 //modifie le type de joueur (manuel ou IA) et le niveau dans le cas de l'IA

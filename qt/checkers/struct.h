@@ -39,6 +39,8 @@ typedef struct {
     void * board ;
     bool valued ;
     int value ;
+    int xSelect ;
+    int ySelect ;
 } CHILD ;
 
 #endif // STRUCT_H

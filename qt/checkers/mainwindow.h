@@ -44,7 +44,7 @@ public slots:
     void setCostFunction2(int f);
 
     //Méthode qui deselectionne le pion courant lorsque l'on fait un clic droit sauf si une prise est en cours
-    void deselect();
+    bool deselect();
 
     //modifie le type de joueur (manuel ou IA) et le niveau dans le cas de l'IA
     void selectLevelPlayer1(int lvl);

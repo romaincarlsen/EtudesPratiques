@@ -22,13 +22,15 @@ class Checkerboard
 private:
 	int _size ;
 	Damier _square;
-    //attributs contenant la position de la case sélectionnée
-    Selection selection;
+
 public:
 	// create checkerboard with dimension parameters
 	Checkerboard(int size);
     Checkerboard(Checkerboard* board);
 	~Checkerboard(void);
+
+    //attributs contenant la position de la case sélectionnée
+    Selection selection;
 
 	int getSize() const;
 
@@ -52,7 +54,7 @@ public:
     //Permet de changer la case sélectionnée
     void select(int x, int y);
     //déselectionne la case
-    void deselect();
+    bool deselect();
     string toString();
     void paint(QGridLayout* board_gl) ;
 
