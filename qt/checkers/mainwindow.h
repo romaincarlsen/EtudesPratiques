@@ -28,7 +28,7 @@ private :
     int _p1;
     int _p2;
 
-    //attributs de stockage de la configuration du jeu (alphabéta, fonctions de coûts, parallélisation
+    //attributs de stockage de la configuration du jeu (alphabéta, fonctions de coûts, parallélisation)
     bool with_alphabeta;
     bool with_thread;
     int costFunctionP1;

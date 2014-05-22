@@ -110,7 +110,7 @@ public:
         horizontalLayout = new QHBoxLayout(border);
         horizontalLayout->setSpacing(0);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
+        horizontalLayout->setSizeConstraint(QLayout::SetMinimumSize);
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
         board_gl = new QGridLayout();
         board_gl->setSpacing(0);
