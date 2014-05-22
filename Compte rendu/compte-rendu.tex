@@ -191,16 +191,17 @@ Le premier moyen possible était d'améliorer l'algorithme MinMax en utilisant la 
 Pour cette méthode, nous avons repris la méthode NegaMax à laquelle nous avons rajouté un paramètre (la valeur maximale actuelle au niveau du n{\oe}ud père). Il faut noter que la coupure Alpha-Beta utilise quand même la fonction NegaMax pour tous les n{\oe}uds fils gauches.
 
 
-Pour optimiser le temps d'exécution, nous avons aussi paralléliser les threads afin que le programme analyse plusieurs n{\oe}uds en même temps. Voici un diagramme du temps gagné grâce à cette méthode : 
+Pour optimiser le temps d'exécution, nous avons aussi paralléliser les threads afin que le programme analyse plusieurs n{\oe}uds en même temps. Cette amélioration a été permise par l'utilisation d'Open MP, qui a été conçu afin de faciliter la mise ne place de calcul parallèle. Voici un diagramme du temps gagné grâce à cette méthode : 
 
 \textbf{Pas encore fait}
 
 Nous avons aussi essayé de représenter graphiquement l'exécution de l'algorithme. Ainsi, cela nous permettait de mieux vérifier que la méthode Alpha-Beta fonctionnait (en voyant si toutes les positions étaient analysées ou non). Ce travail se sépare en 2 étapes : 
 \begin{itemize}
-\item La première a été de créer un fichier texte contenant la taille du plateau et, pour chaque n{\oe}ud, le contenu du damier, la profondeur du n{\oe}ud, sa valeur, et son nombre de n{\oe}ud fils (en comptant aussi les n{\oe}uds non analysés).
+\item La première a été de créer un fichier texte contenant la taille du plateau et, pour chaque n{\oe}ud, le contenu du damier, le temps d'exécution, sa valeur, son nombre de n{\oe}ud fils et le nombre de noeud analysé.
 \item La deuxième est de créer un reporting graphique, codé en javascript via Canvas, et permettant de mieux visualiser les situations.
 \end{itemize}
-\vspace{0.3cm}
+
+\textbf{IMPRIM ECRAN DU REPORTING}
 
 \subsection{La fonction de coût}
 
