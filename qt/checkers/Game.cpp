@@ -27,7 +27,6 @@ Game::Game(int size, int nbLineP1, int nbLineP2, int p1,int costFunction1, int p
     url_reporting = "coup.txt" ;
     with_alphabeta = alphabeta ;
     with_thread = thread ;
-    nb_thread = 8 ;
 
 }
 
@@ -343,8 +342,6 @@ MOVE Game::negaMax(bool with_thread_param) {
     //time_IA_begin = omp_get_wtime();
     gettimeofday(&time_IA_begin , NULL) ;
 
-    omp_set_num_threads(this->nb_thread) ;
-
     int value ;
     if (isWhiteState(state) && P1->isCP()) {
         if (with_thread_param) {
@@ -476,8 +473,6 @@ MOVE Game::alphaBeta(bool with_thread_param) {
     init_reporting() ;
 
     gettimeofday(&time_IA_begin , NULL) ;
-
-    omp_set_num_threads(this->nb_thread) ;
 
     int value ;
     if (isWhiteState(state) && P1->isCP()) {
