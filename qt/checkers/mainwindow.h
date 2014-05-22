@@ -27,7 +27,9 @@ private :
     //attributs stockant si le joueur est en manuel ou une IA et dans ce dernier cas son niveau
     int _p1;
     int _p2;
-
+    //Attributs stockant la taille maximale de la fenêtre
+    int width;
+    int height;
     //attributs de stockage de la configuration du jeu (alphabéta, fonctions de coûts, parallélisation)
     bool with_alphabeta;
     bool with_thread;
@@ -54,6 +56,9 @@ public:
     ~MainWindow();
     //Nettoye la grille du jeu
     void clear();
+
+    int getheight();
+    int getwidth();
 
 private:
     Ui::MainWindow *ui;

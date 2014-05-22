@@ -17,11 +17,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->size_tb->setText("10") ;
     ui->nbLineP1_tb->setText("4") ;
     ui->nbLineP2_tb->setText("4") ;
+
     //adaptation à la taille de l'écran (test)
     QDesktopWidget *desktop = new QDesktopWidget;
-    int largeur = desktop->screenGeometry().width();
-    int hauteur = desktop->screenGeometry().height();
-    this->ui->centralwidget->setMaximumSize(largeur,hauteur);
+    width = desktop->screenGeometry().width();
+    height = desktop->screenGeometry().height();
+    this->ui->centralwidget->setMaximumSize(width,height);
+    qDebug() << width << "  " << height << endl;
+    this->ui->border->setMaximumSize(width-800,height);
+    qDebug() << "init" << ui->border->size() << endl;
 
     //valeur par défaut pour le mode de jeu : manuel
     _p1 = -1;
@@ -133,6 +137,10 @@ void MainWindow::start_click(){
     int size = this->ui->size_tb->text().toInt() ;
     int nbLineP1 = this->ui->nbLineP1_tb->text().toInt() ;
     int nbLineP2 = this->ui->nbLineP2_tb->text().toInt() ;
+
+    //Mise en place d'une taille maximale au plateau
+    this->ui->border->setMaximumSize(width-800,height);
+
     game = new Game(size, nbLineP1, nbLineP2,_p1, costFunctionP1,_p2, costFunctionP2, with_alphabeta, with_thread) ;
     for (int i = 0; i< game->getBoard()->getSize(); i++){
         for (int j = 0; j< game->getBoard()->getSize(); j++){
@@ -150,6 +158,9 @@ void MainWindow::start_click(){
     //Changement du curseur pour une main sur le plateau
     ui->border->setCursor(Qt::OpenHandCursor);
 
+    qDebug() << "start damier" << size << endl;
+    qDebug() << "start size" << ui->border->size() << endl;
+    qDebug() << "start max size" << ui->border->maximumSize() << endl;
     //launchIA() ;
 }
 
@@ -189,6 +200,14 @@ void MainWindow::setCostFunction1(int f){
 
 void MainWindow::setCostFunction2(int f){
     costFunctionP2 = f;
+}
+
+int MainWindow::getheight(){
+    return height;
+}
+
+int MainWindow::getwidth(){
+    return width;
 }
 
 int main(int argc, char *argv[])

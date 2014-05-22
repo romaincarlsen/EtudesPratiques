@@ -57,7 +57,7 @@
        <bool>true</bool>
       </property>
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -94,7 +94,7 @@
         <number>0</number>
        </property>
        <property name="sizeConstraint">
-        <enum>QLayout::SetMinimumSize</enum>
+        <enum>QLayout::SetMinAndMaxSize</enum>
        </property>
        <property name="leftMargin">
         <number>0</number>
@@ -111,7 +111,7 @@
        <item>
         <layout class="QGridLayout" name="board_gl">
          <property name="sizeConstraint">
-          <enum>QLayout::SetNoConstraint</enum>
+          <enum>QLayout::SetMinAndMaxSize</enum>
          </property>
          <property name="leftMargin">
           <number>0</number>
@@ -135,8 +135,14 @@
     </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>10</number>
+      </property>
       <property name="sizeConstraint">
        <enum>QLayout::SetMinimumSize</enum>
+      </property>
+      <property name="topMargin">
+       <number>5</number>
       </property>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
