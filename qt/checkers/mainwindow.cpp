@@ -23,9 +23,6 @@ MainWindow::MainWindow(QWidget *parent) :
     width = desktop->screenGeometry().width();
     height = desktop->screenGeometry().height();
     this->ui->centralwidget->setMaximumSize(width,height);
-    qDebug() << width << "  " << height << endl;
-    this->ui->border->setMaximumSize(width-800,height);
-    qDebug() << "init" << ui->border->size() << endl;
 
     //valeur par défaut pour le mode de jeu : manuel
     _p1 = -1;
@@ -139,7 +136,26 @@ void MainWindow::start_click(){
     int nbLineP2 = this->ui->nbLineP2_tb->text().toInt() ;
 
     //Mise en place d'une taille maximale au plateau
-    this->ui->border->setMaximumSize(width-800,height);
+    this->ui->border->setMaximumSize(width-300,height-50);
+
+
+    //Récupération de la taille de la barre des tâches
+    HWND tTrayHwnd = FindWindow(L"Shell_TrayWnd", NULL);
+    RECT tTrayRect;
+
+    GetWindowRect(tTrayHwnd, &tTrayRect);
+    int bar = this->height - ui->centralwidget->height();;
+
+
+    //Calcul de la place disponible pour le damier
+    int freeHeight = height - (tTrayRect.bottom - tTrayRect.top) - bar;
+    int freeWidth = width - (tTrayRect.left - tTrayRect.right) -300;
+    //Mise en place de la taille des cases du damier toute la place
+
+
+    int min = std::min(freeWidth, freeHeight);
+
+    int labelSize = min/size;
 
     game = new Game(size, nbLineP1, nbLineP2,_p1, costFunctionP1,_p2, costFunctionP2, with_alphabeta, with_thread) ;
     for (int i = 0; i< game->getBoard()->getSize(); i++){
@@ -147,6 +163,7 @@ void MainWindow::start_click(){
             LabelCase* label = game->getBoard()->getQSquare(i,j).label;
             label->connect(label, SIGNAL(clicked(int,int)), this, SLOT(click(int, int)));
             label->connect(label, SIGNAL(deselect()), this, SLOT(deselect()));
+            label->setMaximumSize(labelSize,labelSize);
         }
     }
     this->ui->board_l->setText(game->toString()) ;
@@ -158,9 +175,7 @@ void MainWindow::start_click(){
     //Changement du curseur pour une main sur le plateau
     ui->border->setCursor(Qt::OpenHandCursor);
 
-    qDebug() << "start damier" << size << endl;
-    qDebug() << "start size" << ui->border->size() << endl;
-    qDebug() << "start max size" << ui->border->maximumSize() << endl;
+
     //launchIA() ;
 }
 

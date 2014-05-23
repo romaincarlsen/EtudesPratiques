@@ -124,7 +124,7 @@ public:
         verticalLayout->setSpacing(10);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setSizeConstraint(QLayout::SetMinimumSize);
-        verticalLayout->setContentsMargins(-1, 5, -1, -1);
+        verticalLayout->setContentsMargins(5, 5, -1, -1);
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         size_l = new QLabel(centralwidget);

@@ -25,9 +25,8 @@ Checkerboard::Checkerboard(int size) : _size(size)
             _square[x][y].label = new LabelCase(x,y);
             _square[x][y].label->setMinimumSize(0,0);
 
-            int labelSize = 60 ;
-
-            _square[x][y].label->setMaximumSize(labelSize,labelSize);
+            //int labelSize = 60 ; -> la taille est maintenant gérée directment dans mainwindow
+            //_square[x][y].label->setMaximumSize(labelSize,labelSize);
             _square[x][y].label->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
             _square[x][y].label->setScaledContents(true);
         }

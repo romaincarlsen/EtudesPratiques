@@ -7,6 +7,8 @@
 #include "ui_mainwindow2.h"
 #include "game.h"
 #include "labelcase.h"
+#include <windef.h>
+#include <windows.h>
 #include <sstream>
 
 
