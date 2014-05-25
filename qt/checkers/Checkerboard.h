@@ -36,6 +36,8 @@ public:
 
 	void setSquare(int x, int y, SQUARE square);
 
+    Damier getQSquare() const ;
+
     QSQUARE getQSquare(int x, int y) const ;
 
     SQUARE getSquare(int x, int y) const ;

@@ -80,7 +80,7 @@ int Player::theBestKillOnBoard(SQUARE piece, int x, int y, Checkerboard* board) 
 
                 best = best<nbKill ? nbKill : best ;
 
-                delete copyBoard ;
+                //delete copyBoard ;
             }
         }
     }
@@ -99,7 +99,7 @@ bool Player::isTheBestKillOnBoard(SQUARE piece, int x, int y, int xDest, int yDe
                     return false;
             }
         }
-        delete copyBoard ;
+        //delete copyBoard ;
 
     }
   return true ;
