@@ -26,7 +26,6 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
-#include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -46,7 +45,6 @@ public:
     QLineEdit *size_tb;
     QHBoxLayout *horizontalLayout_3;
     QLabel *nbLineP1_l;
-    QToolButton *toolButton;
     QLineEdit *nbLineP1_tb;
     QHBoxLayout *horizontalLayout_5;
     QLineEdit *lineEdit;
@@ -97,11 +95,8 @@ public:
         border = new QFrame(centralwidget);
         border->setObjectName(QStringLiteral("border"));
         border->setEnabled(true);
-        QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Minimum);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(border->sizePolicy().hasHeightForWidth());
-        border->setSizePolicy(sizePolicy2);
+        sizePolicy1.setHeightForWidth(border->sizePolicy().hasHeightForWidth());
+        border->setSizePolicy(sizePolicy1);
         border->setMinimumSize(QSize(0, 0));
         border->setSizeIncrement(QSize(1, 1));
         border->setCursor(QCursor(Qt::OpenHandCursor));
@@ -112,12 +107,12 @@ public:
         horizontalLayout = new QHBoxLayout(border);
         horizontalLayout->setSpacing(0);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
+        horizontalLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
         board_gl = new QGridLayout();
         board_gl->setSpacing(0);
         board_gl->setObjectName(QStringLiteral("board_gl"));
-        board_gl->setSizeConstraint(QLayout::SetMinimumSize);
+        board_gl->setSizeConstraint(QLayout::SetMinAndMaxSize);
         board_gl->setContentsMargins(0, 0, 0, 0);
 
         horizontalLayout->addLayout(board_gl);
@@ -126,8 +121,10 @@ public:
         horizontalLayout_7->addWidget(border);
 
         verticalLayout = new QVBoxLayout();
+        verticalLayout->setSpacing(10);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setSizeConstraint(QLayout::SetMinimumSize);
+        verticalLayout->setContentsMargins(5, 5, -1, -1);
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         size_l = new QLabel(centralwidget);
@@ -149,11 +146,6 @@ public:
         nbLineP1_l->setObjectName(QStringLiteral("nbLineP1_l"));
 
         horizontalLayout_3->addWidget(nbLineP1_l);
-
-        toolButton = new QToolButton(centralwidget);
-        toolButton->setObjectName(QStringLiteral("toolButton"));
-
-        horizontalLayout_3->addWidget(toolButton);
 
         nbLineP1_tb = new QLineEdit(centralwidget);
         nbLineP1_tb->setObjectName(QStringLiteral("nbLineP1_tb"));
@@ -190,11 +182,11 @@ public:
 
         fctcout1 = new QSpinBox(centralwidget);
         fctcout1->setObjectName(QStringLiteral("fctcout1"));
-        QSizePolicy sizePolicy3(QSizePolicy::Minimum, QSizePolicy::Maximum);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(fctcout1->sizePolicy().hasHeightForWidth());
-        fctcout1->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Maximum);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(fctcout1->sizePolicy().hasHeightForWidth());
+        fctcout1->setSizePolicy(sizePolicy2);
         fctcout1->setMinimum(1);
         fctcout1->setMaximum(2);
 
@@ -245,8 +237,8 @@ public:
 
         fctcout2 = new QSpinBox(centralwidget);
         fctcout2->setObjectName(QStringLiteral("fctcout2"));
-        sizePolicy3.setHeightForWidth(fctcout2->sizePolicy().hasHeightForWidth());
-        fctcout2->setSizePolicy(sizePolicy3);
+        sizePolicy2.setHeightForWidth(fctcout2->sizePolicy().hasHeightForWidth());
+        fctcout2->setSizePolicy(sizePolicy2);
         fctcout2->setMinimum(1);
         fctcout2->setMaximum(2);
 
@@ -303,7 +295,6 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Jeu de dames", 0));
         size_l->setText(QApplication::translate("MainWindow", "size", 0));
         nbLineP1_l->setText(QApplication::translate("MainWindow", "nb line player 1", 0));
-        toolButton->setText(QApplication::translate("MainWindow", "...", 0));
         lineEdit->setText(QApplication::translate("MainWindow", "Mode de jeu du joueur blanc", 0));
         lineEdit_4->setText(QApplication::translate("MainWindow", "Fonction de co\303\273t du joueur blanc", 0));
         nbLineP2_l->setText(QApplication::translate("MainWindow", "nb line player 2", 0));

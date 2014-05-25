@@ -43,4 +43,8 @@ typedef struct {
     int ySelect ;
 } CHILD ;
 
+typedef struct {
+
+} INFO ;
+
 #endif // STRUCT_H

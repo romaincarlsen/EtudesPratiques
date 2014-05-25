@@ -465,6 +465,7 @@ int Game::negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1
 
     for (int i = 0 ; i<child.size() ; i++) {
         child[i].value = - negaMaxClassic((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
+        delete (Checkerboard*)(child[i].board) ;
     }
     value = findBestChild(child,best) ;
 
@@ -523,6 +524,7 @@ int Game::negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1,
             qDebug() << "nb threads = " << omp_get_num_threads() ;
         child[i].value = - negaMaxThread((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
         #pragma omp taskwait
+        //delete (Checkerboard*)(child[i].board) ;
     }
     value = findBestChild(child,best) ;
 
@@ -577,7 +579,7 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
     int nb_child_treated = 0 ;
     if (depth==0 || isFinishOnBoard(board, player)){
         value = ((int)color) * costFunction(board, player, color);
-/*
+        /*
         timeval end ;
         gettimeofday(&end , NULL) ;
         add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),nb_child_treated) ;
@@ -593,10 +595,16 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
         }
         else {
             child[i].value = -alphaBetaClassic((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0, child[i].xSelect, child[i].ySelect) ;
+            delete (Checkerboard*)(child[i].board) ;
+
         }
+
     }
     value = findBestChild(child,best) ;
-/*
+
+
+
+    /*
     timeval end ;
     gettimeofday(&end , NULL) ;
     add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),nb_child_treated) ;
@@ -612,29 +620,30 @@ int Game::alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P
     child.resize(0) ;
     int nb_child_treated = 0 ;
     if (depth==0 || isFinishOnBoard(board, player)){
-        value = ((int)color) * costFunction(board, player, color);
-
-        return value ;
+            value = ((int)color) * costFunction(board, player, color);
+            return value ;
     }
     child = findChild(board,color, player, xSelect, ySelect) ;
     nb_child_treated = child.size() ;
 
     //#pragma omp single
     #pragma omp parallel for
+
     for (int i = 0 ; i<child.size() ; i++) {
         if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
             nb_child_treated = i ;
         }
         else {
             #pragma omp task
-            if (omp_get_num_threads()>1)
-                qDebug() << "nb threads = " << omp_get_num_threads() ;
+            /*if (omp_get_num_threads()>1)
+                qDebug() << "nb threads = " << omp_get_num_threads() ;*/
+
             child[i].value = -alphaBetaThread((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0, child[i].xSelect, child[i].ySelect) ;
+            //delete (Checkerboard*)(child[i].board) ;
             #pragma omp taskwait
         }
     }
     value = findBestChild(child,best) ;
-
     return value ;
 }
 
@@ -670,4 +679,15 @@ void Game:: save_reporting() {
         flux<<";";
     }
     fichier.close();
+}
+
+INFO Game::getInfo(Checkerboard* board, Player* player, Player* opponent) {
+    INFO info ;
+
+    return info ;
+}
+
+bool Game::apply(Checkerboard* board) {
+
+    return true ;
 }

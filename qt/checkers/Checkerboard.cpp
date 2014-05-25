@@ -51,6 +51,7 @@ Checkerboard::Checkerboard(Checkerboard* board) : _size(board->getSize())
 Checkerboard::~Checkerboard(void)
 {
     _square.~vector();
+    std::cout <<"Board destroyed\n";
 }
 
 int Checkerboard::getSize() const{

@@ -99,6 +99,9 @@ public:
     void init_reporting() ;
     void add_node_reporting(Checkerboard* board, int value, double time, int nb_child, int nb_child_treated) ;
     void save_reporting() ;
+    INFO getInfo(Checkerboard* board, Player* player, Player* opponent) ;
+    bool apply(Checkerboard* board) ;
+
 };
 
 #endif
