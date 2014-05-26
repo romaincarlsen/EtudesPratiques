@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->nbLineP1_tb->setText("4") ;
     ui->nbLineP2_tb->setText("4") ;
 
-    //adaptation à la taille de l'écran (test)
+    //limitaion de la taille de la fenetre à la taille de l'écran
     QDesktopWidget *desktop = new QDesktopWidget;
     width = desktop->screenGeometry().width();
     height = desktop->screenGeometry().height();
@@ -50,9 +50,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Initialisation des valeurs des spinbox pour le choix des fonctions de coût
     ui->fctcout1->setMinimum(1);
-    ui->fctcout1->setMaximum(2);
+    ui->fctcout1->setMaximum(5);
     ui->fctcout2->setMinimum(1);
-    ui->fctcout2->setMaximum(2);
+    ui->fctcout2->setMaximum(5);
 
 
     //Connection des spinbox déterminants les fonctions de coûts

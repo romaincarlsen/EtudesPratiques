@@ -30,7 +30,5 @@ HEADERS  += mainwindow.h \
     game.h \
     labelcase.h
 
-FORMS    += mainwindow.ui \
-    mainwindow2.ui \
-    mainwindow3.ui \
-    mainwindow4.ui
+FORMS    += \
+    mainwindow.ui
