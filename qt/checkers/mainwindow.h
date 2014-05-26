@@ -4,6 +4,7 @@
 #include "include.h"
 
 #include "struct.h"
+#include "Tools.h"
 #include "ui_mainwindow.h"
 #include "game.h"
 #include "labelcase.h"
@@ -37,6 +38,10 @@ private :
     bool with_thread;
     int costFunctionP1;
     int costFunctionP2;
+    //Tableau des Label contenant les images du jeu
+    Board _square;
+    //Taille du damier
+    int size;
 
 public slots:
     void start_click() ;
@@ -61,6 +66,11 @@ public:
 
     int getheight();
     int getwidth();
+    // print checkerboard
+    void paint(bool firstPrint);
+
+    //affiche la case sélectionnée
+    void printSelect();
 
 private:
     Ui::MainWindow *ui;

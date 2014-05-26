@@ -14,7 +14,7 @@ typedef struct {
     int y ;
     bool select;
 } Selection ;
-typedef std::vector<std::vector<QSQUARE> > Damier;
+
 
 class Checkerboard
 {
@@ -58,10 +58,7 @@ public:
     //déselectionne la case
     bool deselect();
     string toString();
-    void paint(QGridLayout* board_gl) ;
 
-    //affiche la case sélectionnée
-    void printSelect(QGridLayout *board_gl);
 };
 
 #endif

@@ -93,11 +93,11 @@ void MainWindow::launchIA() {
 
             if (game->execMove(mv.x,mv.y,-1,-1)) {
                 this->ui->board_l->setText(game->toString()) ;
-                game->paint(this->ui->board_gl);
+                paint(false);
             }
             if (game->execMove(-1,-1,mv.xDest,mv.yDest)) {
                 this->ui->board_l->setText(game->toString()) ;
-                game->paint(this->ui->board_gl);
+                paint(false);
             }
         }
         else {
@@ -114,13 +114,13 @@ void MainWindow::click(int x, int y){
                 this->ui->board_l->setText(game->toString()) ;
                 if(!game->isStateSelect()) ui->border->setCursor(Qt::ClosedHandCursor);
                 else ui->border->setCursor(Qt::OpenHandCursor);
-                game->paint(this->ui->board_gl);
+                paint(false);
             }
             if (game->execMove(-1,-1,x,y)) {
                 if(!game->isStateSelect()) ui->border->setCursor(Qt::ClosedHandCursor);
                 else ui->border->setCursor(Qt::OpenHandCursor);
                 this->ui->board_l->setText(game->toString()) ;
-                game->paint(this->ui->board_gl);
+                paint(false);
             }
         }
     }
@@ -131,7 +131,7 @@ void MainWindow::click(int x, int y){
 
 void MainWindow::start_click(){
     this->clear();
-    int size = this->ui->size_tb->text().toInt() ;
+    size = this->ui->size_tb->text().toInt() ;
     int nbLineP1 = this->ui->nbLineP1_tb->text().toInt() ;
     int nbLineP2 = this->ui->nbLineP2_tb->text().toInt() ;
 
@@ -156,18 +156,30 @@ void MainWindow::start_click(){
     int min = std::min(freeWidth, freeHeight);
 
     int labelSize = min/size;
+    //_square[x][y].label = new QLabel();
+    //gestion des labels contenant leur position :
+
+    //redimensionnement du tableau des labels
+    _square.resize(size,vector<LabelCase*>(size));
 
     game = new Game(size, nbLineP1, nbLineP2,_p1, costFunctionP1,_p2, costFunctionP2, with_alphabeta, with_thread) ;
     for (int i = 0; i< game->getBoard()->getSize(); i++){
         for (int j = 0; j< game->getBoard()->getSize(); j++){
-            LabelCase* label = game->getBoard()->getQSquare(i,j).label;
+            //creation des labels
+            LabelCase* label = new LabelCase(i,j);
+            _square[i][j] = label;
+            label->setMinimumSize(0,0);
+            label->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+            label->setScaledContents(true);
+
+            //LabelCase* label = game->getBoard()->getQSquare(i,j).label;
             label->connect(label, SIGNAL(clicked(int,int)), this, SLOT(click(int, int)));
             label->connect(label, SIGNAL(deselect()), this, SLOT(deselect()));
             label->setMaximumSize(labelSize,labelSize);
         }
     }
     this->ui->board_l->setText(game->toString()) ;
-    game->paint(this->ui->board_gl);
+    paint(true);
     this->ui->border->setFrameShape(QFrame::Box);
     iTimer->setInterval(1000);
     iTimer->start();
@@ -182,7 +194,7 @@ void MainWindow::start_click(){
 //Méthode qui deselectionne le pion courant lorsque l'on fait un clic droit sauf si une prise est en cours
 bool MainWindow::deselect(){
     if (game->deselect()) {
-        game->paint(this->ui->board_gl);
+        paint(false);
         ui->border->setCursor(Qt::OpenHandCursor);
         return true ;
     }
@@ -232,4 +244,45 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show() ;
     return a.exec() ;
+}
+// print checkerboard
+void MainWindow::paint(bool firstPrint)
+{
+    //tableau de jeu
+    Damier square = game->getBoard()->getQSquare();
+    for (int y=0 ; y<this->size ; y++) {
+        for (int x=0 ; x<this->size ; x++) {
+            _square[x][y]->setPixmap(Tools::square_to_img(square[x][y].square));
+            _square[x][y]->setScaledContents(true);
+            if(firstPrint) this->ui->board_gl->addWidget(_square[x][y], -(y-(this->size-1)), x) ;
+        }
+    }
+    if(game->getBoard()->selection.select) printSelect();
+}
+
+//affiche la case sélectionnée
+void MainWindow::printSelect(){
+
+    int x = game->getBoard()->selection.x;
+    int y = game->getBoard()->selection.y;
+    Damier squareTab = game->getBoard()->getQSquare();
+    SQUARE square(squareTab[x][y].square);
+    QPixmap img;
+    switch (square) {
+    case BLACK_KING :	img = QPixmap("../checkers/img/black_king_select.png") ;
+        break;
+    case BLACK_PIECE :	img = QPixmap("../checkers/img/black_piece_select.png") ;
+        break;
+    case EMPTY :		img = QPixmap("../checkers/img/empty.png") ;
+        break;
+    case WHITE_PIECE :	img = QPixmap("../checkers/img/white_piece_select.png") ;
+        break;
+    case WHITE_KING :	img = QPixmap("../checkers/img/white_king_select.png") ;
+        break;
+    case LOCK :			img = QPixmap("../checkers/img/lock.png") ;
+        break;
+    default :			img = QPixmap() ;
+    }
+    _square[x][y]->setPixmap(img);
+    _square[x][y]->setScaledContents(true);
 }

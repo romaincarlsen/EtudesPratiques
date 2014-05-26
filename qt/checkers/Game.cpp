@@ -213,10 +213,6 @@ QString Game::toString() {
     return txt ;
 }
 
-void Game::paint(QGridLayout* board_gl) {
-    board->paint(board_gl) ;
-}
-
 
 int Game::costFunction(Checkerboard* board, Player* player, COLOR color) {
         switch (playerTurn()->costFunction) {

@@ -261,6 +261,7 @@ release/moc_mainwindow.cpp: ../checkers/include.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qcheckbox.h \
 		../checkers/struct.h \
 		../checkers/labelcase.h \
+		../checkers/Tools.h \
 		ui_mainwindow.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore/QVariant \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QAction \
@@ -297,7 +298,6 @@ release/moc_mainwindow.cpp: ../checkers/include.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QVBoxLayout \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QWidget \
 		../checkers/game.h \
-		../checkers/Tools.h \
 		../checkers/Checkerboard.h \
 		../checkers/Player.h \
 		../checkers/mainwindow.h
@@ -613,6 +613,7 @@ release/mainwindow.o: ../checkers/mainwindow.cpp ../checkers/mainwindow.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qcheckbox.h \
 		../checkers/struct.h \
 		../checkers/labelcase.h \
+		../checkers/Tools.h \
 		ui_mainwindow.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore/QVariant \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QAction \
@@ -649,7 +650,6 @@ release/mainwindow.o: ../checkers/mainwindow.cpp ../checkers/mainwindow.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QVBoxLayout \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QWidget \
 		../checkers/game.h \
-		../checkers/Tools.h \
 		../checkers/Checkerboard.h \
 		../checkers/Player.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\mainwindow.o ..\checkers\mainwindow.cpp

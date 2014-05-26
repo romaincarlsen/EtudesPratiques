@@ -20,15 +20,6 @@ Checkerboard::Checkerboard(int size) : _size(size)
                 _square[x][y].square = LOCK ;
             else
                 _square[x][y].square = EMPTY ;
-            //_square[x][y].label = new QLabel();
-            //gestion des labels contenant leur position :
-            _square[x][y].label = new LabelCase(x,y);
-            _square[x][y].label->setMinimumSize(0,0);
-
-            //int labelSize = 60 ; -> la taille est maintenant gérée directment dans mainwindow
-            //_square[x][y].label->setMaximumSize(labelSize,labelSize);
-            _square[x][y].label->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-            _square[x][y].label->setScaledContents(true);
         }
     }
 }
@@ -69,7 +60,6 @@ QSQUARE Checkerboard::getQSquare(int x, int y) const {
     error.square = UNDEFINED ;
     error.x = -1 ;
     error.y = -1 ;
-    error.label = NULL ;
     return error ;
 }
 
@@ -156,44 +146,5 @@ string Checkerboard::toString()
     return res;
 }
 
-// print checkerboard
-void Checkerboard::paint(QGridLayout* board_gl)
-{
-    for (int y=0 ; y<this->_size ; y++) {
-        for (int x=0 ; x<this->_size ; x++) {
-            _square[x][y].label->setPixmap(Tools::square_to_img(_square[x][y].square));
-            _square[x][y].label->setScaledContents(true);
-            board_gl->addWidget(_square[x][y].label, -(y-(this->_size-1)), x) ;
-        }
-    }
-    if (selection.select) printSelect(board_gl);
-}
-
-//affiche la case sélectionnée
-void Checkerboard::printSelect(QGridLayout* board_gl){
-
-    int x = selection.x;
-    int y = selection.y;
-    SQUARE square(_square[x][y].square);
-    QPixmap img;
-    switch (square) {
-    case BLACK_KING :	img = QPixmap("../checkers/img/black_king_select.png") ;
-        break;
-    case BLACK_PIECE :	img = QPixmap("../checkers/img/black_piece_select.png") ;
-        break;
-    case EMPTY :		img = QPixmap("../checkers/img/empty.png") ;
-        break;
-    case WHITE_PIECE :	img = QPixmap("../checkers/img/white_piece_select.png") ;
-        break;
-    case WHITE_KING :	img = QPixmap("../checkers/img/white_king_select.png") ;
-        break;
-    case LOCK :			img = QPixmap("../checkers/img/lock.png") ;
-        break;
-    default :			img = QPixmap() ;
-    }
-    _square[x][y].label->setPixmap(img);
-    _square[x][y].label->setScaledContents(true);
-    board_gl->addWidget(_square[x][y].label, -(y-(this->_size-1)), x) ;
-}
 
 

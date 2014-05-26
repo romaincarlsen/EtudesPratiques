@@ -68,7 +68,6 @@ public:
     // print game
     QString toString() ;
 
-    void paint(QGridLayout* board_gl) ;
     int costFunction(Checkerboard* board, Player* player, COLOR color) ;
 
     int costFunction1(Checkerboard* board, Player* player, COLOR color) ;
