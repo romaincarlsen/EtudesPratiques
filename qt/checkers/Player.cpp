@@ -80,7 +80,8 @@ int Player::theBestKillOnBoard(SQUARE piece, int x, int y, Checkerboard* board, 
 
                 best = best<nbKill ? nbKill : best ;
                 if (with_thread) {}
-                else {delete copyBoard ;}
+                else {delete copyBoard ;
+                }
             }
         }
     }
@@ -100,7 +101,8 @@ bool Player::isTheBestKillOnBoard(SQUARE piece, int x, int y, int xDest, int yDe
             }
         }
         if (with_thread) {}
-        else {delete copyBoard ;}
+        else {delete copyBoard ;
+        }
 
     }
   return true ;
@@ -158,7 +160,7 @@ bool Player::selectValidOnBoard(int x, int y, Checkerboard* board) const{
 
 //Verify if the destination square selected is empty
 bool Player::destValidOnBoard(int x, int y, Checkerboard* board) const{
-    return board->getSquare(x,y) == EMPTY ;
+    return (board->getSquare(x,y) == EMPTY && x<board->getSize() && y<board->getSize()) ;
 }
 
 //Verify if the square selected is at the player

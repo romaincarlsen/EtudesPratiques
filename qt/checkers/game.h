@@ -78,6 +78,8 @@ public:
 
     int costFunction4(Checkerboard* board, Player* player, COLOR color) ;
 
+    int costFunction5(Checkerboard* board, Player* player, COLOR color);
+
     std::vector<MOVE> findMoveOnBoard(Checkerboard* board, COLOR color, Player* player) ;
 
     std::vector<MOVE> findMoveOnBoardFrom(Checkerboard* board, COLOR color, Player* player, int xSelect, int ySelect) ;

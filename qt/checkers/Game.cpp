@@ -228,10 +228,17 @@ int Game::costFunction(Checkerboard* board, Player* player, COLOR color) {
         case 4:
             return costFunction4(board, player, color);
             break;
+        case 5:
+            return costFunction5(board, player, color);
+            break;
+        default:
+            return costFunction1(board, player, color);
+            break;
         }
 }
 
 int Game::costFunction1(Checkerboard* board, Player* player, COLOR color) {
+    qDebug() << "OK";
     player = playerTurn() ;
     int nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing ;
     player->scanNumberOfOnBoard(nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing, board) ;
@@ -255,10 +262,23 @@ int Game::costFunction2(Checkerboard* board, Player* player, COLOR color) {
 }
 
 int Game::costFunction3(Checkerboard* board, Player* player, COLOR color) {
-    return 0 ;
+    int nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing ;
+    int value = (nbMinePiece - nbOpponentPiece)*3 + (nbMineKing - nbOpponentKing)*9 ;
+    for (int x=0 ; x<board->getSize() ; x++) {
+        for (int y=0 ; y<board->getSize() ; y++) {
+            if (player->isMine(board->getSquare(x,y))) {
+                ;
+            }
+        }
+    }
+    return ((int)color) * value ;
 }
 
 int Game::costFunction4(Checkerboard* board, Player* player, COLOR color) {
+    return 0 ;
+}
+
+int Game::costFunction5(Checkerboard* board, Player* player, COLOR color) {
     return 0 ;
 }
 
@@ -393,7 +413,6 @@ MOVE Game::negaMax(bool with_thread_param) {
     std::vector<MOVE> m ;
     m.resize(0);
     init_reporting();
-
     //time_IA_begin = omp_get_wtime();
     gettimeofday(&time_IA_begin , NULL) ;
 
@@ -535,7 +554,7 @@ int Game::negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1,
                 #pragma omp taskwait
                 child[i].value = test ;
                 //delete (Checkerboard*)(child[i].board) ;
-            /*}*/
+            //}
         }
     }
     value = findBestChild(child,best) ;
