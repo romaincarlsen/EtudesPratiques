@@ -1,4 +1,9 @@
-Comment rendre le code plus rapide ?
-Optimiser le code (limiter le nombre de boucles, balayage du plateau)
-Techniques de P. Garcia (Regarder sur profondeur/3, Tableau des noeuds racine)
-Optimisation -O3
+Changer les images
+Faire nos fonctions de coût et pouvoir les choisir
+X Voir si fonction de coût fait n'importe quoi
+X Vérifier que les fonctions classiques sont sans fuite memoire, et que les threads marchent sauf fuite memoire
+NE FONCTONNE QUE SUR DU 10*10 !!!!!!!!!!!!!!!!
+
+Finir le rapport
+Commenter le code
+Faire le diapo

@@ -67,7 +67,7 @@ bool Player::isOnKingLineOnBoard(int yDest, Checkerboard* board) {
 		return yDest==0 ;
 }
 
-int Player::theBestKillOnBoard(SQUARE piece, int x, int y, Checkerboard* board) {
+int Player::theBestKillOnBoard(SQUARE piece, int x, int y, Checkerboard* board, bool with_thread) {
     int best = 0 ;
     for (int xDest=0 ; xDest<board->getSize() ; xDest++) {
         for (int yDest=0 ; yDest<board->getSize() ; yDest++) {
@@ -76,30 +76,31 @@ int Player::theBestKillOnBoard(SQUARE piece, int x, int y, Checkerboard* board) 
                 Checkerboard* copyBoard = new Checkerboard(board) ;
                 moveOnBoard(x,y,xDest,yDest,copyBoard) ;
 
-                int nbKill = 1 + theBestKillOnBoard(piece, xDest, yDest, copyBoard) ;
+                int nbKill = 1 + theBestKillOnBoard(piece, xDest, yDest, copyBoard, with_thread) ;
 
                 best = best<nbKill ? nbKill : best ;
-
-                //delete copyBoard ;
+                if (with_thread) {}
+                else {delete copyBoard ;}
             }
         }
     }
     return best ;
 }
 
-bool Player::isTheBestKillOnBoard(SQUARE piece, int x, int y, int xDest, int yDest, Checkerboard* board) {
+bool Player::isTheBestKillOnBoard(SQUARE piece, int x, int y, int xDest, int yDest, Checkerboard* board, bool with_thread) {
     if (isMoveValidOnBoard(piece, x, y, xDest, yDest, board) && isKillOnBoard(piece, x, y, xDest, yDest, board)){
         Checkerboard* copyBoard = new Checkerboard(board) ;
         moveOnBoard(x,y,xDest,yDest,copyBoard) ;
-        int kill = 1 + theBestKillOnBoard(piece, xDest, yDest, copyBoard) ;
+        int kill = 1 + theBestKillOnBoard(piece, xDest, yDest, copyBoard, with_thread) ;
 
         for (int xt=0 ; xt<board->getSize() ; xt++) {
             for (int yt=0 ; yt<board->getSize() ; yt++) {
-                if (theBestKillOnBoard(board->getSquare(xt,yt), xt, yt, board) > kill)
+                if (theBestKillOnBoard(board->getSquare(xt,yt), xt, yt, board, with_thread) > kill)
                     return false;
             }
         }
-        //delete copyBoard ;
+        if (with_thread) {}
+        else {delete copyBoard ;}
 
     }
   return true ;

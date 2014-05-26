@@ -136,7 +136,7 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
                 return player->state_select ;
             }
             else {
-                if (!(valid = !wasKill || player->isTheBestKillOnBoard(board->getSquare(player->x,player->y),player->x,player->y,xDest,yDest, board))) {
+                if (!(valid = !wasKill || player->isTheBestKillOnBoard(board->getSquare(player->x,player->y),player->x,player->y,xDest,yDest, board, with_thread))) {
                     txt += "\nYou have to choose the best kill !\n" ;
                     txt += "select (ex : A1) :   " ;
                     if (board->moveBegined()) {
@@ -279,7 +279,7 @@ std::vector<MOVE> Game::findMoveOnBoard(Checkerboard* board, COLOR color, Player
                             if (player->isMoveValidOnBoard(board->getSquare(x,y),x,y,xDest,yDest, board)) {
                                 bool wasKill = player->isKillOnBoard(board->getSquare(x,y),x,y,xDest,yDest,board) ;
                                 if (!(canKill && !wasKill)) {
-                                    if (!wasKill || player->isTheBestKillOnBoard(board->getSquare(x,y),x,y,xDest,yDest, board)){
+                                    if (!wasKill || player->isTheBestKillOnBoard(board->getSquare(x,y),x,y,xDest,yDest, board, with_thread)){
                                         MOVE move ;
                                         move.x = x ;
                                         move.y = y ;
@@ -312,7 +312,7 @@ std::vector<MOVE> Game::findMoveOnBoardFrom(Checkerboard* board, COLOR color, Pl
                     if (player->isMoveValidOnBoard(board->getSquare(x,y),x,y,xDest,yDest, board)) {
                         bool wasKill = player->isKillOnBoard(board->getSquare(x,y),x,y,xDest,yDest,board) ;
                         if (!(canKill && !wasKill)) {
-                            if (!wasKill || player->isTheBestKillOnBoard(board->getSquare(x,y),x,y,xDest,yDest, board)){
+                            if (!wasKill || player->isTheBestKillOnBoard(board->getSquare(x,y),x,y,xDest,yDest, board, with_thread)){
 
                                 MOVE move ;
                                 move.x = x ;
