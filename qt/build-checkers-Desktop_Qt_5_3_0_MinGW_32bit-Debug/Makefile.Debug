@@ -13,7 +13,7 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DUNICODE -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_NEEDS_QMAIN
 CFLAGS        = -pipe -fno-keep-inline-dllexport -g -Wall -Wextra $(DEFINES)
-CXXFLAGS      = -pipe -fno-keep-inline-dllexport -fopenmp -g -frtti -Wall -Wextra -fexceptions -mthreads $(DEFINES)
+CXXFLAGS      = -pipe -fno-keep-inline-dllexport -fopenmp -O2 -DUNICODE -g -frtti -Wall -Wextra -fexceptions -mthreads $(DEFINES)
 INCPATH       = -I..\checkers -I"C:\Qt\Qt5.3.0\5.3\mingw482_32\include" -I"C:\Qt\Qt5.3.0\5.3\mingw482_32\include\QtWidgets" -I"C:\Qt\Qt5.3.0\5.3\mingw482_32\include\QtGui" -I"C:\Qt\Qt5.3.0\5.3\mingw482_32\include\QtCore" -I"debug" -I"." -I"." -I"C:\Qt\Qt5.3.0\5.3\mingw482_32\mkspecs\win32-g++"
 LINKER      =        g++
 LFLAGS        =        -fopenmp -Wl,-subsystem,windows -mthreads
@@ -86,7 +86,7 @@ DESTDIR_TARGET = debug\checkers.exe
 first: all
 all: Makefile.Debug  $(DESTDIR_TARGET)
 
-$(DESTDIR_TARGET): ui_mainwindow.h ui_mainwindow2.h ui_mainwindow3.h ui_mainwindow4.h $(OBJECTS) 
+$(DESTDIR_TARGET): ui_mainwindow.h $(OBJECTS) 
 	$(LINKER) $(LFLAGS) -o $(DESTDIR_TARGET) $(OBJECTS)  $(LIBS)
 
 qmake: FORCE
@@ -261,7 +261,8 @@ debug/moc_mainwindow.cpp: ../checkers/include.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qcheckbox.h \
 		../checkers/struct.h \
 		../checkers/labelcase.h \
-		ui_mainwindow2.h \
+		../checkers/Tools.h \
+		ui_mainwindow.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore/QVariant \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QAction \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qaction.h \
@@ -297,7 +298,6 @@ debug/moc_mainwindow.cpp: ../checkers/include.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QVBoxLayout \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QWidget \
 		../checkers/game.h \
-		../checkers/Tools.h \
 		../checkers/Checkerboard.h \
 		../checkers/Player.h \
 		../checkers/mainwindow.h
@@ -450,20 +450,11 @@ debug/moc_labelcase.cpp: ../checkers/include.h \
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h ui_mainwindow2.h ui_mainwindow3.h ui_mainwindow4.h
+compiler_uic_make_all: ui_mainwindow.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h ui_mainwindow2.h ui_mainwindow3.h ui_mainwindow4.h
+	-$(DEL_FILE) ui_mainwindow.h
 ui_mainwindow.h: ../checkers/mainwindow.ui
 	C:\Qt\Qt5.3.0\5.3\mingw482_32\bin\uic.exe ..\checkers\mainwindow.ui -o ui_mainwindow.h
-
-ui_mainwindow2.h: ../checkers/mainwindow2.ui
-	C:\Qt\Qt5.3.0\5.3\mingw482_32\bin\uic.exe ..\checkers\mainwindow2.ui -o ui_mainwindow2.h
-
-ui_mainwindow3.h: ../checkers/mainwindow3.ui
-	C:\Qt\Qt5.3.0\5.3\mingw482_32\bin\uic.exe ..\checkers\mainwindow3.ui -o ui_mainwindow3.h
-
-ui_mainwindow4.h: ../checkers/mainwindow4.ui
-	C:\Qt\Qt5.3.0\5.3\mingw482_32\bin\uic.exe ..\checkers\mainwindow4.ui -o ui_mainwindow4.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -622,7 +613,8 @@ debug/mainwindow.o: ../checkers/mainwindow.cpp ../checkers/mainwindow.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qcheckbox.h \
 		../checkers/struct.h \
 		../checkers/labelcase.h \
-		ui_mainwindow2.h \
+		../checkers/Tools.h \
+		ui_mainwindow.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore/QVariant \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QAction \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qaction.h \
@@ -658,7 +650,6 @@ debug/mainwindow.o: ../checkers/mainwindow.cpp ../checkers/mainwindow.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QVBoxLayout \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QWidget \
 		../checkers/game.h \
-		../checkers/Tools.h \
 		../checkers/Checkerboard.h \
 		../checkers/Player.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o ..\checkers\mainwindow.cpp
