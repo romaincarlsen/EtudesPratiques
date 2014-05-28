@@ -36,6 +36,7 @@ private :
     //attributs de stockage de la configuration du jeu (alphabéta, fonctions de coûts, parallélisation)
     bool with_alphabeta;
     bool with_thread;
+    bool _reporting;
     int costFunctionP1;
     int costFunctionP2;
     //Tableau des Label contenant les images du jeu
@@ -51,6 +52,7 @@ public slots:
     void setThreads(bool t);
     void setCostFunction1(int f);
     void setCostFunction2(int f);
+    void setReporting(bool report);
 
     //Méthode qui deselectionne le pion courant lorsque l'on fait un clic droit sauf si une prise est en cours
     bool deselect();

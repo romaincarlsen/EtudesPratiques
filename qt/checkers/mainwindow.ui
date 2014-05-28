@@ -324,6 +324,13 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QCheckBox" name="reporting">
+          <property name="text">
+           <string>reporting</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>

@@ -44,9 +44,10 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->modeP2_IA->connect(ui->modeP2_IA,SIGNAL(currentIndexChanged(int)),this,SLOT(selectLevelPlayer2(int)));
     }
 
-    //Connection des checkboxs et des attributs activant ou désactivant l'alpha-béta et les threads
+    //Connection des checkboxs et des attributs activant ou désactivant l'alpha-béta, les threads et le reporting
     ui->alphabeta->connect(ui->alphabeta,SIGNAL(clicked(bool)),this,SLOT(setAlphaBeta(bool)));
     ui->threads->connect(ui->threads,SIGNAL(clicked(bool)),this,SLOT(setThreads(bool)));
+    ui->reporting->connect(ui->reporting,SIGNAL(clicked(bool)),this,SLOT(setReporting(bool)));
 
     //Initialisation des valeurs des spinbox pour le choix des fonctions de coût
     ui->fctcout1->setMinimum(1);
@@ -162,7 +163,7 @@ void MainWindow::start_click(){
     //redimensionnement du tableau des labels
     _square.resize(size,vector<LabelCase*>(size));
 
-    game = new Game(size, nbLineP1, nbLineP2,_p1, costFunctionP1,_p2, costFunctionP2, with_alphabeta, with_thread) ;
+    game = new Game(size, nbLineP1, nbLineP2,_p1, costFunctionP1,_p2, costFunctionP2, with_alphabeta, with_thread, _reporting) ;
     for (int i = 0; i< game->getBoard()->getSize(); i++){
         for (int j = 0; j< game->getBoard()->getSize(); j++){
             //creation des labels
@@ -228,6 +229,11 @@ void MainWindow::setCostFunction1(int f){
 void MainWindow::setCostFunction2(int f){
     costFunctionP2 = f;
 }
+
+void MainWindow::setReporting(bool report){
+    _reporting = report;
+}
+
 
 int MainWindow::getheight(){
     return height;

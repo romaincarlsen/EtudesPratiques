@@ -1,6 +1,6 @@
 #include "game.h"
 
-Game::Game(int size, int nbLineP1, int nbLineP2, int p1,int costFunction1, int p2, int costFunction2, bool alphabeta, bool thread){
+Game::Game(int size, int nbLineP1, int nbLineP2, int p1,int costFunction1, int p2, int costFunction2, bool alphabeta, bool thread, bool reporting){
     this->size = size ;
     this->nbLinePiece1 = nbLineP1 ;
     this->nbLinePiece2 = nbLineP2 ;
@@ -27,6 +27,7 @@ Game::Game(int size, int nbLineP1, int nbLineP2, int p1,int costFunction1, int p
     url_reporting = "coup.txt" ;
     with_alphabeta = alphabeta ;
     with_thread = thread ;
+    with_reporting = reporting;
 
 }
 

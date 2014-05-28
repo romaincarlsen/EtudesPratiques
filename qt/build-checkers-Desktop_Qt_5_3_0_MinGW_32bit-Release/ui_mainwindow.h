@@ -65,6 +65,7 @@ public:
     QPushButton *start;
     QCheckBox *alphabeta;
     QCheckBox *threads;
+    QCheckBox *reporting;
     QLabel *board_l;
     QMenuBar *menubar;
     QStatusBar *statusbar;
@@ -265,6 +266,11 @@ public:
 
         horizontalLayout_8->addWidget(threads);
 
+        reporting = new QCheckBox(centralwidget);
+        reporting->setObjectName(QStringLiteral("reporting"));
+
+        horizontalLayout_8->addWidget(reporting);
+
 
         verticalLayout->addLayout(horizontalLayout_8);
 
@@ -303,6 +309,7 @@ public:
         start->setText(QApplication::translate("MainWindow", "start", 0));
         alphabeta->setText(QApplication::translate("MainWindow", "alpha-beta", 0));
         threads->setText(QApplication::translate("MainWindow", "threads", 0));
+        reporting->setText(QApplication::translate("MainWindow", "reporting", 0));
         board_l->setText(QApplication::translate("MainWindow", "board", 0));
     } // retranslateUi
 
