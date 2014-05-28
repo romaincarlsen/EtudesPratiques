@@ -33,7 +33,7 @@ private :
     //Attributs stockant la taille maximale de la fenêtre
     int width;
     int height;
-    //attributs de stockage de la configuration du jeu (alphabéta, fonctions de coûts, parallélisation)
+    //attributs de stockage de la configuration du jeu (alphabéta, fonctions de coûts, parallélisation, reporting)
     bool with_alphabeta;
     bool with_thread;
     bool _reporting;
@@ -55,6 +55,7 @@ public slots:
     void setReporting(bool report);
 
     bool close();
+    void quit();
 
     //Méthode qui deselectionne le pion courant lorsque l'on fait un clic droit sauf si une prise est en cours
     bool deselect();

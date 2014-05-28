@@ -67,6 +67,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->connect(iTimer, SIGNAL(timeout()), this, SLOT(launchIA()));
     this->showMaximized();
 
+    //Connection du slot de fermture de la fenetre (pour interrompre l'IA si le calcul est en cours
+    this->connect(this,SIGNAL(destroyed()),this,SLOT(close()));
 }
 
 MainWindow::~MainWindow()
@@ -304,5 +306,10 @@ void MainWindow::printSelect(){
 //Gestion de la fermeture de la fenetre
 bool MainWindow::close(){
     qDebug() << "test" << endl;
+    game->stop();
     QMainWindow::close ();
+}
+void MainWindow::quit(){
+    qDebug() << "test1" << endl;
+    qDebug() << "test2" << endl;
 }

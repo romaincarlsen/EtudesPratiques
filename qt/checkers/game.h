@@ -32,6 +32,8 @@ private:
     //time_t time_IA_begin ;
     timeval time_IA_begin ;
 
+    bool _stop;
+
 public:
 
     bool with_alphabeta;
@@ -103,6 +105,9 @@ public:
     void save_reporting() ;
     INFO getInfo(Checkerboard* board, Player* player, Player* opponent) ;
     bool apply(Checkerboard* board) ;
+
+    //Gestion de l'arret en cours de calcul de l'IA lors de la fermeture de la fenetre
+    void stop();
 
 };
 

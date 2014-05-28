@@ -777,3 +777,8 @@ INFO Game::getInfo(Checkerboard* board, Player* player, Player* opponent) {
 bool Game::apply(Checkerboard* board) {
     return true ;
 }
+
+//Gestion de l'arret en cours de calcul de l'IA lors de la fermeture de la fenetre
+void Game::stop(){
+    _stop = false;
+}
