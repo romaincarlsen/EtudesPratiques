@@ -86,7 +86,7 @@ public:
     std::vector<MOVE> findMoveOnBoardFrom(Checkerboard* board, COLOR color, Player* player, int xSelect, int ySelect) ;
 
     std::vector<CHILD> findChild(Checkerboard* board, COLOR color, Player* player, int xSelect, int ySelect) ;
-    int findBestChild(std::vector<CHILD> child, std::vector<MOVE> & best) ;
+    int findBestChild(std::vector<CHILD> child, std::vector<MOVE> & best, int nb_child_treated) ;
 
     MOVE negaMax(bool with_thread_param) ;
     int negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int xSelect, int ySelect) ;
