@@ -15,7 +15,7 @@ Game::Game(int size, int nbLineP1, int nbLineP2, int p1,int costFunction1, int p
     //Player 1 turn
 
     // piece selection
-    txt += "select (ex : A1) :   " ;
+    txt += " Sélectionnez la piéce à déplacer." ;
 
     state = WHITE_SELECT ;
 
@@ -23,6 +23,9 @@ Game::Game(int size, int nbLineP1, int nbLineP2, int p1,int costFunction1, int p
     with_alphabeta = alphabeta ;
     with_thread = thread ;
     with_reporting = reporting;
+
+    _stop = false;
+
 }
 
 
@@ -108,8 +111,10 @@ STATE Game::select(Player* player, int x, int y) {
         if (player->selectValidOnBoard(x,y, board)) {
             player->x = x ;
             player->y = y ;
-            txt += "destination : (ex : A1) :   " ;
+
+            txt += " Sélectionnez la destination de votre pièce." ;
             board.select(x,y);
+
             return player->state_dest ;
         }
     }
@@ -125,14 +130,16 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
             bool wasKill = player->isKillOnBoard(board.getSquare(player->x,player->y),player->x,player->y,xDest,yDest,board) ;
             if(!(valid=!(canKill && !wasKill))) {
                 txt += "\nYou have to kill !\n" ;
-                txt += "select (ex : A1) :   " ;
+
+                txt += " Sélectionnez la pièce à déplacer." ;
                 board.deselect();
                 return player->state_select ;
             }
             else {
                 if (!(valid = !wasKill || player->isTheBestKillOnBoard(board.getSquare(player->x,player->y),player->x,player->y,xDest,yDest, board, with_thread))) {
                     txt += "\nYou have to choose the best kill !\n" ;
-                    txt += "select (ex : A1) :   " ;
+
+                    txt += " Sélectionnez la pièce à déplacer." ;
                     if (board.moveBegined()) {
                         return state ;
                     }
@@ -175,8 +182,9 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
 
 
                 // piece selection
-                txt += "select (ex : A1) :   " ;
+                txt += " Sélectionnez la pièce à déplacer." ;
                 board.deselect();
+
                 return opponent->state_select ;
             }
         }
@@ -360,6 +368,7 @@ std::vector<CHILD> Game::findChild(const Checkerboard & board, COLOR color, Play
         move = findMoveOnBoard(board,color, player) ;
     //child.resize(move.size());
     for (int i = 0 ; i<move.size() ; i++) {
+        if (_stop) exit(EXIT_SUCCESS);
         CHILD test ;
         test.move = move[i] ;
         Checkerboard tmp_board(board) ;
@@ -402,6 +411,7 @@ int Game::findBestChild(std::vector<CHILD> child, std::vector<MOVE> & best, int 
         if (i==0 || child[i].value >= value) {
             if (i==0 || child[i].value > value) {
                 value = child[i].value ;
+                #pragma omp critical
                 best.clear();
             }
             best.push_back(child[i].move) ;
@@ -490,6 +500,7 @@ int Game::negaMaxClassic(const Checkerboard & board, int depth, COLOR color, Pla
 
     for (int i = 0 ; i<child.size() ; i++) {
         QCoreApplication::processEvents();
+        if (_stop) exit(EXIT_SUCCESS);
         if (omp_get_num_threads()>1)
             qDebug() << "nb threads = " << omp_get_num_threads() ;
         child[i].value = - negaMaxClassic((const Checkerboard &)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
@@ -549,6 +560,7 @@ int Game::negaMaxThread(const Checkerboard & board, int depth, COLOR color, Play
     {
         for (int i = 0 ; i<(int)child.size() ; i++) {
             QCoreApplication::processEvents();
+            if (_stop) exit(EXIT_SUCCESS);
             /*#pragma omp single
             {*/
             int test ;
@@ -632,6 +644,8 @@ int Game::alphaBetaClassic(const Checkerboard & board, int depth, COLOR color, P
     for (int i = 0 ; i<nb_child_treated ; i++) {
 
         QCoreApplication::processEvents();
+        if (_stop) exit(EXIT_SUCCESS);
+
         if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
             nb_child_treated = i ;
         }
@@ -679,19 +693,21 @@ int Game::alphaBetaThread(const Checkerboard & board, int depth, COLOR color, Pl
     {
         for (int i = 0 ; i<nb_child_treated ; i++) {
             QCoreApplication::processEvents();
+            if (_stop) exit(EXIT_SUCCESS);
             if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
                 nb_child_treated = i ;
             }
             else {
                 int test ;
-#pragma omp task
+                #pragma omp task
                 {
                     if (omp_get_num_threads()>1)
                         qDebug() << "nb threads = " << omp_get_num_threads() ;
 
-                    test = -alphaBetaThread((const Checkerboard &)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0, child[i].xSelect, child[i].ySelect) ;
+                    test = -alphaBetaThread(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0, child[i].xSelect, child[i].ySelect) ;
+                }
+                    #pragma omp taskwait
 
-#pragma omp taskwait
                     child[i].value = test ;
 
                     if (!value_init) {
@@ -703,12 +719,14 @@ int Game::alphaBetaThread(const Checkerboard & board, int depth, COLOR color, Pl
                             value = child[i].value ;
                     }
 
-                    //delete (const Checkerboard &)(child[i].board) ;
-                }
+                    //delete (Checkerboard*)(child[i].board) ;
+
             }
         }
     }
+
     value = findBestChild(child,best,nb_child_treated) ;
+
     return value ;
 }
 
@@ -747,5 +765,5 @@ void Game:: save_reporting() {
 
 //Gestion de l'arret en cours de calcul de l'IA lors de la fermeture de la fenetre
 void Game::stop(){
-    _stop = false;
+    _stop = true;
 }
