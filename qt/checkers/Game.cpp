@@ -20,7 +20,7 @@ Game::Game(int size, int nbLineP1, int nbLineP2, int p1,int costFunction1, int p
     //Player 1 turn
 
     // piece selection
-    txt += "select (ex : A1) :   " ;
+    txt += " Sélectionnez la piéce à déplacer." ;
 
     state = WHITE_SELECT ;
 
@@ -121,7 +121,7 @@ STATE Game::select(Player* player, int x, int y) {
         if (player->selectValidOnBoard(x,y, board)) {
             player->x = x ;
             player->y = y ;
-            txt += "destination : (ex : A1) :   " ;
+            txt += " Sélectionnez la destination de votre piéce." ;
             board->select(x,y);
             return player->state_dest ;
         }
@@ -138,14 +138,14 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
             bool wasKill = player->isKillOnBoard(board->getSquare(player->x,player->y),player->x,player->y,xDest,yDest,board) ;
             if(!(valid=!(canKill && !wasKill))) {
                 txt += "\nYou have to kill !\n" ;
-                txt += "select (ex : A1) :   " ;
+                txt += " Sélectionnez la piéce à déplacer." ;
                 board->deselect();
                 return player->state_select ;
             }
             else {
                 if (!(valid = !wasKill || player->isTheBestKillOnBoard(board->getSquare(player->x,player->y),player->x,player->y,xDest,yDest, board, with_thread))) {
                     txt += "\nYou have to choose the best kill !\n" ;
-                    txt += "select (ex : A1) :   " ;
+                    txt += " Sélectionnez la piéce à déplacer." ;
                     if (board->moveBegined()) {
                         return state ;
                     }
@@ -188,7 +188,7 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
 
 
                 // piece selection
-                txt += "select (ex : A1) :   " ;
+                txt += " Sélectionnez la piéce à déplacer." ;
                 board->deselect();
                 return opponent->state_select ;
             }

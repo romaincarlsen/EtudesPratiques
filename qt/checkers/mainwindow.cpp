@@ -87,6 +87,7 @@ void MainWindow::clear(){
 
 void MainWindow::launchIA() {
     if (game->isCPTurn()) {
+        this->ui->board_l->setText("Calcul du coup en cours");
         if (!game->isFinish()) {
 
             MOVE mv ;
@@ -308,6 +309,5 @@ void MainWindow::printSelect(){
 void MainWindow::closeEvent(QCloseEvent * event ){
     if (game != NULL)
         game->stop();
-    qDebug() << "test" << endl;
     event->accept();
 }
