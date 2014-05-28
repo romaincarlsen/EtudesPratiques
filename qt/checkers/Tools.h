@@ -41,5 +41,6 @@ static QPixmap square_to_img(SQUARE square) ;
 static double timediff(timeval begin, timeval end) ;
 
 };
-
+#else
+class Tools ;
 #endif

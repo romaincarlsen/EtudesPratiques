@@ -22,5 +22,6 @@ signals:
     void clicked(int, int);
     void deselect();
 };
-
+#else
+class LabelCase ;
 #endif // LABELCASE_H

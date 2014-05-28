@@ -118,6 +118,7 @@ public:
     void stop();
 
 };
-
+#else
+class Game ;
 #endif
 

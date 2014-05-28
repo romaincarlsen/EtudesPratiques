@@ -83,5 +83,6 @@ public:
 private:
     Ui::MainWindow *ui;
 };
-
+#else
+class MainWindow ;
 #endif // MAINWINDOW_H

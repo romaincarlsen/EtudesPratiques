@@ -62,7 +62,7 @@ public:
     string toString() const ;
 
 };
-/*#else
-class Checkerboard;*/
+#else
+class Checkerboard;
 
 #endif

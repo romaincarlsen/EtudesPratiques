@@ -3,7 +3,6 @@
 
 #include "include.h"
 #include "labelcase.h"
-//#include "Checkerboard.h"
 
 
 // enum of piece types on squares
@@ -33,10 +32,10 @@ typedef struct{
     int yDest ;
 } MOVE ;
 
-
 //Damier : contient les informations du jeu (plateau, placement des piéces)
 typedef std::vector<std::vector<QSQUARE> > Damier;
 //Board : contient les images à afficher
 typedef std::vector<std::vector<LabelCase*> > Board;
+#else
 
 #endif // STRUCT_H

@@ -105,5 +105,6 @@ public:
 	~Player(void);
 
 };
-
+#else
+class Player ;
 #endif
