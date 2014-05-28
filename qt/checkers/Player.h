@@ -17,7 +17,7 @@ public:
 	//Indicate direction of the offensive
 	DIRECTION direction ;
 
-  /*  Checkerboard* board ;*/
+  /*  const Checkerboard & board ;*/
 	//Indicate how is coded the player king
 	SQUARE king ;
 	//Indicate how is coded the player piece
@@ -42,25 +42,25 @@ public:
     bool isCP() ;
 
 	// indicate if y coordonate corresponde with king line of player
-    bool isOnKingLineOnBoard(int yDest, Checkerboard* board) ;
+    bool isOnKingLineOnBoard(int yDest, const Checkerboard & board) ;
 
-    int theBestKillOnBoard(SQUARE piece, int x, int y, Checkerboard* board, bool with_thread) ;
+    int theBestKillOnBoard(SQUARE piece, int x, int y, const Checkerboard & board, bool with_thread) ;
 
-    bool isTheBestKillOnBoard(SQUARE piece, int x, int y,int xDest, int yDest, Checkerboard* board, bool with_thread) ;
+    bool isTheBestKillOnBoard(SQUARE piece, int x, int y,int xDest, int yDest, const Checkerboard & board, bool with_thread) ;
 
-    bool canKillOnBoard(SQUARE piece, int x, int y, Checkerboard* board) const ;
+    bool canKillOnBoard(SQUARE piece, int x, int y, const Checkerboard & board) const ;
 
-    bool haveKillOnBoard(Checkerboard* board) const ;
+    bool haveKillOnBoard(const Checkerboard & board) const ;
 
 	bool isWhite() const ;
 
 	bool isBlack() const ;
 
 	//Verify if the square selected contains a player piece
-    bool selectValidOnBoard(int x, int y, Checkerboard* board) const;
+    bool selectValidOnBoard(int x, int y, const Checkerboard & board) const;
 
 	//Verify if the destination square selected is empty
-    bool destValidOnBoard(int x, int y, Checkerboard* board) const;
+    bool destValidOnBoard(int x, int y, const Checkerboard & board) const;
 
 	//Verify if the square selected is at the player
 	bool isMine(SQUARE square) const;
@@ -69,35 +69,38 @@ public:
 	bool isOpponent(SQUARE square) const;
 
 	//Count the number of differents types of pieces
-    void scanNumberOfOnBoard(int & nbMinePiece, int & nbMineKing, int & nbOpponentPiece, int & nbOpponentKing, Checkerboard* board) ;
+    void scanNumberOfOnBoard(int & nbMinePiece, int & nbMineKing, int & nbOpponentPiece, int & nbOpponentKing, const Checkerboard & board) ;
 
 	//Kill the opponent piece
-    void killOnBoard(int x,int y,int xDest,int yDest, Checkerboard* board);
+    void killOnBoard(int x,int y,int xDest,int yDest, Checkerboard & board);
 	
 	//Verify it's a valid piece move
-    bool isPieceMoveOnBoard(SQUARE playerPiece, int x, int y, int xDest, int yDest, Checkerboard* board) const;
+    bool isPieceMoveOnBoard(SQUARE playerPiece, int x, int y, int xDest, int yDest, const Checkerboard & board) const;
 
 	//Verify it's a valid piece kill
-    bool isPieceKillOnBoard(SQUARE playerPiece, int x, int y, int xDest, int yDest, Checkerboard* board) const;
+    bool isPieceKillOnBoard(SQUARE playerPiece, int x, int y, int xDest, int yDest, const Checkerboard & board) const;
 
 	//Verify it's a valid king move
-    bool isKingMoveOnBoard(SQUARE playerPiece, int x, int y, int xDest, int yDest, Checkerboard* board) const;
+    bool isKingMoveOnBoard(SQUARE playerPiece, int x, int y, int xDest, int yDest, const Checkerboard & board) const;
 
 	//Verify it's a valid king kill
-    bool isKingKillOnBoard(SQUARE playerPiece, int x, int y, int xDest, int yDest, Checkerboard* board) const;
+    bool isKingKillOnBoard(SQUARE playerPiece, int x, int y, int xDest, int yDest, const Checkerboard & board) const;
 
 	//Verify if the move is valid
-    bool isMoveValidOnBoard(SQUARE playerPiece, int x, int y, int xDest, int yDest, Checkerboard* board) const;
+    bool isMoveValidOnBoard(SQUARE playerPiece, int x, int y, int xDest, int yDest, const Checkerboard & board) const;
 
 	//Verify if the move is a kill
-    bool isKillOnBoard(SQUARE playerPiece, int x, int y, int xDest, int yDest, Checkerboard* board) const;
+    bool isKillOnBoard(SQUARE playerPiece, int x, int y, int xDest, int yDest, const Checkerboard & board) const;
 
 
 	//Execute the move
-    bool moveOnBoard(int x, int y, int xDest, int yDest, Checkerboard * board) ;
+    bool moveOnBoard(int x, int y, int xDest, int yDest, Checkerboard & board) ;
 
 	//Create the player
-    Player(int nbLinePiece, Checkerboard* board, DIRECTION direction, int level = -1);
+
+    Player() ;
+
+    Player(int nbLinePiece, Checkerboard & board, DIRECTION direction, int level = -1);
 
 	~Player(void);
 

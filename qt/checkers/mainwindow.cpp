@@ -167,8 +167,9 @@ void MainWindow::start_click(){
     _square.resize(size,vector<LabelCase*>(size));
 
     game = new Game(size, nbLineP1, nbLineP2,_p1, costFunctionP1,_p2, costFunctionP2, with_alphabeta, with_thread, _reporting) ;
-    for (int i = 0; i< game->getBoard()->getSize(); i++){
-        for (int j = 0; j< game->getBoard()->getSize(); j++){
+
+    for (int i = 0; i< game->getSize(); i++){
+        for (int j = 0; j< game->getSize(); j++){
             //creation des labels
             LabelCase* label = new LabelCase(i,j);
             _square[i][j] = label;
@@ -182,6 +183,8 @@ void MainWindow::start_click(){
             label->setMaximumSize(labelSize,labelSize);
         }
     }
+
+
     this->ui->board_l->setText(game->toString()) ;
     paint(true);
     this->ui->border->setFrameShape(QFrame::Box);
@@ -190,9 +193,6 @@ void MainWindow::start_click(){
 
     //Changement du curseur pour une main sur le plateau
     ui->border->setCursor(Qt::OpenHandCursor);
-
-
-    //launchIA() ;
 }
 
 //Méthode qui deselectionne le pion courant lorsque l'on fait un clic droit sauf si une prise est en cours
@@ -265,8 +265,10 @@ int main(int argc, char *argv[])
 // print checkerboard
 void MainWindow::paint(bool firstPrint)
 {
+
     //tableau de jeu
-    Damier square = game->getBoard()->getQSquare();
+    Checkerboard board(game->getBoard()) ;
+    Damier square = board.getQSquare();
     for (int y=0 ; y<this->size ; y++) {
         for (int x=0 ; x<this->size ; x++) {
             _square[x][y]->setPixmap(Tools::square_to_img(square[x][y].square));
@@ -274,18 +276,21 @@ void MainWindow::paint(bool firstPrint)
             if(firstPrint) this->ui->board_gl->addWidget(_square[x][y], -(y-(this->size-1)), x) ;
         }
     }
-    if(game->getBoard()->selection.select) printSelect();
+    if(board.selection.select) printSelect();
 }
 
 //affiche la case sélectionnée
 void MainWindow::printSelect(){
 
-    int x = game->getBoard()->selection.x;
-    int y = game->getBoard()->selection.y;
-    Damier squareTab = game->getBoard()->getQSquare();
-    SQUARE square(squareTab[x][y].square);
+    Checkerboard board(game->getBoard()) ;
+    int x = board.selection.x;
+    int y = board.selection.y;
+    Damier squareTab = board.getQSquare();
+    SQUARE square = squareTab[x][y].square ;
     QPixmap img;
-    switch (square) {
+
+
+    /*switch (square) {
     case BLACK_KING :	img = QPixmap("../checkers/img/black_king_select.png") ;
         break;
     case BLACK_PIECE :	img = QPixmap("../checkers/img/black_piece_select.png") ;
@@ -302,6 +307,7 @@ void MainWindow::printSelect(){
     }
     _square[x][y]->setPixmap(img);
     _square[x][y]->setScaledContents(true);
+*/
 }
 //Gestion de la fermeture de la fenetre
 bool MainWindow::close(){

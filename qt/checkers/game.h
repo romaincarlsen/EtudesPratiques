@@ -11,7 +11,7 @@
 // struct with move and his value for negaMax algorithm
 typedef struct {
     MOVE move ;
-    Checkerboard * board ;
+    Checkerboard board ;
     bool valued ;
     int value ;
     int xSelect ;
@@ -24,7 +24,7 @@ class Game
 private:
     Player* P1 ;
     Player* P2 ;
-    Checkerboard* board ;
+    Checkerboard board ;
 
     STATE state ;
 
@@ -54,7 +54,7 @@ public:
     Game(int size, int nbLineP1, int nbLineP2, int p1 = -1,int costFunction1=1, int p2 =-1, int costFunction2=1, bool alphabeta=false, bool thread=false, bool reporting=false) ;
     ~Game();
 
-    Checkerboard* getBoard() ;
+    Checkerboard getBoard() ;
     int getSize();
     Player* getP1() ;
     Player* getP2() ;
@@ -65,8 +65,8 @@ public:
 
     bool isFinish() ;
 
-    bool isFinishOnBoard(Checkerboard* board, Player *player) ;
-    bool isEqualityOnBoard(Checkerboard* board, Player *player) ;
+    bool isFinishOnBoard(const Checkerboard & board, Player *player) ;
+    bool isEqualityOnBoard(const Checkerboard & board, Player *player) ;
 
     bool isWhiteState(STATE state) ;
     bool isBlackState(STATE state) ;
@@ -81,37 +81,37 @@ public:
     // print game
     QString toString() ;
 
-    int costFunction(Checkerboard* board, Player* player, COLOR color) ;
+    int costFunction(const Checkerboard & board, Player* player, COLOR color) ;
 
-    int costFunction1(Checkerboard* board, Player* player, COLOR color) ;
+    int costFunction1(const Checkerboard & board, Player* player, COLOR color) ;
 
-    int costFunction2(Checkerboard* board, Player* player, COLOR color) ;
+    int costFunction2(const Checkerboard & board, Player* player, COLOR color) ;
 
-    int costFunction3(Checkerboard* board, Player* player, COLOR color) ;
+    int costFunction3(const Checkerboard & board, Player* player, COLOR color) ;
 
-    int costFunction4(Checkerboard* board, Player* player, COLOR color) ;
+    int costFunction4(const Checkerboard & board, Player* player, COLOR color) ;
 
-    int costFunction5(Checkerboard* board, Player* player, COLOR color);
+    int costFunction5(const Checkerboard & board, Player* player, COLOR color);
 
-    std::vector<MOVE> findMoveOnBoard(Checkerboard* board, COLOR color, Player* player) ;
+    std::vector<MOVE> findMoveOnBoard(const Checkerboard & board, COLOR color, Player* player) ;
 
-    std::vector<MOVE> findMoveOnBoardFrom(Checkerboard* board, COLOR color, Player* player, int xSelect, int ySelect) ;
+    std::vector<MOVE> findMoveOnBoardFrom(const Checkerboard & board, COLOR color, Player* player, int xSelect, int ySelect) ;
 
-    std::vector<CHILD> findChild(Checkerboard* board, COLOR color, Player* player, int xSelect, int ySelect) ;
+    std::vector<CHILD> findChild(const Checkerboard & board, COLOR color, Player* player, int xSelect, int ySelect) ;
     int findBestChild(std::vector<CHILD> child, std::vector<MOVE> & best, int nb_child_treated) ;
 
     MOVE negaMax(bool with_thread_param) ;
-    int negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int xSelect, int ySelect) ;
-    int negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int xSelect, int ySelect) ;
+    int negaMaxClassic(const Checkerboard & board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int xSelect, int ySelect) ;
+    int negaMaxThread(const Checkerboard & board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int xSelect, int ySelect) ;
 
     MOVE alphaBeta(bool with_thread_param) ;
-    int alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec, int xSelect, int ySelect);
-    int alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec, int xSelect, int ySelect);
+    int alphaBetaClassic(const Checkerboard & board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec, int xSelect, int ySelect);
+    int alphaBetaThread(const Checkerboard & board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec, int xSelect, int ySelect);
 
     Player* playerTurn() ;
 
     void init_reporting() ;
-    void add_node_reporting(Checkerboard* board, int value, double time, int nb_child, int nb_child_treated) ;
+    void add_node_reporting(const Checkerboard & board, int value, double time, int nb_child, int nb_child_treated) ;
     void save_reporting() ;
 
     //Gestion de l'arret en cours de calcul de l'IA lors de la fermeture de la fenetre

@@ -2,6 +2,9 @@
 
 
 // create checkerboard with dimension parameters
+Checkerboard::Checkerboard() {
+
+}
 
 Checkerboard::Checkerboard(int size) : _size(size)
 {
@@ -10,9 +13,9 @@ Checkerboard::Checkerboard(int size) : _size(size)
     _square.resize(size,vector<QSQUARE>(size));
     // init squares with EMPTY and LOCK type
 
-    //square = new SQUARE*[this->_size] ;
+    //square = new SQUARE*[this._size] ;
     for (int x=0 ; x<size ; x++) {
-        //_square[x] = new SQUARE[this->_size] ;
+        //_square[x] = new SQUARE[this._size] ;
         for (int y=0 ; y<size ; y++) {
             _square[x][y].x = x ;
             _square[x][y].y = y ;
@@ -25,7 +28,7 @@ Checkerboard::Checkerboard(int size) : _size(size)
 
 }
 
-Checkerboard::Checkerboard(Checkerboard * board) : _size(board->getSize()),_square(board->getQSquare())
+Checkerboard::Checkerboard(const Checkerboard & board) : _size(board.getSize()),_square(board.getQSquare())
 {
 }
 
@@ -38,7 +41,7 @@ int Checkerboard::getSize() const{
 }
 
 void Checkerboard::setSquare(int x, int y, SQUARE square) {
-    this->_square[x][y].square= square ;
+    this->_square[x][y].square = square ;
 }
 
 Damier Checkerboard::getQSquare() const {
@@ -132,7 +135,7 @@ bool Checkerboard::isWin() const {
 
 // scan the checkerboard in a file
 
-string Checkerboard::toString()
+string Checkerboard::toString() const
 {   string res ="";
     for (int y=0 ; y<this->_size ; y++) {
         for (int x=0 ; x<this->_size ; x++) {

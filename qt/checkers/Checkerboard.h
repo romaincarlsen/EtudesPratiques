@@ -8,6 +8,7 @@
 #include "struct.h"
 #include "Tools.h"
 #include "labelcase.h"
+
 typedef struct {
 
     int x ;
@@ -25,8 +26,9 @@ private:
 
 public:
 	// create checkerboard with dimension parameters
-	Checkerboard(int size);
-    Checkerboard(Checkerboard* board);
+    Checkerboard() ;
+    Checkerboard(int size);
+    Checkerboard(const Checkerboard & board);
 	~Checkerboard(void);
 
     //attributs contenant la position de la case sélectionnée
@@ -57,7 +59,7 @@ public:
     void select(int x, int y);
     //déselectionne la case
     bool deselect();
-    string toString();
+    string toString() const ;
 
 };
 /*#else
