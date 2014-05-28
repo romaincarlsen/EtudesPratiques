@@ -30,7 +30,7 @@ Game::Game(int size, int nbLineP1, int nbLineP2, int p1,int costFunction1, int p
     with_reporting = reporting;
 
     if (with_reporting) {
-        qDebug() << "reporting OK" ;
+        qDebug() << with_reporting ;
 
     }
 
@@ -455,7 +455,9 @@ MOVE Game::negaMax(bool with_thread_param) {
         else
             value = ((int)BLACK) * negaMaxClassic(board, P2->getLevel(), BLACK, P1, P2, m, xSelect, ySelect) ;
     }
-    save_reporting();
+    if(with_reporting) {save_reporting();}
+
+
     if (m.empty()) {
         MOVE error ;
         error.x = error.y = error.xDest = error.yDest = -1 ;
@@ -610,7 +612,7 @@ MOVE Game::alphaBeta(bool with_thread_param) {
         else
             value = ((int)BLACK) * alphaBetaClassic(board, P2->getLevel(), BLACK, P1, P2, m,-value,false, xSelect, ySelect) ;
     }
-    save_reporting() ;
+    if(with_reporting)save_reporting();
     if (m.empty()) {
         MOVE error ;
         error.x = error.y = error.xDest = error.yDest = -1 ;

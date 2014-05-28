@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //Initialisation des attributs
     with_alphabeta = false;
     with_thread = false;
+    _reporting = false;
     costFunctionP1 = 1;
     costFunctionP2 = 1;
 
