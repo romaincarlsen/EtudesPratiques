@@ -54,6 +54,8 @@ public slots:
     void setCostFunction2(int f);
     void setReporting(bool report);
 
+    bool close();
+
     //Méthode qui deselectionne le pion courant lorsque l'on fait un clic droit sauf si une prise est en cours
     bool deselect();
 

@@ -499,6 +499,7 @@ int Game::negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1
     child = findChild(board,color, player, xSelect, ySelect) ;
 
     for (int i = 0 ; i<child.size() ; i++) {
+        QCoreApplication::processEvents();
         if (omp_get_num_threads()>1)
             qDebug() << "nb threads = " << omp_get_num_threads() ;
         child[i].value = - negaMaxClassic((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
@@ -558,6 +559,7 @@ int Game::negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1,
     #pragma omp parallel
     {
         for (int i = 0 ; i<(int)child.size() ; i++) {
+            QCoreApplication::processEvents();
             /*#pragma omp single
             {*/
                 int test ;
@@ -639,6 +641,7 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
 
     bool value_init = false ;
     for (int i = 0 ; i<child.size() ; i++) {
+        QCoreApplication::processEvents();
         if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
             nb_child_treated = i ;
         }
@@ -687,6 +690,7 @@ int Game::alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P
     #pragma omp parallel
     {
         for (int i = 0 ; i<child.size() ; i++) {
+            QCoreApplication::processEvents();
             if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
                 nb_child_treated = i ;
             }
@@ -761,6 +765,5 @@ INFO Game::getInfo(Checkerboard* board, Player* player, Player* opponent) {
 }
 
 bool Game::apply(Checkerboard* board) {
-
     return true ;
 }

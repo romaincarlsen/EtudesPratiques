@@ -220,6 +220,10 @@ void MainWindow::setAlphaBeta(bool a){
 
 void MainWindow::setThreads(bool t){
     with_thread = t;
+    if (with_thread){
+        this->ui->reporting->setChecked(false);
+        _reporting = false;
+    }
 }
 
 void MainWindow::setCostFunction1(int f){
@@ -232,6 +236,10 @@ void MainWindow::setCostFunction2(int f){
 
 void MainWindow::setReporting(bool report){
     _reporting = report;
+    if (_reporting){
+        this->ui->threads->setChecked(false);
+        with_thread = false;
+    }
 }
 
 
@@ -291,4 +299,9 @@ void MainWindow::printSelect(){
     }
     _square[x][y]->setPixmap(img);
     _square[x][y]->setScaledContents(true);
+}
+//Gestion de la fermeture de la fenetre
+bool MainWindow::close(){
+    qDebug() << "test" << endl;
+    QMainWindow::close ();
 }
