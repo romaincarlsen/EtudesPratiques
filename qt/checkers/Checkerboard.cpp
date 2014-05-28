@@ -25,21 +25,12 @@ Checkerboard::Checkerboard(int size) : _size(size)
 
 }
 
-Checkerboard::Checkerboard(Checkerboard* board) : _size(board->getSize())
+Checkerboard::Checkerboard(Checkerboard * board) : _size(board->getSize()),_square(board->getQSquare())
 {
-
-    Damier test(board->getQSquare()) ;
-    _square = test ;
-
 }
 
 Checkerboard::~Checkerboard(void)
 {
-
-    for (int i=0 ; i<_size ; i++)
-        _square[i].erase(_square[i].begin(),_square[i].end());
-    _square.erase(_square.begin(),_square.end());
-    _square.~vector();
 }
 
 int Checkerboard::getSize() const{

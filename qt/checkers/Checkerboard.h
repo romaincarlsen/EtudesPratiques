@@ -60,5 +60,7 @@ public:
     string toString();
 
 };
+/*#else
+class Checkerboard;*/
 
 #endif

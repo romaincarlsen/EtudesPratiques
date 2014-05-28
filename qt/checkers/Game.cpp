@@ -221,26 +221,26 @@ QString Game::toString() {
 
 
 int Game::costFunction(Checkerboard* board, Player* player, COLOR color) {
-        switch (playerTurn()->costFunction) {
-        case 1:
-            return costFunction1(board, player, color);
-            break;
-        case 2:
-            return costFunction2(board, player, color);
-            break;
-        case 3:
-            return costFunction3(board, player, color);
-            break;
-        case 4:
-            return costFunction4(board, player, color);
-            break;
-        case 5:
-            return costFunction5(board, player, color);
-            break;
-        default:
-            return costFunction1(board, player, color);
-            break;
-        }
+    switch (playerTurn()->costFunction) {
+    case 1:
+        return costFunction1(board, player, color);
+        break;
+    case 2:
+        return costFunction2(board, player, color);
+        break;
+    case 3:
+        return costFunction3(board, player, color);
+        break;
+    case 4:
+        return costFunction4(board, player, color);
+        break;
+    case 5:
+        return costFunction5(board, player, color);
+        break;
+    default:
+        return costFunction1(board, player, color);
+        break;
+    }
 }
 
 int Game::costFunction1(Checkerboard* board, Player* player, COLOR color) {
@@ -366,15 +366,15 @@ std::vector<CHILD> Game::findChild(Checkerboard* board, COLOR color, Player* pla
     std::vector<CHILD> child ;
     child.resize(0) ;
     std::vector<MOVE> move ;
-   if (xSelect!=-1 && ySelect!=-1)
-       move = findMoveOnBoardFrom(board,color, player,xSelect,ySelect) ;
-   else
+    if (xSelect!=-1 && ySelect!=-1)
+        move = findMoveOnBoardFrom(board,color, player,xSelect,ySelect) ;
+    else
         move = findMoveOnBoard(board,color, player) ;
     //child.resize(move.size());
     for (int i = 0 ; i<move.size() ; i++) {
         CHILD test ;
         test.move = move[i] ;
-        test.board = (void*)(new Checkerboard(board)) ;
+        test.board = new Checkerboard(board) ;
         test.valued = false ;
         test.xSelect = -1 ;
         test.ySelect = -1 ;
@@ -411,13 +411,13 @@ int Game::findBestChild(std::vector<CHILD> child, std::vector<MOVE> & best, int 
     int value ;
     for (int i = 0 ; i<nb_child_treated ; i++) {
         //if (depth == playerTurn()->getLevel()) {
-            if (i==0 || child[i].value >= value) {
-                if (i==0 || child[i].value > value) {
-                    value = child[i].value ;
-                    best.clear();
-                }
-                best.push_back(child[i].move) ;
+        if (i==0 || child[i].value >= value) {
+            if (i==0 || child[i].value > value) {
+                value = child[i].value ;
+                best.clear();
             }
+            best.push_back(child[i].move) ;
+        }
         //}
     }
     return value ;
@@ -440,7 +440,7 @@ MOVE Game::negaMax(bool with_thread_param) {
     int value ;
     if (isWhiteState(state) && P1->isCP()) {
         if (with_thread_param) {
-            #pragma omp single
+#pragma omp single
             value = ((int)WHITE) * negaMaxThread(board, P1->getLevel(), WHITE, P1, P2, m, xSelect, ySelect) ;
         }
         else
@@ -449,7 +449,7 @@ MOVE Game::negaMax(bool with_thread_param) {
 
     if (isBlackState(state) && P2->isCP()) {
         if (with_thread_param) {
-            #pragma omp single
+#pragma omp single
             value = ((int)BLACK) * negaMaxThread(board, P2->getLevel(), BLACK, P1, P2, m, xSelect, ySelect) ;
         }
         else
@@ -558,22 +558,22 @@ int Game::negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1,
 
     //#pragma parallel section
 
-    #pragma omp parallel
+#pragma omp parallel
     {
         for (int i = 0 ; i<(int)child.size() ; i++) {
             QCoreApplication::processEvents();
             /*#pragma omp single
             {*/
-                int test ;
-                #pragma omp task
-                {
-                    if (omp_get_num_threads()>1)
-                        qDebug() << "nb threads = " << omp_get_num_threads() ;
-                    test = - negaMaxThread((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
-                }
-                #pragma omp taskwait
-                child[i].value = test ;
-                //delete (Checkerboard*)(child[i].board) ;
+            int test ;
+#pragma omp task
+            {
+                if (omp_get_num_threads()>1)
+                    qDebug() << "nb threads = " << omp_get_num_threads() ;
+                test = - negaMaxThread((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
+            }
+#pragma omp taskwait
+            child[i].value = test ;
+            //delete (Checkerboard*)(child[i].board) ;
             //}
         }
     }
@@ -599,7 +599,7 @@ MOVE Game::alphaBeta(bool with_thread_param) {
     int value ;
     if (isWhiteState(state) && P1->isCP()) {
         if (with_thread_param) {
-            #pragma parallel section
+#pragma parallel section
             value = ((int)WHITE) * alphaBetaThread(board, P1->getLevel(), WHITE, P1, P2, m,-value,false, xSelect, ySelect) ;
         }
         else
@@ -607,7 +607,7 @@ MOVE Game::alphaBeta(bool with_thread_param) {
     }
     if (isBlackState(state) && P2->isCP()) {
         if (with_thread_param) {
-             value = ((int)BLACK) * alphaBetaThread(board, P2->getLevel(), BLACK, P1, P2, m,-value,false, xSelect, ySelect) ;
+            value = ((int)BLACK) * alphaBetaThread(board, P2->getLevel(), BLACK, P1, P2, m,-value,false, xSelect, ySelect) ;
         }
         else
             value = ((int)BLACK) * alphaBetaClassic(board, P2->getLevel(), BLACK, P1, P2, m,-value,false, xSelect, ySelect) ;
@@ -642,12 +642,9 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
     nb_child_treated = child.size() ;
 
     bool value_init = false ;
-<<<<<<< HEAD
     for (int i = 0 ; i<nb_child_treated ; i++) {
-=======
-    for (int i = 0 ; i<child.size() ; i++) {
+
         QCoreApplication::processEvents();
->>>>>>> e2ea5fc844bdf41de42857462d74849dc6b10c73
         if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
             nb_child_treated = i ;
         }
@@ -685,35 +682,31 @@ int Game::alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P
     child.resize(0) ;
     int nb_child_treated = 0 ;
     if (depth==0 || isFinishOnBoard(board, player)){
-            value = ((int)color) * costFunction(board, player, color);
-            return value ;
+        value = ((int)color) * costFunction(board, player, color);
+        return value ;
     }
     child = findChild(board,color, player, xSelect, ySelect) ;
     nb_child_treated = child.size() ;
 
     bool value_init = false ;
     //#pragma omp single
-    #pragma omp parallel
+#pragma omp parallel
     {
-<<<<<<< HEAD
         for (int i = 0 ; i<nb_child_treated ; i++) {
-=======
-        for (int i = 0 ; i<child.size() ; i++) {
             QCoreApplication::processEvents();
->>>>>>> e2ea5fc844bdf41de42857462d74849dc6b10c73
             if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
                 nb_child_treated = i ;
             }
             else {
                 int test ;
-                #pragma omp task
+#pragma omp task
                 {
                     if (omp_get_num_threads()>1)
                         qDebug() << "nb threads = " << omp_get_num_threads() ;
 
                     test = -alphaBetaThread((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0, child[i].xSelect, child[i].ySelect) ;
 
-                    #pragma omp taskwait
+#pragma omp taskwait
                     child[i].value = test ;
 
                     if (!value_init) {
@@ -744,11 +737,10 @@ void Game::init_reporting() {
 
 void Game::add_node_reporting(Checkerboard* board, int value, double time, int nb_child, int nb_child_treated) {
 
-    char * s = new char ;
-    reporting.push_back(std::string(itoa(nb_child_treated,s,10))) ;
-    reporting.push_back(std::string(itoa(nb_child,s,10)) ) ;
+    reporting.push_back(static_cast<ostringstream*>( &(ostringstream() << nb_child_treated) )->str() ) ;
+    reporting.push_back(static_cast<ostringstream*>( &(ostringstream() << nb_child) )->str() ) ;
     reporting.push_back(static_cast<ostringstream*>( &(ostringstream() << (long long int)time) )->str() ) ;
-    reporting.push_back(std::string(itoa(value,s,10)) ) ;
+    reporting.push_back(static_cast<ostringstream*>( &(ostringstream() << value) )->str() ) ;
     reporting.push_back(board->toString() ) ;
 }
 
@@ -766,16 +758,6 @@ void Game:: save_reporting() {
         flux<<";";
     }
     fichier.close();
-}
-
-INFO Game::getInfo(Checkerboard* board, Player* player, Player* opponent) {
-    INFO info ;
-
-    return info ;
-}
-
-bool Game::apply(Checkerboard* board) {
-    return true ;
 }
 
 //Gestion de l'arret en cours de calcul de l'IA lors de la fermeture de la fenetre

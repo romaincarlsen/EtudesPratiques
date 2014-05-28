@@ -8,6 +8,16 @@
 #include "Checkerboard.h"
 #include "Player.h"
 
+// struct with move and his value for negaMax algorithm
+typedef struct {
+    MOVE move ;
+    Checkerboard * board ;
+    bool valued ;
+    int value ;
+    int xSelect ;
+    int ySelect ;
+} CHILD ;
+
 class Game
 {
 
@@ -103,8 +113,6 @@ public:
     void init_reporting() ;
     void add_node_reporting(Checkerboard* board, int value, double time, int nb_child, int nb_child_treated) ;
     void save_reporting() ;
-    INFO getInfo(Checkerboard* board, Player* player, Player* opponent) ;
-    bool apply(Checkerboard* board) ;
 
     //Gestion de l'arret en cours de calcul de l'IA lors de la fermeture de la fenetre
     void stop();

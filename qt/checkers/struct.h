@@ -3,6 +3,7 @@
 
 #include "include.h"
 #include "labelcase.h"
+//#include "Checkerboard.h"
 
 
 // enum of piece types on squares
@@ -32,19 +33,7 @@ typedef struct{
     int yDest ;
 } MOVE ;
 
-// struct with move and his value for negaMax algorithm
-typedef struct {
-    MOVE move ;
-    void * board ;
-    bool valued ;
-    int value ;
-    int xSelect ;
-    int ySelect ;
-} CHILD ;
 
-typedef struct {
-
-} INFO ;
 //Damier : contient les informations du jeu (plateau, placement des piéces)
 typedef std::vector<std::vector<QSQUARE> > Damier;
 //Board : contient les images à afficher

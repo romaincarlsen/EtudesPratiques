@@ -10,9 +10,9 @@ class Tools
 
 public:
 
-static bool isWhite(SQUARE square) ;
+static bool isWhite(const SQUARE square) ;
 
-static bool isBlack(SQUARE square) ;
+static bool isBlack(const SQUARE square) ;
 
 // return if val is even number
 static bool isEven(int val) ;
