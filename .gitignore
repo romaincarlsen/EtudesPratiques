@@ -216,3 +216,4 @@ pip-log.txt
 qt/build-checkers-Desktop_Qt_5_2_1_MinGW_32bit-Debug/coup.txt
 qt/build-checkers-Desktop_Qt_5_2_1_MinGW_32bit-Debug/coup.txt
 qt/build-checkers-Desktop_Qt_5_2_1_MinGW_32bit-Debug/coup.txt
+qt/checkers/Game.cpp
