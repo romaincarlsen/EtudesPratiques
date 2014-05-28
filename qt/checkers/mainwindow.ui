@@ -152,7 +152,7 @@
         <item>
          <widget class="QLabel" name="size_l">
           <property name="text">
-           <string>size</string>
+           <string>taille du plateau</string>
           </property>
          </widget>
         </item>
@@ -166,7 +166,7 @@
         <item>
          <widget class="QLabel" name="nbLineP1_l">
           <property name="text">
-           <string>nb line player 1</string>
+           <string>nb line joueur 1</string>
           </property>
          </widget>
         </item>
@@ -186,7 +186,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Mode de jeu du joueur blanc</string>
+           <string>Mode de jeu du joueur 1</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -203,7 +203,7 @@
         <item>
          <widget class="QLineEdit" name="lineEdit_4">
           <property name="text">
-           <string>Fonction de coût du joueur blanc</string>
+           <string>Fonction de coût du joueur 1</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -233,7 +233,7 @@
         <item>
          <widget class="QLabel" name="nbLineP2_l">
           <property name="text">
-           <string>nb line player 2</string>
+           <string>nb line joueur 2</string>
           </property>
          </widget>
         </item>
@@ -253,7 +253,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Mode de jeu du joueur rouge</string>
+           <string>Mode de jeu du joueur 2</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -270,7 +270,7 @@
         <item>
          <widget class="QLineEdit" name="lineEdit_3">
           <property name="text">
-           <string>Fonction de coût du joueur rouge</string>
+           <string>Fonction de coût du joueur 2</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -336,7 +336,7 @@
       <item>
        <widget class="QLabel" name="board_l">
         <property name="text">
-         <string>board</string>
+         <string>Clickez sur start pour débuter la partie.</string>
         </property>
        </widget>
       </item>

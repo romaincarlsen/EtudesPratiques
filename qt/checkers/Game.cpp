@@ -20,7 +20,7 @@ Game::Game(int size, int nbLineP1, int nbLineP2, int p1,int costFunction1, int p
     //Player 1 turn
 
     // piece selection
-    txt += "select (ex : A1) :   " ;
+    txt += " Sélectionnez la piéce à déplacer." ;
 
     state = WHITE_SELECT ;
 
@@ -28,6 +28,7 @@ Game::Game(int size, int nbLineP1, int nbLineP2, int p1,int costFunction1, int p
     with_alphabeta = alphabeta ;
     with_thread = thread ;
     with_reporting = reporting;
+    _stop = false;
 
     if (with_reporting) {
         qDebug() << with_reporting ;
@@ -120,7 +121,7 @@ STATE Game::select(Player* player, int x, int y) {
         if (player->selectValidOnBoard(x,y, board)) {
             player->x = x ;
             player->y = y ;
-            txt += "destination : (ex : A1) :   " ;
+            txt += " Sélectionnez la destination de votre piéce." ;
             board->select(x,y);
             return player->state_dest ;
         }
@@ -137,14 +138,14 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
             bool wasKill = player->isKillOnBoard(board->getSquare(player->x,player->y),player->x,player->y,xDest,yDest,board) ;
             if(!(valid=!(canKill && !wasKill))) {
                 txt += "\nYou have to kill !\n" ;
-                txt += "select (ex : A1) :   " ;
+                txt += " Sélectionnez la piéce à déplacer." ;
                 board->deselect();
                 return player->state_select ;
             }
             else {
                 if (!(valid = !wasKill || player->isTheBestKillOnBoard(board->getSquare(player->x,player->y),player->x,player->y,xDest,yDest, board, with_thread))) {
                     txt += "\nYou have to choose the best kill !\n" ;
-                    txt += "select (ex : A1) :   " ;
+                    txt += " Sélectionnez la piéce à déplacer." ;
                     if (board->moveBegined()) {
                         return state ;
                     }
@@ -187,7 +188,7 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
 
 
                 // piece selection
-                txt += "select (ex : A1) :   " ;
+                txt += " Sélectionnez la piéce à déplacer." ;
                 board->deselect();
                 return opponent->state_select ;
             }
@@ -372,6 +373,7 @@ std::vector<CHILD> Game::findChild(Checkerboard* board, COLOR color, Player* pla
         move = findMoveOnBoard(board,color, player) ;
     //child.resize(move.size());
     for (int i = 0 ; i<move.size() ; i++) {
+        if (_stop) exit(EXIT_SUCCESS);
         CHILD test ;
         test.move = move[i] ;
         test.board = new Checkerboard(board) ;
@@ -503,6 +505,7 @@ int Game::negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1
 
     for (int i = 0 ; i<child.size() ; i++) {
         QCoreApplication::processEvents();
+        if (_stop) exit(EXIT_SUCCESS);
         if (omp_get_num_threads()>1)
             qDebug() << "nb threads = " << omp_get_num_threads() ;
         child[i].value = - negaMaxClassic((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
@@ -563,6 +566,7 @@ int Game::negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1,
     {
         for (int i = 0 ; i<(int)child.size() ; i++) {
             QCoreApplication::processEvents();
+            if (_stop) exit(EXIT_SUCCESS);
             /*#pragma omp single
             {*/
             int test ;
@@ -645,7 +649,12 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
     bool value_init = false ;
     for (int i = 0 ; i<nb_child_treated ; i++) {
 
+<<<<<<< HEAD
          QCoreApplication::processEvents();
+=======
+        QCoreApplication::processEvents();
+        if (_stop) exit(EXIT_SUCCESS);
+>>>>>>> 10e6536687e3c59934d120c184e4ef1141626331
         if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
             nb_child_treated = i ;
         }
@@ -695,6 +704,7 @@ int Game::alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P
     {
         for (int i = 0 ; i<nb_child_treated ; i++) {
             QCoreApplication::processEvents();
+            if (_stop) exit(EXIT_SUCCESS);
             if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
                 nb_child_treated = i ;
             }
@@ -765,5 +775,5 @@ void Game:: save_reporting() {
 
 //Gestion de l'arret en cours de calcul de l'IA lors de la fermeture de la fenetre
 void Game::stop(){
-    _stop = false;
+    _stop = true;
 }

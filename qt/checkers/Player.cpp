@@ -56,7 +56,7 @@ bool Player::isCP() {
 
 QString Player::toString() {
     QString num = (isWhite() ? "1" : "2") ;
-    return "player" + num ;
+    return "joueur " + num ;
 }
 
 // indicate if y coordonate corresponde with king line of player

@@ -87,6 +87,7 @@ void MainWindow::clear(){
 
 void MainWindow::launchIA() {
     if (game->isCPTurn()) {
+        this->ui->board_l->setText("Calcul du coup en cours");
         if (!game->isFinish()) {
 
             MOVE mv ;
@@ -304,12 +305,9 @@ void MainWindow::printSelect(){
     _square[x][y]->setScaledContents(true);
 }
 //Gestion de la fermeture de la fenetre
-bool MainWindow::close(){
-    qDebug() << "test" << endl;
-    game->stop();
-    QMainWindow::close ();
-}
-void MainWindow::quit(){
-    qDebug() << "test1" << endl;
-    qDebug() << "test2" << endl;
+
+void MainWindow::closeEvent(QCloseEvent * event ){
+    if (game != NULL)
+        game->stop();
+    event->accept();
 }
