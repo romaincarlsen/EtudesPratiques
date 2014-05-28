@@ -28,6 +28,7 @@ Game::Game(int size, int nbLineP1, int nbLineP2, int p1,int costFunction1, int p
     with_alphabeta = alphabeta ;
     with_thread = thread ;
     with_reporting = reporting;
+    _stop = false;
 
     if (with_reporting) {
         qDebug() << with_reporting ;
@@ -372,6 +373,7 @@ std::vector<CHILD> Game::findChild(Checkerboard* board, COLOR color, Player* pla
         move = findMoveOnBoard(board,color, player) ;
     //child.resize(move.size());
     for (int i = 0 ; i<move.size() ; i++) {
+        if (_stop) exit(EXIT_SUCCESS);
         CHILD test ;
         test.move = move[i] ;
         test.board = new Checkerboard(board) ;
@@ -502,6 +504,7 @@ int Game::negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1
 
     for (int i = 0 ; i<child.size() ; i++) {
         QCoreApplication::processEvents();
+        if (_stop) exit(EXIT_SUCCESS);
         if (omp_get_num_threads()>1)
             qDebug() << "nb threads = " << omp_get_num_threads() ;
         child[i].value = - negaMaxClassic((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
@@ -562,6 +565,7 @@ int Game::negaMaxThread(Checkerboard* board, int depth, COLOR color, Player* P1,
     {
         for (int i = 0 ; i<(int)child.size() ; i++) {
             QCoreApplication::processEvents();
+            if (_stop) exit(EXIT_SUCCESS);
             /*#pragma omp single
             {*/
             int test ;
@@ -645,6 +649,7 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
     for (int i = 0 ; i<nb_child_treated ; i++) {
 
         QCoreApplication::processEvents();
+        if (_stop) exit(EXIT_SUCCESS);
         if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
             nb_child_treated = i ;
         }
@@ -694,6 +699,7 @@ int Game::alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P
     {
         for (int i = 0 ; i<nb_child_treated ; i++) {
             QCoreApplication::processEvents();
+            if (_stop) exit(EXIT_SUCCESS);
             if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
                 nb_child_treated = i ;
             }
@@ -762,5 +768,5 @@ void Game:: save_reporting() {
 
 //Gestion de l'arret en cours de calcul de l'IA lors de la fermeture de la fenetre
 void Game::stop(){
-    _stop = false;
+    _stop = true;
 }

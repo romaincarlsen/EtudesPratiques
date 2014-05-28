@@ -45,17 +45,19 @@ private :
     int size;
 
 public slots:
+    //Slot gérant l'appuie sur le bouton start
     void start_click() ;
+    //slot gérant les clics sur le damier
     void click(int x, int y);
     void launchIA() ;
+    //slots gérant la configuration du jeu
     void setAlphaBeta(bool a);
     void setThreads(bool t);
     void setCostFunction1(int f);
     void setCostFunction2(int f);
     void setReporting(bool report);
-
-    bool close();
-    void quit();
+    //slot fermant le jeu
+    void closeEvent(QCloseEvent * event );
 
     //Méthode qui deselectionne le pion courant lorsque l'on fait un clic droit sauf si une prise est en cours
     bool deselect();
@@ -76,6 +78,7 @@ public:
 
     //affiche la case sélectionnée
     void printSelect();
+
 
 private:
     Ui::MainWindow *ui;

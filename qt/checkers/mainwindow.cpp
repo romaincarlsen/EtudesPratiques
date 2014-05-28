@@ -304,12 +304,10 @@ void MainWindow::printSelect(){
     _square[x][y]->setScaledContents(true);
 }
 //Gestion de la fermeture de la fenetre
-bool MainWindow::close(){
+
+void MainWindow::closeEvent(QCloseEvent * event ){
+    if (game != NULL)
+        game->stop();
     qDebug() << "test" << endl;
-    game->stop();
-    QMainWindow::close ();
-}
-void MainWindow::quit(){
-    qDebug() << "test1" << endl;
-    qDebug() << "test2" << endl;
+    event->accept();
 }
