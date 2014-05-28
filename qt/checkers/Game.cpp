@@ -272,12 +272,16 @@ int Game::costFunction2(Checkerboard* board, Player* player, COLOR color) {
 }
 
 int Game::costFunction3(Checkerboard* board, Player* player, COLOR color) {
+    player = playerTurn() ;
     int nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing ;
     int value = (nbMinePiece - nbOpponentPiece)*3 + (nbMineKing - nbOpponentKing)*9 ;
     for (int x=0 ; x<board->getSize() ; x++) {
         for (int y=0 ; y<board->getSize() ; y++) {
             if (player->isMine(board->getSquare(x,y))) {
-                ;
+                value += (1/board->getSize()) * (board->getSize()/2)-max(abs(x-(board->getSize()/2)),abs(y-(board->getSize()/2)));
+            }
+            if (player->isOpponent(board->getSquare(x,y))) {
+                value -= (1/board->getSize()) * min(abs(x-(board->getSize()/2)),abs(y-(board->getSize()/2)));
             }
         }
     }
@@ -289,7 +293,7 @@ int Game::costFunction4(Checkerboard* board, Player* player, COLOR color) {
 }
 
 int Game::costFunction5(Checkerboard* board, Player* player, COLOR color) {
-    return 0 ;
+    return (rand()%201 - 100) ;
 }
 
 std::vector<MOVE> Game::findMoveOnBoard(Checkerboard* board, COLOR color, Player* player) {
