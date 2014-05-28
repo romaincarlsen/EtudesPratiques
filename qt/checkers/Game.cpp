@@ -29,6 +29,11 @@ Game::Game(int size, int nbLineP1, int nbLineP2, int p1,int costFunction1, int p
     with_thread = thread ;
     with_reporting = reporting;
 
+    if (with_reporting) {
+        qDebug() << "reporting OK" ;
+
+    }
+
 }
 
 
@@ -239,7 +244,6 @@ int Game::costFunction(Checkerboard* board, Player* player, COLOR color) {
 }
 
 int Game::costFunction1(Checkerboard* board, Player* player, COLOR color) {
-    qDebug() << "OK";
     player = playerTurn() ;
     int nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing ;
     player->scanNumberOfOnBoard(nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing, board) ;
@@ -247,15 +251,20 @@ int Game::costFunction1(Checkerboard* board, Player* player, COLOR color) {
 }
 
 int Game::costFunction2(Checkerboard* board, Player* player, COLOR color) {
+    player = playerTurn() ;
     int nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing ;
     int value = (nbMinePiece - nbOpponentPiece)*3 + (nbMineKing - nbOpponentKing)*9 ;
     for (int x=0 ; x<board->getSize() ; x++) {
         for (int y=0 ; y<board->getSize() ; y++) {
             if (player->isMine(board->getSquare(x,y))) {
-                value += player->isMine(board->getSquare(x+1,y+1)) ;
-                value += player->isMine(board->getSquare(x-1,y+1)) ;
-                value += player->isMine(board->getSquare(x-1,y-1)) ;
-                value += player->isMine(board->getSquare(x+1,y-1)) ;
+                if (x+1<board->getSize() && y+1<board->getSize())
+                    value += player->isMine(board->getSquare(x+1,y+1)) ;
+                if (x-1>=0 && y+1<board->getSize())
+                    value += player->isMine(board->getSquare(x-1,y+1)) ;
+                if (x-1>=0 && y-1>=0)
+                    value += player->isMine(board->getSquare(x-1,y-1)) ;
+                if (x+1<board->getSize() && y-1>=0)
+                    value += player->isMine(board->getSquare(x+1,y-1)) ;
             }
         }
     }
@@ -475,11 +484,12 @@ int Game::negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1
         value = ((int)color) * costFunction(board, player, color) ;
 
         //add_node_reporting(board,value,omp_get_wtime()-time_IA_begin,child.size(),child.size()) ;
-/*
-        timeval end ;
-        gettimeofday(&end , NULL) ;
-        add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),child.size()) ;
-*/
+
+        if(with_reporting) {
+            timeval end ;
+            gettimeofday(&end , NULL) ;
+            add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),child.size()) ;
+        }
         return value ;
     }
     child = findChild(board,color, player, xSelect, ySelect) ;
@@ -492,11 +502,12 @@ int Game::negaMaxClassic(Checkerboard* board, int depth, COLOR color, Player* P1
     }
     value = findBestChild(child,best) ;
 
-/*
-    timeval end ;
-    gettimeofday(&end , NULL) ;
-    add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),child.size()) ;
-*/
+    if(with_reporting) {
+        timeval end ;
+        gettimeofday(&end , NULL) ;
+        add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),child.size()) ;
+    }
+
     return value ;
 }
 
@@ -611,11 +622,12 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
     int nb_child_treated = 0 ;
     if (depth==0 || isFinishOnBoard(board, player)){
         value = ((int)color) * costFunction(board, player, color);
-        /*
-        timeval end ;
-        gettimeofday(&end , NULL) ;
-        add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),nb_child_treated) ;
-*/
+
+        if(with_reporting) {
+            timeval end ;
+            gettimeofday(&end , NULL) ;
+            add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),nb_child_treated) ;
+        }
         return value ;
     }
     child = findChild(board,color, player, xSelect, ySelect) ;
@@ -636,13 +648,12 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
     }
     value = findBestChild(child,best) ;
 
+    if(with_reporting) {
+        timeval end ;
+        gettimeofday(&end , NULL) ;
+        add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),nb_child_treated) ;
+    }
 
-
-    /*
-    timeval end ;
-    gettimeofday(&end , NULL) ;
-    add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),nb_child_treated) ;
-*/
     return value ;
 }
 
@@ -712,6 +723,7 @@ void Game:: save_reporting() {
     QTextStream flux(&fichier);
     flux<<board->getSize();
     flux<<";";
+    qDebug() << "size reporting = " << reporting.size() ;
     for (int i=0; i<reporting.size();i++){
         QString res =QString::fromStdString(reporting[i]);
         flux<<res;
