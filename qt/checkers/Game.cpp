@@ -638,7 +638,7 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
     nb_child_treated = child.size() ;
 
     bool value_init = false ;
-    for (int i = 0 ; i<child.size() ; i++) {
+    for (int i = 0 ; i<nb_child_treated ; i++) {
         if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
             nb_child_treated = i ;
         }
@@ -686,7 +686,7 @@ int Game::alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P
     //#pragma omp single
     #pragma omp parallel
     {
-        for (int i = 0 ; i<child.size() ; i++) {
+        for (int i = 0 ; i<nb_child_treated ; i++) {
             if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
                 nb_child_treated = i ;
             }
