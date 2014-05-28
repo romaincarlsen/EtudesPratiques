@@ -102,18 +102,18 @@ Les méthodes de la classe Game coordonnent le déroulement du jeu, celles de la c
 	
 	Nous avons choisi de créer une interface simple : la partie gauche de la fenêtre est consacrée au plateau du jeu, tandis que celle de droite permet de choisir les différents réglages du jeu (joueurs humains ou IA, taille du plateau, utilisation ou non de la coupure alpha-beta ou du multithreading pour l'IA). Cela permet de commencer à jouer facilement et rapidement.
 	
-\FigureEPS{h,t,b,p}{8.5cm}{./screen.eps}{Jeu de dames}{fig:dames}
+\FigureEPS{h,t,b,p}{1.2\textwidth}{./screen.eps}{Jeu de dames}{fig:dames}
 	
-\section{L'intelligence articielle}
+\section{L'intelligence artificielle}
 
 \subsection{Les algorithmes MinMax et NegaMax}
 
-L'algorithme MinMax est applicable à des jeux à deux joueurs sans hasard ou chaque joueur joue alternativement. Le déroulement du jeu peut être représenté par un arbre :
+L'algorithme MinMax est applicable à des jeux à deux joueurs sans hasard où chaque joueur joue alternativement. Le déroulement du jeu peut être représenté par un arbre :
 
 \textbf{IMPR ECRAN ARBRE AVEC MIN MAX SANS VALUE ET JOUEURS}
 
 \vspace{0.3cm}
-La racine de l'arbre est la situation initiale. Chaque profondeur correspond à un tour de jeu, alternativement au joueur 1 et au joueur 2.. Chaque n{\oe}ud est une situation potentielle. Chaque arc représente le mouvement ayant permis de passer d'une situation à une autre. À chaque feuille est calculée la fonction de coût, la fonction permettant de calculer l'avantage pour un des joueurs, associée à la situation.
+La racine de l'arbre est la situation initiale. Chaque profondeur correspond à un tour de jeu, alternativement au joueur 1 et au joueur 2. Chaque n{\oe}ud est une situation potentielle. Chaque arc représente le mouvement ayant permis de passer d'une situation à une autre. À chaque feuille est calculée la fonction de coût, la fonction permettant de calculer l'avantage pour un des joueurs, associée à la situation.
 
 \textbf{IMPR ECRAN ARBRE AVEC MIN MAX AVEC VALUE SUR FEUILLE ET JOUEURS}
 
@@ -208,6 +208,7 @@ Nous avons aussi essayé de représenter graphiquement l'exécution de l'algorithme
 Une fonction de coût associée au damier à un moment précis de la partie, définie la situation comme bonne ou mauvaise pour l'un des deux joueurs. Cette définition se fait sous forme numérique, plus la valeur est élevée, plus la situation est avantageuse.
 
 Dans un premier temps, nous avons défini une fonction de coût comparant le nombre de pions du joueur avec le joueur adversaire en donnant une plus grande importance aux dames :
+
 Exemple : 	
 \begin{itemize}
 	\item Valeur d'un pion = 1 

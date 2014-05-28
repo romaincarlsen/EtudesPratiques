@@ -40,7 +40,7 @@
 
 \section{Introduction}
 
-Dans le cadre de ce projet, nous avons été amené à développé un jeu de dames. après avoir présenté les règles de ce jeu, nous donnerons des explications sur l'interface et la manière de jouer.
+Dans le cadre de ce projet, nous avons été amené à développer un jeu de dames. Après avoir présenté les règles de ce jeu, nous donnerons des explications sur l'interface et la manière de jouer.
 
 \section{Les règles du jeu}
 
@@ -51,7 +51,7 @@ Ces règles sont issues du site de la fédération Francaise du Jeu de Dames : http
 \begin{itemize}
 	\item Le jeu se joue sur les cases foncées du damier.
 	\item Le damier doit être placé de sorte que la première case de gauche, pour chaque joueur, soit une case foncée.
-	\item Le jeu de dames international se joue avec 20 pions clairs et 20 pions foncés. Avant de débuter une partie, les 20 pions noirs et les 20 pions blancs sont disposés sur les 4 premières rangées de chaque joueur.
+	\item Le jeu de dames international se joue avec 20 pions clairs et 20 pions foncés. Avant de débuter une partie, les 20 pions noirs et les 20 pions blancs sont disposés sur les 4 premières rangées de chaque joueur. Dans le cadre de notre projet, nous avons choisi de pouvoir modifier la taille du damier ainsi que le nombre de lignes de pions de départ.
 \end{itemize}	
 
 \FigureEPS{h,t,b,p}{4cm}{./img/situationInit.eps}{Damier correspondant à la situation initale}{fig:sitInit}	
@@ -61,7 +61,7 @@ Ces règles sont issues du site de la fédération Francaise du Jeu de Dames : http
 \begin{itemize}
 	\item Il existe deux types de pièces : les pions et les dames.
 	\item Le premier coup est toujours joué par les blancs. Les adversaires jouent un coup chacun à tour de rôle avec leurs pièces.
-	\item Un pion se déplace obligatoirement vers l?avant, en diagonale, d?une case sur une case libre de la rangée suivante.
+	\item Un pion se déplace obligatoirement vers l'avant, en diagonale, d'une case sur une case libre de la rangée suivante.
 \end{itemize}
 
 \FigureEPS{h,t,b,p}{4cm}{./img/deplacement.eps}{Déplacement d'un pion}{fig:depPion}		
@@ -75,21 +75,16 @@ Ces règles sont issues du site de la fédération Francaise du Jeu de Dames : http
 \FigureEPS{h,t,b,p}{4cm}{./img/dame2.eps}{Dame venant d'être créée}{fig:dame2}
 
 \begin{itemize}
-	\item Une dame doit attendre que l?adversaire ait joué au moins une fois avant d?entrer en action.
-	\item Une dame se déplace en arrière ou en avant sur les cases libres successives de la diagonale qu?elle occupe. Elle peut donc se poser, au-delà de cases libres, sur une case libre éloignée.
+	\item Une dame doit attendre que l'adversaire ait joué au moins une fois avant d'entrer en action.
+	\item Une dame se déplace en arrière ou en avant sur les cases libres successives de la diagonale qu'elle occupe. Elle peut donc se poser, au-delà de cases libres, sur une case libre éloignée.
 \end{itemize}
 
 \FigureEPS{h,t,b,p}{4cm}{./img/deplacementDame.eps}{Déplacement d'une dame}{fig:depDame}
 
-\begin{itemize}
-	\item Pour un joueur à qui c'est le tour de jouer, le fait de toucher une de ses pièces jouables implique l?obligation de jouer cette pièce, pour autant que cela soit possible.
-	\item Tant qu?une pièce touchée ou en cours de déplacement n?a pas été lâchée, il est permis de la poser sur une autre case, pour autant que cela soit possible.
-\end{itemize}
-
 \subsection{La prise}
 \begin{itemize}
-	\item La prise des pièces adverse est obligatoire et s?effectue aussi bien en avant qu?en arrière.
-	\item Lorsqu?un pion se trouve en présence, diagonalement, d'une pièce adverse derrière laquelle se trouve une case libre, il doit obligatoirement sauter par-dessus cette pièce et occuper la case libre. Cette pièce adverse est alors enlevée du damier. Cette opération complète est la prise par un pion.
+	\item La prise des pièces adverse est obligatoire et s'effectue aussi bien en avant qu'en arrière.
+	\item Lorsqu'un pion se trouve en présence, diagonalement, d'une pièce adverse derrière laquelle se trouve une case libre, il doit obligatoirement sauter par-dessus cette pièce et occuper la case libre. Cette pièce adverse est alors enlevée du damier. Cette opération complète est la prise par un pion.
 \end{itemize}
 
 \FigureEPS{h,t,b,p}{4cm}{./img/prise.eps}{Prise d'un pion}{fig:prisePion}
@@ -106,6 +101,8 @@ Ces règles sont issues du site de la fédération Francaise du Jeu de Dames : http
 
 \FigureEPS{h,t,b,p}{4cm}{./img/priseMultiple.eps}{Prise multiple par un pion}{fig:priseMultPion}
 
+\newpage
+
 \begin{itemize}
 	\item Lorsqu'au cours d'une prise par une dame, celle-ci se trouve à nouveau en présence, sur une même diagonale, d'une pièce adverse derrière laquelle se trouve une ou plusieurs cases libres, elle doit obligatoirement sauter par-dessus cette seconde pièce, voire d'une troisième et ainsi de suite, et occuper au choix une case libre se trouvant derrière et sur la même diagonale que la dernière pièce capturée. Les pièces adverses ainsi capturées sont ensuite enlevées du damier dans l'ordre de la prise. Cette opération complète est une rafle par une dame.
 \end{itemize}
@@ -114,7 +111,7 @@ Ces règles sont issues du site de la fédération Francaise du Jeu de Dames : http
 
 \begin{itemize}
 	\item Au cours d'une rafle, il est interdit de passer au-dessus de ses propres pièces.
-	\item Au cours d'une rafle, il est permis de passer plusieurs fois sur une même case libre mais il est interdit de passer plus d?une fois au-dessus d'une même pièce adverse.
+	\item Au cours d'une rafle, il est permis de passer plusieurs fois sur une même case libre mais il est interdit de passer plus d'une fois au-dessus d'une même pièce adverse.
 	\item Une rafle doit être clairement indiquée, pièce par pièce, en posant la pièce preneuse sur la case de saut, le temps d'y passer, et en déposant cette pièce sur la case terminale.
 	\item La prise du plus grand nombre de pièces est prioritaire, donc obligatoire. Dans ce cas, une dame compte pour une pièce, tout comme un pion. Elle ne confère nulle priorité et n'impose aucune obligation.
 \end{itemize}
@@ -128,8 +125,8 @@ Ces règles sont issues du site de la fédération Francaise du Jeu de Dames : http
 
 \subsection{Le résultat}
 \begin{itemize}
-	\item Le gain est obtenu par un joueur lorsque son adversaire : abandonne la partie, se trouve dans l'impossibilité de jouer alors qu'il a le trait ou n'a plus de pièces.
-	\item L'égalité, dénommée aussi remise ou nulle, est obtenue pour chacun des adversaires : qui la déclare, de commun accord ou lorsqu'aucun des deux ne parvient au gain
+	\item Le gain est obtenu par un joueur lorsque son adversaire : abandonne la partie ou n'a plus de pièces.
+	\item L'égalité, dénommée aussi remise ou nulle, est obtenue pour chacun des adversaires : qui la déclare, de commun accord, se trouve dans l'impossibilité de jouer alors qu'il a le trait ou lorsqu'aucun des deux ne parvient au gain.
 \end{itemize}
 
 
@@ -141,15 +138,15 @@ Au lancement du programme, le joueur a la possiblité de configurer plusieurs par
 	\item Le mode de jeu du joueur blanc : soit manuel, soit un niveau de l'intelligence artificielle allant de 1 à 10.
 	\item La fonction de coût utilisée par l'intelligence artificielle.
 \end{itemize}
-Le joueur peut également utilisé la coupure alpha-beta ainsi que les threads s'il le souhaite.
-\begin{center}
-\FigureEPS{h,t,b,p}{17cm}{./img/screen1.eps}{Interface de réglages des paramètres}{fig:param}		
-\end{center}
+Le joueur peut également utilisé la coupure alpha-beta ainsi que les threads s'il le souhaite. Ces réglages sont également applicable au joueur 2.
 
+\FigureEPS{h,t,b,p}{1.2\textwidth}{./img/screen1.eps}{Interface de réglages des paramètres}{fig:param}	
+
+\newpage
 La partie démarre en appuyant sur "Start". Quand c'est à son tour, le joueur peut sélectionner une pièce en cliquant dessus, ainsi que sa destination en cliquant sur la case vide.
 S'il souhaite désélectionner sa pièce, il lui suffit d'appuyer dessus avec le clic droit. 
 
-\FigureEPS{h,t,b,p}{17cm}{./img/screen2.eps}{Interface de jeu}{fig:jeu}
+\FigureEPS{h,t,b,p}{1.2\textwidth}{./img/screen2.eps}{Interface de jeu}{fig:jeu}
 
 \end{document}
 
