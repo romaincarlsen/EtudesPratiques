@@ -414,6 +414,7 @@ int Game::findBestChild(std::vector<CHILD> child, std::vector<MOVE> & best, int 
         if (i==0 || child[i].value >= value) {
             if (i==0 || child[i].value > value) {
                 value = child[i].value ;
+                #pragma omp critical
                 best.clear();
             }
             best.push_back(child[i].move) ;
@@ -644,7 +645,7 @@ int Game::alphaBetaClassic(Checkerboard* board, int depth, COLOR color, Player* 
     bool value_init = false ;
     for (int i = 0 ; i<nb_child_treated ; i++) {
 
-        QCoreApplication::processEvents();
+         QCoreApplication::processEvents();
         if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
             nb_child_treated = i ;
         }
@@ -699,14 +700,14 @@ int Game::alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P
             }
             else {
                 int test ;
-#pragma omp task
+                #pragma omp task
                 {
                     if (omp_get_num_threads()>1)
                         qDebug() << "nb threads = " << omp_get_num_threads() ;
 
                     test = -alphaBetaThread((Checkerboard*)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0, child[i].xSelect, child[i].ySelect) ;
-
-#pragma omp taskwait
+                }
+                    #pragma omp taskwait
                     child[i].value = test ;
 
                     if (!value_init) {
@@ -719,11 +720,13 @@ int Game::alphaBetaThread(Checkerboard* board, int depth, COLOR color, Player* P
                     }
 
                     //delete (Checkerboard*)(child[i].board) ;
-                }
+
             }
         }
     }
+
     value = findBestChild(child,best,nb_child_treated) ;
+
     return value ;
 }
 
