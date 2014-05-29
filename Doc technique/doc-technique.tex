@@ -35,6 +35,8 @@
 \maketitle                 % Génère le titre
 \thispagestyle{empty}      % Supprime le numéro de page sur la 1re page
 
+\newpage
+
 \section{Introduction}
 
 Nous allons présenter de manière succincte les parties importantes du code de notre projet. Nous allons tout d'abord présenter l'implémentation du jeu de Dames, puis l'implémentation graphique et enfin l'implémentation de l'intelligence artificielle. 
@@ -42,9 +44,46 @@ Nous allons présenter de manière succincte les parties importantes du code de no
 Nous avons également essayé tout au long du développement de commenter au maximum notre code afin qu'il soit le plus clair possible.
 
 \section{L'implémentation du jeu de Dames}
-\section{L'implémentation graphique}
-\section{L'implémentation de l'intelligence artificielle}
 
+Nous avons réalisé l'implémentation du jeu en lui-même dans les classes Game, Checkerboard et Player.
+
+La classe Game contient les fonctions correspondant à :
+\begin{itemize}
+	\item La création de la partie
+	\item La récupération de ses attributs
+	\item L'exécution des mouvements
+	\item La sélection/désélection des pièces
+\end{itemize}
+\textbf{//Rajouter des infos sur les fonctions importantes de la classe}
+\vspace{0.4cm}
+La classe Checkerboard contient les fonctions correspondant à :
+
+\begin{itemize}
+	\item La création du damier
+	\item La mise à jour du damier
+	\item L'accès aux pièces
+\end{itemize}
+
+\textbf{//Rajouter des infos sur les fonctions importantes de la classe}
+
+\vspace{0.4cm}
+La classe Player contient les fonctions correspondant à :
+\begin{itemize}
+	\item La création des joueurs
+	\item La vérification de la validité des déplacements
+\end{itemize}
+
+
+\textbf{//Rajouter des infos sur les fonctions importantes de la classe}
+
+\section{L'implémentation graphique}
+L'implémentation graphique du jeu a été réalisée grâce à Qt Creator.
+
+
+\FigureEPS{h,t,b,p}{8.5cm}{./img/screen.eps}{Interface de Qt Creator}{fig:qt}
+
+\section{L'implémentation de l'intelligence artificielle}
+L'intelligence artificelle a été implémentée dans la classe Game par les fonctions negaMax et alpha-beta. 
 \end{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
