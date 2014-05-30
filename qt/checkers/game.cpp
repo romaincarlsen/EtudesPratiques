@@ -447,7 +447,6 @@ MOVE Game::negaMax(bool with_thread_param) {
 
     if (isBlackState(state) && P2->isCP()) {
         if (with_thread_param) {
-#pragma omp single
             value = ((int)BLACK) * negaMaxThread(board, P2->getLevel(), BLACK, P1, P2, m, xSelect, ySelect) ;
         }
         else
@@ -455,6 +454,9 @@ MOVE Game::negaMax(bool with_thread_param) {
     }
     if(with_reporting) {save_reporting();}
 
+    timeval end ;
+    gettimeofday(&end , NULL) ;
+    qDebug() <<  "Temps d'exécution = " << Tools::timediff(time_IA_begin,end) ;
 
     if (m.empty()) {
         MOVE error ;
@@ -503,7 +505,7 @@ int Game::negaMaxClassic(const Checkerboard & board, int depth, COLOR color, Pla
         if (_stop) exit(EXIT_SUCCESS);
         if (omp_get_num_threads()>1)
             qDebug() << "nb threads = " << omp_get_num_threads() ;
-        child[i].value = - negaMaxClassic((const Checkerboard &)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
+        child[i].value = - negaMaxClassic(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
     }
     value = findBestChild(child,best,child.size()) ;
 
@@ -546,38 +548,32 @@ int Game::negaMaxThread(const Checkerboard & board, int depth, COLOR color, Play
     Player* opponent = (color==WHITE ? P2 : P1) ;
     int value ;
     std::vector<CHILD> child ;
-    child.resize(0) ;
+    child.clear() ;
     if (depth==0 || isFinishOnBoard(board, player)){
         value = ((int)color) * costFunction(board, player, color) ;
-
         return value ;
     }
     child = findChild(board,color, player, xSelect, ySelect) ;
 
-    //#pragma parallel section
-
-#pragma omp parallel
-    {
-        for (int i = 0 ; i<(int)child.size() ; i++) {
+    /*#pragma omp single
+    {*/
+        #pragma omp parallel for
+        for (int i = 0 ; i<(int)child.size() ; i++)
+        {
             QCoreApplication::processEvents();
             if (_stop) exit(EXIT_SUCCESS);
-            /*#pragma omp single
-            {*/
-            int test ;
-#pragma omp task
-            {
-                if (omp_get_num_threads()>1)
-                    qDebug() << "nb threads = " << omp_get_num_threads() ;
-                test = - negaMaxThread((const Checkerboard &)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
-            }
-#pragma omp taskwait
-            child[i].value = test ;
-            //delete (const Checkerboard &)(child[i].board) ;
-            //}
-        }
-    }
-    value = findBestChild(child,best,child.size()) ;
+            if (omp_get_num_threads()>1)
+                qDebug() << "nb threads = " << omp_get_num_threads() ;
 
+            #pragma omp task
+            child[i].value = - negaMaxThread(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
+            //#pragma omp taskwait
+        }
+    //}
+
+
+
+    value = findBestChild(child,best,child.size()) ;
     return value ;
 }
 
@@ -598,7 +594,6 @@ MOVE Game::alphaBeta(bool with_thread_param) {
     int value ;
     if (isWhiteState(state) && P1->isCP()) {
         if (with_thread_param) {
-#pragma parallel section
             value = ((int)WHITE) * alphaBetaThread(board, P1->getLevel(), WHITE, P1, P2, m,-value,false, xSelect, ySelect) ;
         }
         else
@@ -612,6 +607,9 @@ MOVE Game::alphaBeta(bool with_thread_param) {
             value = ((int)BLACK) * alphaBetaClassic(board, P2->getLevel(), BLACK, P1, P2, m,-value,false, xSelect, ySelect) ;
     }
     if(with_reporting)save_reporting();
+    timeval end ;
+    gettimeofday(&end , NULL) ;
+    qDebug() <<  "Temps d'exécution = " << Tools::timediff(time_IA_begin,end) ;
     if (m.empty()) {
         MOVE error ;
         error.x = error.y = error.xDest = error.yDest = -1 ;
@@ -650,7 +648,7 @@ int Game::alphaBetaClassic(const Checkerboard & board, int depth, COLOR color, P
             nb_child_treated = i ;
         }
         else {
-            child[i].value = -alphaBetaClassic((const Checkerboard &)(child[i].board), depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0, child[i].xSelect, child[i].ySelect) ;
+            child[i].value = -alphaBetaClassic(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0, child[i].xSelect, child[i].ySelect) ;
             if (!value_init) {
                 value = child[i].value ;
                 value_init = true ;
@@ -688,28 +686,28 @@ int Game::alphaBetaThread(const Checkerboard & board, int depth, COLOR color, Pl
     nb_child_treated = child.size() ;
 
     bool value_init = false ;
-    //#pragma omp single
-#pragma omp parallel
-    {
-        for (int i = 0 ; i<nb_child_treated ; i++) {
+
+    /*#pragma omp single
+    {*/
+        #pragma omp parallel for
+        for (int i = 0 ; i<nb_child_treated ; i++)
+        {
             QCoreApplication::processEvents();
             if (_stop) exit(EXIT_SUCCESS);
             if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
                 nb_child_treated = i ;
             }
             else {
-                int test ;
+
+                if (omp_get_num_threads()>1)
+                    qDebug() << "nb threads = " << omp_get_num_threads() ;
+
                 #pragma omp task
+                child[i].value = -alphaBetaThread(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0, child[i].xSelect, child[i].ySelect) ;
+                // #pragma omp taskwait
+
+                #pragma omp critical
                 {
-                    if (omp_get_num_threads()>1)
-                        qDebug() << "nb threads = " << omp_get_num_threads() ;
-
-                    test = -alphaBetaThread(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0, child[i].xSelect, child[i].ySelect) ;
-                }
-                    #pragma omp taskwait
-
-                    child[i].value = test ;
-
                     if (!value_init) {
                         value = child[i].value ;
                         value_init = true ;
@@ -718,12 +716,10 @@ int Game::alphaBetaThread(const Checkerboard & board, int depth, COLOR color, Pl
                         if (value<child[i].value)
                             value = child[i].value ;
                     }
-
-                    //delete (Checkerboard*)(child[i].board) ;
-
+                }
             }
         }
-    }
+    //}
 
     value = findBestChild(child,best,nb_child_treated) ;
 
