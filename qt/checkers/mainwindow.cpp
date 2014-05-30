@@ -237,15 +237,6 @@ void MainWindow::setReporting(bool report){
     }
 }
 
-
-int MainWindow::getheight(){
-    return height;
-}
-
-int MainWindow::getwidth(){
-    return width;
-}
-
 int main(int argc, char *argv[])
 {
     srand (time(NULL));

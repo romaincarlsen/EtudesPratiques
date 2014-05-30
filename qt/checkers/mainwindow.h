@@ -60,17 +60,17 @@ public slots:
     //modifie le type de joueur (manuel ou IA) et le niveau dans le cas de l'IA
     void selectLevelPlayer1(int lvl);
     void selectLevelPlayer2(int lvl);
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     //Nettoye la grille du jeu
     void clear();
-    int getheight();
-    int getwidth();
     // print checkerboard
     void paint(bool firstPrint);
     //affiche la case sélectionnée
     void printSelect();
+
 private:
     Ui::MainWindow *ui;
 };
