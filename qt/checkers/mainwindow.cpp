@@ -12,7 +12,6 @@ MainWindow::MainWindow(QWidget *parent) :
     costFunctionP1 = 1;
     costFunctionP2 = 1;
 
-
     ui->setupUi(this);
 
     ui->size_tb->setText("10") ;
@@ -55,7 +54,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->fctcout1->setMaximum(5);
     ui->fctcout2->setMinimum(1);
     ui->fctcout2->setMaximum(5);
-
 
     //Connection des spinbox déterminants les fonctions de coûts
     ui->fctcout1->connect(ui->fctcout1,SIGNAL(valueChanged(int)),this,SLOT(setCostFunction1(int)));
@@ -112,7 +110,6 @@ void MainWindow::launchIA() {
 }
 
 void MainWindow::click(int x, int y){
-    //launchIA() ;
     if (!game->isFinish()) {
         if (!game->isCPTurn()) {
             if (game->execMove(x,y,-1,-1)) {
@@ -131,7 +128,6 @@ void MainWindow::click(int x, int y){
     }
     else
         iTimer->stop();
-    //launchIA() ;
 }
 
 void MainWindow::start_click(){
@@ -143,7 +139,6 @@ void MainWindow::start_click(){
     //Mise en place d'une taille maximale au plateau
     this->ui->border->setMaximumSize(width-300,height-50);
 
-
     //Récupération de la taille de la barre des tâches
     HWND tTrayHwnd = FindWindow(L"Shell_TrayWnd", NULL);
     RECT tTrayRect;
@@ -151,17 +146,14 @@ void MainWindow::start_click(){
     GetWindowRect(tTrayHwnd, &tTrayRect);
     int bar = this->height - ui->centralwidget->height();;
 
-
     //Calcul de la place disponible pour le damier
     int freeHeight = height - (tTrayRect.bottom - tTrayRect.top) - bar;
     int freeWidth = width - (tTrayRect.left - tTrayRect.right) -300;
     //Mise en place de la taille des cases du damier toute la place
 
-
     int min = std::min(freeWidth, freeHeight);
 
     int labelSize = min/size;
-    //_square[x][y].label = new QLabel();
     //gestion des labels contenant leur position :
 
     //redimensionnement du tableau des labels
@@ -184,7 +176,6 @@ void MainWindow::start_click(){
             label->setMaximumSize(labelSize,labelSize);
         }
     }
-
 
     this->ui->board_l->setText(game->toString()) ;
     paint(true);
@@ -282,7 +273,7 @@ void MainWindow::paint(bool firstPrint)
 
 //affiche la case sélectionnée
 void MainWindow::printSelect(){
-
+/*
     Checkerboard board(game->getBoard()) ;
     int x = board.selection.x;
     int y = board.selection.y;
@@ -290,8 +281,7 @@ void MainWindow::printSelect(){
     SQUARE square = squareTab[x][y].square ;
     QPixmap img;
 
-
-    /*switch (square) {
+    switch (square) {
     case BLACK_KING :	img = QPixmap("../checkers/img/black_king_select.png") ;
         break;
     case BLACK_PIECE :	img = QPixmap("../checkers/img/black_piece_select.png") ;

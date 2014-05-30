@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include "include.h"
-
 #include "struct.h"
 #include "Tools.h"
 #include "ui_mainwindow.h"
@@ -11,8 +10,6 @@
 #include <windef.h>
 #include <windows.h>
 #include <sstream>
-
-
 
 namespace Ui {
 
@@ -58,10 +55,8 @@ public slots:
     void setReporting(bool report);
     //slot fermant le jeu
     void closeEvent(QCloseEvent * event );
-
     //Méthode qui deselectionne le pion courant lorsque l'on fait un clic droit sauf si une prise est en cours
     bool deselect();
-
     //modifie le type de joueur (manuel ou IA) et le niveau dans le cas de l'IA
     void selectLevelPlayer1(int lvl);
     void selectLevelPlayer2(int lvl);
@@ -70,16 +65,12 @@ public:
     ~MainWindow();
     //Nettoye la grille du jeu
     void clear();
-
     int getheight();
     int getwidth();
     // print checkerboard
     void paint(bool firstPrint);
-
     //affiche la case sélectionnée
     void printSelect();
-
-
 private:
     Ui::MainWindow *ui;
 };

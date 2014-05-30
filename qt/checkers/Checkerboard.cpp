@@ -1,6 +1,5 @@
 #include "Checkerboard.h"
 
-
 // create checkerboard with dimension parameters
 Checkerboard::Checkerboard() {
 
@@ -12,20 +11,16 @@ Checkerboard::Checkerboard(int size) : _size(size)
     selection.select = false;
     _square.resize(size,vector<QSQUARE>(size));
     // init squares with EMPTY and LOCK type
-
-    //square = new SQUARE*[this._size] ;
     for (int x=0 ; x<size ; x++) {
-        //_square[x] = new SQUARE[this._size] ;
         for (int y=0 ; y<size ; y++) {
             _square[x][y].x = x ;
             _square[x][y].y = y ;
-            if (!(Tools::isEven(x) && Tools::isEven(y) || Tools::isOdd(x) && Tools::isOdd(y)))
+            if (!((Tools::isEven(x) && Tools::isEven(y)) || (Tools::isOdd(x) && Tools::isOdd(y))))
                 _square[x][y].square = LOCK ;
             else
                 _square[x][y].square = EMPTY ;
         }
     }
-
 }
 
 Checkerboard::Checkerboard(const Checkerboard & board) : _size(board.getSize()),_square(board.getQSquare())
@@ -49,6 +44,7 @@ Damier Checkerboard::getQSquare() const {
 }
 
 QSQUARE Checkerboard::getQSquare(int x, int y) const {
+    // verify if the x y indicate are in the board
     if (x<_size && x>=0 && y<_size && y>=0){
         return _square[x][y] ;
     }
@@ -63,6 +59,7 @@ QSQUARE Checkerboard::getQSquare(int x, int y) const {
 }
 
 SQUARE Checkerboard::getSquare(int x, int y) const{
+    // verify if the x y indicate are in the board
     if (x<_size && x>=0 && y<_size && y>=0){
         return _square[x][y].square ;
     }
@@ -91,6 +88,7 @@ void Checkerboard::ghostBuster(void)
 }
 
 bool Checkerboard::moveBegined() {
+    // research and return true if there is a GHOST square on the board
     for (int x=0 ; x<this->_size ; x++)
         for (int y=0 ; y<this->_size ; y++)
             if (_square[x][y].square == GHOST)
@@ -107,6 +105,7 @@ void Checkerboard::select(int x, int y){
 
 //déselectionne la case
 bool Checkerboard::deselect(){
+    // verify qu'il n'y ai pas de movemeent en cours
     bool enCours = false;
     for(int i = 0; i<_size; i++){
         for(int j = 0; j<_size; j++){
@@ -115,6 +114,7 @@ bool Checkerboard::deselect(){
             }
         }
     }
+    // s'il n'y a pas de mouvement en cours, la piece est bien désélectionnée
     if(!enCours){
         selection.select = false;
     }
@@ -133,8 +133,6 @@ bool Checkerboard::isWin() const {
     return !nbWhite || !nbBlack ;
 }
 
-// scan the checkerboard in a file
-
 string Checkerboard::toString() const
 {   string res ="";
     for (int y=0 ; y<this->_size ; y++) {
@@ -144,6 +142,3 @@ string Checkerboard::toString() const
     }
     return res;
 }
-
-
-

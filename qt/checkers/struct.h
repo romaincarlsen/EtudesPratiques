@@ -4,7 +4,6 @@
 #include "include.h"
 #include "labelcase.h"
 
-
 // enum of piece types on squares
 typedef enum {BLACK_KING = -2, BLACK_PIECE, EMPTY, WHITE_PIECE, WHITE_KING, LOCK, GHOST, UNDEFINED} SQUARE;
 
@@ -17,7 +16,7 @@ typedef enum {WHITE=-1, BLACK=1} COLOR ;
 // enum for state machine corresponding with game loop
 typedef enum {WHITE_SELECT, WHITE_DEST, BLACK_SELECT, BLACK_DEST, END} STATE ;
 
-
+// structure of the square of the checkerboards
 typedef struct {
     SQUARE square ;
     int x ;
