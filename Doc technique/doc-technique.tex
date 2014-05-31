@@ -47,46 +47,148 @@ Nous avons également essayé tout au long du développement de commenter au maximu
 
 Nous avons réalisé l'implémentation du jeu en lui-même dans les classes Game, Checkerboard et Player.
 
-La classe Game contient les fonctions correspondant à :
-\begin{itemize}
-	\item La création de la partie
-	\item La récupération de ses attributs
-	\item L'exécution des mouvements
-	\item La sélection/désélection des pièces
-\end{itemize}
-\textbf{//Rajouter des infos sur les fonctions importantes de la classe}
+\subsection{La classe Game}
 
-\vspace{0.4cm}
-La classe Checkerboard contient les fonctions correspondant à :
+La classe Game correspond à la création d'une partie selon les paramètres lui étant indiqués (taille du plateau, mode et niveau des joueurs, etc). Elle contient donc deux joueurs ainsi que le plateau de jeu. Elle permet de switcher entre les joueurs et de gérer le bon déroulement de la partie.
 
-\begin{itemize}
-	\item La création du damier
-	\item La mise à jour du damier
-	\item L'accès aux pièces
-\end{itemize}
+\subsubsection{Gestion du déroulement de la partie}
 
-\textbf{//Rajouter des infos sur les fonctions importantes de la classe}
+Le déroulement de la partie est défini grâce à une machine à état. La classe contient un attribut state pouvant prendre les valeurs indiquées dans l'enum STATE du fichier struct.h.
 
-\vspace{0.4cm}
-La classe Player contient les fonctions correspondant à :
-\begin{itemize}
-	\item La création des joueurs
-	\item La vérification de la validité des déplacements
-\end{itemize}
+Voici le déroulement du jeu selon notre machine à états :
 
+\FigureEPS{h,t,b,p}{1\textwidth}{./img/etats.eps}{Schéma du déroulement du jeu}{fig:deroulement}
 
-\textbf{//Rajouter des infos sur les fonctions importantes de la classe}
+\newpage
+
+\subsubsection{Les fonctions de l'intelligence artificielle}
+
+La classe Game contient l'ensemble des fonctions nécessaires au calcul des choix des joueurs non manuel (Partie 4 - L'implémentation de l'intelligence artificielle).
+
+\subsubsection{La gestion du reporting}
+
+L'initialisation, la création et l'enregistrement du reporting à chaque coup est implémenté dans cette classe.
+
+\subsection{La classe Checkerboard}
+
+La classe Checkerboard contient les cases du plateau de jeu. Ces cases sont de type struct QSQUARE défini dans le fichier struct.h.
+
+Elle comporte aussi des méthodes applicables sur ce plateau. Chacune d'entre elles sont commentées.
+
+\subsection{La classe Player}
+
+La classe Player contient les informations propres à un joueur (level, fonction de coût associée, son pion, sa dame, son état SELECT, son état DEST, etc). Les attributs x, y, xDest et yDest correspondent aux coordonnées du dernier mouvement du joueur (ou du mouvement qu'il est en train de réaliser). Les coordonnées (x,y) définissent son pion sélectionné et les coordonnées (xDest,yDest) la case de déplacement choisie.
+
+La classe Player comportent la majorité des fonctions concernant le déplacement d'un pion sur un plateau de jeux, du fait que le déplacement d'un pion dépend du joueur : chaque joueur ne peux déplacer un pion que vers la ligne ennemie.
 
 \section{L'implémentation graphique}
 L'implémentation graphique du jeu a été réalisée en utilisant le framework Qt.  Afin de faciliter la mise en place de l'interface nous avons utilisé Qt Designer (voir image ci-dessous) pour positionner les éléments de base.
-\FigureEPS{h,t,b,p}{8.5cm}{./img/screen.eps}{Interface de Qt Creator}{fig:qt}
+
+\FigureEPS{h,t,b,p}{1\textwidth}{./img/screen.eps}{Interface de Qt Creator}{fig:qt}
 
 Ceci est complété par la classe MainWindow (qui hérite de QMainWindow) qui met en place les différents slots et signaux permettant d'interagir avec le jeu via l'interface graphique, ainsi que les différentes fonctions nécessaires à l'affichage du jeu. Vous pouvez vous reporter aux commentaires présents dans mainwindow.h pour connaître les différentes fonctions existantes et leur utilité. 
 
 La classe LabelCase qui hérite de QLabel permet de gérer des labels contenant leur position et pouvant contenir et afficher une image. Ces labels représentent les cases du plateau.
 
 \section{L'implémentation de l'intelligence artificielle}
-L'intelligence artificelle a été implémentée dans la classe Game par les fonctions negaMax et alpha-beta. 
+L'intelligence artificelle a été implémentée dans la classe Game par les fonctions negaMax et alpha-beta.
+
+\subsection{Les fonctions d'appel}
+\begin{verbatim}
+MOVE negaMax(bool with_thread_param)  ;
+MOVE alphaBeta(bool with_thread_param) ;
+\end{verbatim}
+
+Ces deux fonctions initialisent les paramètres nécessaires et lance l'exécution respective des algorithmes MegaMax et AlphaBeta dans l'ordre suivant :
+\begin{itemize}
+	\item Initialisation du reporting
+	\item Initialisation du temps de début d'exécution de l'algorithme
+	\item Recherche d'un pion en cours de sélection sur le plateau, limitant la recherche de mouvement à ceux partant de ce pion
+	\item Lancement de l'algorithme avec les bons paramètres
+	\item Sauvegarde du reporting
+	\item Calcul du temps d'exécution total
+	\item Renvoie une erreur si aucun mouvement n'a été trouvé
+	\item Renvoie un mouvement au hasard parmi les meilleurs mouvements
+\end{itemize}
+
+\subsection{Les fonctions récursives}
+Il y a 4 fonctions récursives :
+\begin{verbatim}
+int negaMaxClassic(const Checkerboard & board, int depth, COLOR color, Player* P1,
+Player* P2, std::vector<MOVE> & best, int xSelect, int ySelect) ;
+
+int negaMaxThread(const Checkerboard & board, int depth, COLOR color, Player* P1,
+Player* P2, std::vector<MOVE> & best, int xSelect, int ySelect) ;
+
+int alphaBetaClassic(const Checkerboard & board, int depth, COLOR color, Player* P1,
+Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec, int xSelect,
+int ySelect);
+
+int alphaBetaThread(const Checkerboard & board, int depth, COLOR color, Player* P1,
+Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec, int xSelect,
+int ySelect);
+\end{verbatim}
+
+Ces fonctions prennent en paramètres :
+\begin{itemize}
+	\item Le plateau de jeux du n{\oe}ud actuel dans l'arbre de l'algorithme
+	\item Le niveau de profondeur actuel
+	\item La couleur du joueur dont le mouvement est simulé dans le niveau actuel
+	\item Les joueurs de la partie
+	\item La liste des meilleurs mouvements trouvés actuellement
+	\item Les coordonnées (xSelect, ySelect) de la case sélectionnée si le coup en cours de calcul est un coup à plusieurs prises : le joueur ne peut pas désélectionner son pion et le calcul des mouvement doit se faire depuis ce pion
+\end{itemize}
+
+\begin{verbatim}
+int Game::negaMaxClassic(const Checkerboard & board, int depth, COLOR color,
+Player* P1, Player* P2, std::vector<MOVE> & best, int xSelect, int ySelect) {
+    // init the current player and opponent simulation
+    Player* player = (color==WHITE ? P1 : P2) ;
+    Player* opponent = (player==P1 ? P2 : P1) ;
+    int value ;
+    std::vector<CHILD> child ;
+    child.clear() ;
+    // cost function return if the depth is max are if the game is finish on the
+		current board
+    if (depth==0 || isFinishOnBoard(board, player)){
+        value = costFunction(board, color) ;
+        // reporting operations if necessary
+        if(with_reporting) {
+            timeval end ;
+            gettimeofday(&end , NULL) ;
+            add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),
+						child.size(),child.size()) ;
+        }
+        return value ;
+    }
+    // find all the child corresponding with the current node board
+    child = findChild(board,color, player, xSelect, ySelect) ;
+    // for each childs
+    for (int i = 0 ; i<(int)child.size() ; i++) {
+        // keep the graphism active
+        QCoreApplication::processEvents();
+        if (_stop) exit(EXIT_SUCCESS);
+        // indicate the threads informations
+        if (omp_get_num_threads()>1)
+            qDebug() << "nb threads = " << omp_get_num_threads() ;
+        // launch algorithm recursively and save cost value
+        child[i].value = - negaMaxClassic(child[i].board, depth - 1, (COLOR)
+				(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
+    }
+    // find the best child(s) and the best move(s) corresponding
+    value = findBestChild(child,best,child.size()) ;
+    // reporting operations if necessary
+    if(with_reporting) {
+        timeval end ;
+        gettimeofday(&end , NULL) ;
+        add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),
+				child.size(),child.size()) ;
+    }
+    return value;
+		}
+
+\end{verbatim}
+
 \end{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

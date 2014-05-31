@@ -69,7 +69,7 @@ Concernant le langage de programmation, nous avons choisi le C++, d'une part pou
 
 Notre projet suit le modèle MVC qui permet de séparer la partie modèle de données de la partie interface utilisateur, avec un contrôleur permettant de faire le lien entre ces 2 parties :
 
-\FigureEPS{h,t,b,p}{8.5cm}{./mvc.eps}{Schéma modèle MVC (Model View Controller)}{fig:mvc}
+\FigureEPS{h,t,b,p}{8.5cm}{./img/mvc.eps}{Schéma modèle MVC (Model View Controller)}{fig:mvc}
 
 \begin{itemize}
 	\item \underline{Modèle :}
@@ -90,7 +90,7 @@ Classes Game, Checkerboard et Player (voir partie II - Le jeu)
 
 La structure de notre code concernant le fonctionnement du jeu en lui-même n'utilise que les classes Game, Checkerboard et Player selon le schéma suivant :
 
-\FigureEPS{h,t,b,p}{8.5cm}{./diagramme.eps}{Diagramme de classe}{fig:diag}
+\FigureEPS{h,t,b,p}{8.5cm}{./img/diagramme.eps}{Diagramme de classe}{fig:diag}
 
 Au cours de l'exécution, le jeu comporte une seule instance de classe Game auquel est associée une instance de classe Checkerboard et deux instances de classes Player.
 
@@ -102,7 +102,7 @@ Les méthodes de la classe Game coordonnent le déroulement du jeu, celles de la c
 	
 	Nous avons choisi de créer une interface simple : la partie gauche de la fenêtre est consacrée au plateau du jeu, tandis que celle de droite permet de choisir les différents réglages du jeu (joueurs humains ou IA, taille du plateau, utilisation ou non de la coupure alpha-beta ou du multithreading pour l'IA). Cela permet de commencer à jouer facilement et rapidement.
 	
-\FigureEPS{h,t,b,p}{1.2\textwidth}{./screen.eps}{Jeu de dames}{fig:dames}
+\FigureEPS{h,t,b,p}{1.2\textwidth}{./img/screen.eps}{Jeu de dames}{fig:dames}
 	
 \section{L'intelligence artificielle}
 
@@ -110,26 +110,26 @@ Les méthodes de la classe Game coordonnent le déroulement du jeu, celles de la c
 
 L'algorithme MinMax est applicable à des jeux à deux joueurs sans hasard où chaque joueur joue alternativement. Le déroulement du jeu peut être représenté par un arbre :
 
-\textbf{IMPR ECRAN ARBRE AVEC MIN MAX SANS VALUE ET JOUEURS}
-
-\vspace{0.3cm}
+\FigureEPS{h,t,b,p}{1\textwidth}{./img/arbre1.eps}{Arbre avec MinMax, sans valeur et joueurs}{fig:arbre1}
+\newpage
 La racine de l'arbre est la situation initiale. Chaque profondeur correspond à un tour de jeu, alternativement au joueur 1 et au joueur 2. Chaque n{\oe}ud est une situation potentielle. Chaque arc représente le mouvement ayant permis de passer d'une situation à une autre. À chaque feuille est calculée la fonction de coût, la fonction permettant de calculer l'avantage pour un des joueurs, associée à la situation.
 
-\textbf{IMPR ECRAN ARBRE AVEC MIN MAX AVEC VALUE SUR FEUILLE ET JOUEURS}
+\FigureEPS{h,t,b,p}{1\textwidth}{./img/arbre2.eps}{Arbre avec MinMax, avec valeur sur les feuilles et joueurs}{fig:arbre2}
 
-\vspace{0.3cm}
+
 La valeur associée à une situation finale (une feuille) est ensuite remontée jusqu'à la racine en supposant que l'on choisisse la solution qui nous avantage le plus et que l'adversaire choisisse la solution qui nous avantage le moins.
 
-\textbf{IMPR ECRAN ARBRE AVEC MIN MAX AVEC TOUTE LES VALUE ET JOUEURS ET CHOIX MIN MAX}
 
-\vspace{0.3cm}
+\FigureEPS{h,t,b,p}{1\textwidth}{./img/arbre3.eps}{Arbre avec MinMax, avec toute les valeurs, les joueurs et les choix MinMax}{fig:arbre3}
+\newpage
+
 La valeur arrivée à la racine est la meilleure situation possible. Le premier arc du chemin allant de la racine à la feuille la plus avantageuse (ayant été remontée jusqu'à la racine) est le mouvement à réaliser.
 
 L'évaluation se faisant selon les mêmes critères pour les 2 joueurs, la valeur trouvée pour un même damier selon que l'on se considère comme un joueur est égal à l'opposé de celle trouvée si l'on se considérait comme l'autre joueur.
 
 Exemple :
 
-\FigureEPS{h,t,b,p}{8.5cm}{./plateau.eps}{Damier correspondant à la fonction de coût}{fig:coût}
+\FigureEPS{h,t,b,p}{8.5cm}{./img/plateau.eps}{Damier correspondant à la fonction de coût}{fig:coût}
 
 Fonction de coût pour les blancs = X = 2
 
@@ -141,7 +141,8 @@ L'algorithme NegaMax remplace la valeur de la fonction de coût par son opposé da
 
 L'algorithme NegaMax ne va donc plus choisir alternativement la situation la plus avantageuse puis la moins avantageuse pour nous. Il va toujours choisir la solution la plus avantageuse pour le joueur à qui c'est le tour de jouer.
 
-\textbf{IMPR ECRAN ARBRE AVEC NEGAMAX AVEC TOUTE LES VALUE ET JOUEURS ET CHOIX MAX MAX}
+\FigureEPS{h,t,b,p}{1\textwidth}{./img/arbre4.eps}{Arbre avec NegaMax, avec toutes les valeurs, les joueurs et les choix MaxMax}{fig:arbre4}
+
 
 \vspace{0.3cm}
 L'algorithme NegaMax est donc une variante de l'algorithme MinMax permettant de toujours choisir le maximum au lieu d'alterner entre minimum et maximum. Il a pour seul but de simplifier l'implémentation.
@@ -215,7 +216,7 @@ Exemple :
 	\item Valeur d'une dame = 3
 \end{itemize}
 
-\FigureEPS{h,t,b,p}{8.5cm}{./plateau2.eps}{Exemple de damier}{fig:damier}
+\FigureEPS{h,t,b,p}{8.5cm}{./img/plateau2.eps}{Exemple de damier}{fig:damier}
 
 Si l'on se considère comme le joueur blanc, nous avons 4 pions et 1 dame alors que les noirs ont 2 pions et 1 dame.
 
