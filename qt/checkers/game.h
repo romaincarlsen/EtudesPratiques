@@ -89,12 +89,12 @@ public:
     // print game
     QString toString() ;
     // cost functions
-    int costFunction(const Checkerboard & board, Player* player, COLOR color) ;
-    int costFunction1(const Checkerboard & board, Player* player, COLOR color) ;
-    int costFunction2(const Checkerboard & board, Player* player, COLOR color) ;
-    int costFunction3(const Checkerboard & board, Player* player, COLOR color) ;
-    int costFunction4(const Checkerboard & board, Player* player, COLOR color) ;
-    int costFunction5(const Checkerboard & board, Player* player, COLOR color);
+    int costFunction(const Checkerboard & board, COLOR color) ;
+    int costFunction1(const Checkerboard & board, COLOR color) ;
+    int costFunction2(const Checkerboard & board, COLOR color) ;
+    int costFunction3(const Checkerboard & board, COLOR color) ;
+    int costFunction4(const Checkerboard & board, COLOR color) ;
+    int costFunction5(const Checkerboard & board, COLOR color);
     // return all the struct MOVE possible for the player on the board parameters
     std::vector<MOVE> findMoveOnBoard(const Checkerboard & board, COLOR color, Player* player) ;
     // return all the struct MOVE possible for the player on the board parameters from xSelect ySelect square

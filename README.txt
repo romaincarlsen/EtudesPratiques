@@ -17,8 +17,6 @@ signification de
 
 - enlever les delete sur les vector et les appels à leurs destructeurs si il y en a
 
-- CHOIX BIZARRES DE L'IA A CORRIGER ??? dû à playerTurn() dans fonctions de coût ? l'enlever ?
-
 - finir chacun sa fonction de coût
 1 - fonction de base
 2 - fonction fab

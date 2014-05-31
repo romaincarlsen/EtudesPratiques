@@ -138,6 +138,7 @@ string Checkerboard::toString() const
     for (int y=0 ; y<this->_size ; y++) {
         for (int x=0 ; x<this->_size ; x++) {
             res += Tools::square_to_char(_square[x][y].square);
+            //res += static_cast<ostringstream*>( &(ostringstream() << (int)_square[x][y].square) )->str() ;
         }
     }
     return res;

@@ -214,38 +214,40 @@ QString Game::toString() {
 }
 
 // launch the costFunction chosen by the player whiwh it's the turn to play
-int Game::costFunction(const Checkerboard & board, Player* player, COLOR color) {
+int Game::costFunction(const Checkerboard & board, COLOR color) {
     switch (playerTurn()->costFunction) {
     case 1:
-        return costFunction1(board, player, color);
+        return costFunction1(board, color);
         break;
     case 2:
-        return costFunction2(board, player, color);
+        return costFunction2(board, color);
         break;
     case 3:
-        return costFunction3(board, player, color);
+        return costFunction3(board, color);
         break;
     case 4:
-        return costFunction4(board, player, color);
+        return costFunction4(board, color);
         break;
     case 5:
-        return costFunction5(board, player, color);
+        return costFunction5(board, color);
         break;
     default:
-        return costFunction1(board, player, color);
+        return costFunction1(board, color);
         break;
     }
 }
 
-int Game::costFunction1(const Checkerboard & board, Player* player, COLOR color) {
-    player = playerTurn() ;
+int Game::costFunction1(const Checkerboard & board, COLOR color) {
+    Player* player = playerTurn() ;
+    int nega = (player->isWhite() && color==WHITE) || (player->isBlack() && color==BLACK) ? 1 : -1 ;
     int nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing ;
     player->scanNumberOfOnBoard(nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing, board) ;
-    return ((int)color) * (nbMinePiece - nbOpponentPiece + (nbMineKing - nbOpponentKing)*3) ;
+    return nega * (nbMinePiece - nbOpponentPiece + (nbMineKing - nbOpponentKing)*3) ;
 }
 
-int Game::costFunction2(const Checkerboard & board, Player* player, COLOR color) {
-    player = playerTurn() ;
+int Game::costFunction2(const Checkerboard & board, COLOR color) {
+    Player* player = playerTurn() ;
+    int nega = (player->isWhite() && color==WHITE) || (player->isBlack() && color==BLACK) ? 1 : -1 ;
     int nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing ;
     player->scanNumberOfOnBoard(nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing, board) ;
     int value = (nbMinePiece - nbOpponentPiece)*3 + (nbMineKing - nbOpponentKing)*9 ;
@@ -263,11 +265,12 @@ int Game::costFunction2(const Checkerboard & board, Player* player, COLOR color)
             }
         }
     }
-    return ((int)color) * value ;
+    return nega * value ;
 }
 
-int Game::costFunction3(const Checkerboard & board, Player* player, COLOR color) {
-    player = playerTurn() ;
+int Game::costFunction3(const Checkerboard & board, COLOR color) {
+    Player* player = playerTurn() ;
+    int nega = (player->isWhite() && color==WHITE) || (player->isBlack() && color==BLACK) ? 1 : -1 ;
     int nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing ;
     player->scanNumberOfOnBoard(nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing, board) ;
     int value = (nbMinePiece - nbOpponentPiece)*3 + (nbMineKing - nbOpponentKing)*9 ;
@@ -281,14 +284,14 @@ int Game::costFunction3(const Checkerboard & board, Player* player, COLOR color)
             }
         }
     }
-    return ((int)color) * value ;
+    return nega * value ;
 }
 
-int Game::costFunction4(const Checkerboard & board, Player* player, COLOR color) {
+int Game::costFunction4(const Checkerboard & board, COLOR color) {
     return 0 ;
 }
 
-int Game::costFunction5(const Checkerboard & board, Player* player, COLOR color) {
+int Game::costFunction5(const Checkerboard & board, COLOR color) {
     return (rand()%201 - 100) ;
 }
 
@@ -387,23 +390,23 @@ std::vector<CHILD> Game::findChild(const Checkerboard & board, COLOR color, Play
         int y = test.move.y ;
         int xDest = test.move.xDest ;
         int yDest = test.move.yDest ;
-        bool wasKill = player->isKillOnBoard(tmp_board.getSquare(x,y),x,y,xDest,yDest,tmp_board) ;
+        bool wasKill = player->isKillOnBoard(test.board.getSquare(x,y),x,y,xDest,yDest,test.board) ;
         // execute the move on the copy
-        bool isWin = player->moveOnBoard(x,y,xDest,yDest,tmp_board) ;
+        bool isWin = player->moveOnBoard(x,y,xDest,yDest,test.board) ;
         if(isWin) {
-            tmp_board.ghostBuster() ;
+            test.board.ghostBuster() ;
         }
         else {
             // indicate the xSelect ySelect if the move isn't finish (if the player can kill other opponenet piece withour his piece)
-            if ((wasKill && player->canKillOnBoard(tmp_board.getSquare(xDest,yDest), xDest, yDest, tmp_board))) {
+            if ((wasKill && player->canKillOnBoard(test.board.getSquare(xDest,yDest), xDest, yDest, test.board))) {
                 test.xSelect = xDest ;
                 test.ySelect = yDest ;
             }
             else {
                 // transform the piece into king if necessary
-                if (Tools::isPiece(tmp_board.getSquare(xDest,yDest)) && player->isOnKingLineOnBoard(yDest, tmp_board))
-                    tmp_board.setSquare(xDest, yDest, player->king);
-                tmp_board.ghostBuster() ;
+                if (Tools::isPiece(test.board.getSquare(xDest,yDest)) && player->isOnKingLineOnBoard(yDest, test.board))
+                    test.board.setSquare(xDest, yDest, player->king);
+                test.board.ghostBuster() ;
             }
         }
         // save the child
@@ -486,12 +489,13 @@ MOVE Game::negaMax(bool with_thread_param) {
 int Game::negaMaxClassic(const Checkerboard & board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int xSelect, int ySelect) {
     // init the current player and opponent simulation
     Player* player = (color==WHITE ? P1 : P2) ;
+    Player* opponent = (player==P1 ? P2 : P1) ;
     int value ;
     std::vector<CHILD> child ;
     child.clear() ;
     // cost function return if the depth is max are if the game is finish on the current board
     if (depth==0 || isFinishOnBoard(board, player)){
-        value = ((int)color) * costFunction(board, player, color) ;
+        value = costFunction(board, color) ;
         // reporting operations if necessary
         if(with_reporting) {
             timeval end ;
@@ -532,7 +536,7 @@ int Game::negaMaxThread(const Checkerboard & board, int depth, COLOR color, Play
     child.clear() ;
     // cost function return if the depth is max are if the game is finish on the current board
     if (depth==0 || isFinishOnBoard(board, player)){
-        value = ((int)color) * costFunction(board, player, color) ;
+        value = costFunction(board, color) ;
         return value ;
     }
     // find all the child corresponding with the current node board
@@ -616,7 +620,7 @@ int Game::alphaBetaClassic(const Checkerboard & board, int depth, COLOR color, P
     int nb_child_treated = 0 ;
     // cost function return if the depth is max are if the game is finish on the current board
     if (depth==0 || isFinishOnBoard(board, player)){
-        value = ((int)color) * costFunction(board, player, color);
+        value = costFunction(board, color);
         // reporting operations if necessary
         if(with_reporting) {
             timeval end ;
@@ -680,7 +684,7 @@ int Game::alphaBetaThread(const Checkerboard & board, int depth, COLOR color, Pl
     int nb_child_treated = 0 ;
     // cost function return if the depth is max are if the game is finish on the current board
     if (depth==0 || isFinishOnBoard(board, player)){
-        value = ((int)color) * costFunction(board, player, color);
+        value = costFunction(board, color);
         return value ;
     }
     // find all the child corresponding with the current node board
