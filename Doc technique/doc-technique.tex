@@ -55,6 +55,7 @@ La classe Game contient les fonctions correspondant à :
 	\item La sélection/désélection des pièces
 \end{itemize}
 \textbf{//Rajouter des infos sur les fonctions importantes de la classe}
+
 \vspace{0.4cm}
 La classe Checkerboard contient les fonctions correspondant à :
 
@@ -77,10 +78,12 @@ La classe Player contient les fonctions correspondant à :
 \textbf{//Rajouter des infos sur les fonctions importantes de la classe}
 
 \section{L'implémentation graphique}
-L'implémentation graphique du jeu a été réalisée grâce à Qt Creator.
-
-
+L'implémentation graphique du jeu a été réalisée en utilisant le framework Qt.  Afin de faciliter la mise en place de l'interface nous avons utilisé Qt Designer (voir image ci-dessous) pour positionner les éléments de base.
 \FigureEPS{h,t,b,p}{8.5cm}{./img/screen.eps}{Interface de Qt Creator}{fig:qt}
+
+Ceci est complété par la classe MainWindow (qui hérite de QMainWindow) qui met en place les différents slots et signaux permettant d'interagir avec le jeu via l'interface graphique, ainsi que les différentes fonctions nécessaires à l'affichage du jeu. Vous pouvez vous reporter aux commentaires présents dans mainwindow.h pour connaître les différentes fonctions existantes et leur utilité. 
+
+La classe LabelCase qui hérite de QLabel permet de gérer des labels contenant leur position et pouvant contenir et afficher une image. Ces labels représentent les cases du plateau.
 
 \section{L'implémentation de l'intelligence artificielle}
 L'intelligence artificelle a été implémentée dans la classe Game par les fonctions negaMax et alpha-beta. 
