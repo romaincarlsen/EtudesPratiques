@@ -28,19 +28,3 @@ Finir le rapport + doc technique + doc utilisateur
 donner les images nécessaires aux rapports à Sylvain
 
 Faire le diapo
-
-algorithme théorique sur lequel on s'est basé (pour mettre dans le rapport ou autre)
-//function negamax(node, depth, color)
-//if depth = 0 or node is a terminal node
-//    return color * the heuristic value of node
-//bestValue := -infini
-//foreach child of node
-//    val := -negamax(child, depth - 1, -color)
-//    bestValue := max( bestValue, val )
-//return bestValue
-//
-//Initial call for Player A's root node
-//rootNodeValue := negamax( rootNode, depth, 1)
-//
-//Initial call for Player B's root node
-//rootNodeValue := -negamax( rootNode, depth, -1)

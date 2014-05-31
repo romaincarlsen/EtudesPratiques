@@ -751,7 +751,7 @@ void Game::add_node_reporting(const Checkerboard & board, int value, double time
     reporting.push_back(static_cast<ostringstream*>( &(ostringstream() << nb_child_treated) )->str() ) ;
     reporting.push_back(static_cast<ostringstream*>( &(ostringstream() << nb_child) )->str() ) ;
     reporting.push_back(static_cast<ostringstream*>( &(ostringstream() << (long long int)time) )->str() ) ;
-    reporting.push_back(static_cast<ostringstream*>( &(ostringstream() << value) )->str() ) ;
+    reporting.push_back(static_cast<ostringstream*>( &(ostringstream() << -value) )->str() ) ;
     reporting.push_back(board.toString()) ;
 }
 

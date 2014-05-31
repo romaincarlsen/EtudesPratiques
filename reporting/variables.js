@@ -1,9 +1,9 @@
-// paramétrable
+﻿// paramétrable
 
 var internet_browser_canvas_size_limit = 32000 ;
-var square_size = 10 ;
+var square_size = 20;
 var text_size = 15 ;
-var marge_height = 50 ;
+var marge_height = 75 ;
 var marge_width = 10 ;
 var marge_behind_text = 5 ;
 var line_width = 2 ;
