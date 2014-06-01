@@ -185,24 +185,48 @@ Notre algorithme est donc une application de l'algorithme Negamax à notre jeu de
 \subsection{Les optimisations : la coupure alpha-beta et les threads}
 
 Après avoir fini le jeu de Dames en mode automatique, nous avons essayé d'optimiser le jeu pour que le temps d'exécution soit le plus rapide possible. 
-Le premier moyen possible était d'améliorer l'algorithme MinMax en utilisant la méthode de la coupure Alpha-Beta. Cette méthode consiste à ne pas consulter certains n{\oe}uds lorsque l'on sait que le n{\oe}ud père ne sera pas le coup optimal. Cette méthode nous a permis de passer d'une profondeur maximale de 4 à une profondeur maximale 6 dans la recherche du meilleur coup. Voici un diagramme du temps gagné en utilisant cette méthode : 
+Le premier moyen possible était d'améliorer l'algorithme MinMax en utilisant la méthode de la coupure alpha-beta. Cette méthode consiste à ne pas consulter certains n{\oe}uds lorsque l'on sait que le n{\oe}ud père ne sera pas le coup optimal. Cette méthode nous a permis de passer d'une profondeur maximale de 4 à une profondeur maximale 6 dans la recherche du meilleur coup. Voici un diagramme du temps gagné en utilisant cette méthode : 
 
-\textbf{DIAGRAMME RESTE A FAIRE}
+\vspace{0.3cm}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+  \hline
+  Nombre de coups à calculer & Sans alpha-beta & Avec alpha-beta\\
+  \hline
+  1 & 140 ms & 140 ms \\
+  2 & 537 ms & 536 ms \\
+	3 & 3 853 ms & 3 562 ms \\
+	4 & 18 641 ms & 15 203 ms\\
+  \hline
+\end{tabular}
+\end{center}
+\vspace{0.3cm}
 
-Pour cette méthode, nous avons repris la méthode NegaMax à laquelle nous avons rajouté un paramètre (la valeur maximale actuelle au niveau du n{\oe}ud père). Il faut noter que la coupure Alpha-Beta utilise quand même la fonction NegaMax pour tous les n{\oe}uds fils gauches.
+Pour cette méthode, nous avons repris la méthode NegaMax à laquelle nous avons rajouté un paramètre (la valeur maximale actuelle au niveau du n{\oe}ud père). Il faut noter que la coupure alpha-beta utilise quand même la fonction NegaMax pour tous les n{\oe}uds fils gauches.
 
 
 Pour optimiser le temps d'exécution, nous avons aussi paralléliser les threads afin que le programme analyse plusieurs n{\oe}uds en même temps. Cette amélioration a été permise par l'utilisation d'Open MP, qui a été conçu afin de faciliter la mise ne place de calcul parallèle. Voici un diagramme du temps gagné grâce à cette méthode : 
 
-\textbf{Pas encore fait}
+\vspace{0.3cm}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+  \hline
+  Nombre de coups à calculer & Sans threads & Avec threads \\
+	\hline
+  3 & 3 853 ms & 3 286 ms \\
+  4 & 18 641 ms & 9 164 ms \\
+	3 & 107 144 ms & 33 942 ms \\
+	4 & 879 187 ms & 179 286 ms\\
+  \hline
+\end{tabular}
+\end{center}
+\vspace{0.3cm}
 
 Nous avons aussi essayé de représenter graphiquement l'exécution de l'algorithme. Ainsi, cela nous permettait de mieux vérifier que la méthode Alpha-Beta fonctionnait (en voyant si toutes les positions étaient analysées ou non). Ce travail se sépare en 2 étapes : 
 \begin{itemize}
 \item[\textbullet] La première a été de créer un fichier texte contenant la taille du plateau et, pour chaque n{\oe}ud, le contenu du damier, le temps d'exécution, sa valeur, son nombre de n{\oe}ud fils et le nombre de noeud analysé.
 \item[\textbullet] La deuxième est de créer un reporting graphique, codé en javascript via Canvas, et permettant de mieux visualiser les situations.
 \end{itemize}
-
-\textbf{IMPRIM ECRAN DU REPORTING}
 
 \subsection{La fonction de coût}
 
@@ -233,7 +257,26 @@ La valeur étant positive la situation est avantageuse, donc plus la valeur est é
 \vspace{0.3cm}
 Pour améliorer l'algorithme, nous avons aussi essayé de perfectionner la fonction de coût. En effet, la fonction de départ ne regardait que le nombre de pions de chaque joueur. Cependant, la position des pions ont aussi leur importance. Donc nous avons essayé de prendre cela en compte dans le jugement de la position. Au final, nous avons réalisé plusieurs fonctions de coût que nous avons fait se rencontrer plusieurs fois pour voir la meilleure d'entre elles. Voici un tableau des confrontations :
 
-\textbf{Pas encore fait}
+\vspace{0.3cm}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+  \hline
+  Confrontations & 1 & 2 & 3 & 5 \\
+	\hline
+  1 & 1/2 & 0 & 1 & 1 \\
+  2 & 1 & 1/2 & 1 & 1 \\
+	3 & 0 & 0 & 0 & 1/2 \\
+	5 & 0 & 0 & 1 & 0\\
+  \hline
+\end{tabular}
+\end{center}
+\vspace{0.3cm}
+Dans ce tableau :
+\begin{itemize}
+	\item[\textbullet] 0 correspond à une défaite du joueur en ligne
+	\item[\textbullet] 1/2 correspond à un match nul
+	\item[\textbullet] 1 correspond à une victoire du joueur en ligne
+\end{itemize}
 
 \section{Conclusion}
 Nous avons donc atteint notre objectif premier qui était de créer une IA pour le jeu de Dames. Cet algorithme peut calculer jusqu'à 6 coups en avance.
