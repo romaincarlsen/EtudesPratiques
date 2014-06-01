@@ -1,5 +1,7 @@
 - oral : nombre de profondeur nécessaire à chaque taille de plateau pour étudier toutes les solutions de fin de parties possible et temps correspondant pour notre programme
 
+- incohérence des choix quand threads, du surement au fait que tout les simulations soit lancées en même temps (nécessaire de faire l'un après l'autre pour alpha-beta), et pour negmax je sais pas, tanpis
+
 - finir chacun sa fonction de coût
 1 - fonction de base
 2 - fonction fab

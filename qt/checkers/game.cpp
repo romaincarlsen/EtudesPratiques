@@ -384,22 +384,30 @@ std::vector<CHILD> Game::findChild(const Checkerboard & board, COLOR color, Play
         bool isWin = player->moveOnBoard(x,y,xDest,yDest,test.board) ;
         if(isWin) {
             test.board.ghostBuster() ;
+            // save the child
+            child.push_back(test);
         }
         else {
             // indicate the xSelect ySelect if the move isn't finish (if the player can kill other opponenet piece withour his piece)
             if ((wasKill && player->canKillOnBoard(test.board.getSquare(xDest,yDest), xDest, yDest, test.board))) {
                 test.xSelect = xDest ;
                 test.ySelect = yDest ;
+                std::vector<CHILD> next =  findChild(test.board, color, player, xDest, yDest) ;
+                for (unsigned int n=0 ; n<next.size() ; n++) {
+                    test.board = next[n].board ;
+                    // save the child
+                    child.push_back(test);
+                }
             }
             else {
                 // transform the piece into king if necessary
                 if (Tools::isPiece(test.board.getSquare(xDest,yDest)) && player->isOnKingLineOnBoard(yDest, test.board))
                     test.board.setSquare(xDest, yDest, player->king);
                 test.board.ghostBuster() ;
+                // save the child
+                child.push_back(test);
             }
         }
-        // save the child
-        child.push_back(test);
     }
     return child ;
 }
