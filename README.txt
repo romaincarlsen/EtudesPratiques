@@ -35,3 +35,5 @@ signification de
 	ce qui est dans le bloc peut être exécuté par plusieurs threads
 	#pragma omp taskwait permet d'attendre que tout les threads est effectué la tache jusqu'à ce point avant de continuer.
 }
+
+- Dans le diapo, une amélioration possible serait que la fonction de coût fasse de l'auto-apprentissage
