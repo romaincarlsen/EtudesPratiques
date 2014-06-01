@@ -101,14 +101,14 @@ MOVE alphaBeta(bool with_thread_param) ;
 
 Ces deux fonctions initialisent les paramètres nécessaires et lance l'exécution respective des algorithmes MegaMax et AlphaBeta dans l'ordre suivant :
 \begin{itemize}
-	\item Initialisation du reporting
-	\item Initialisation du temps de début d'exécution de l'algorithme
-	\item Recherche d'un pion en cours de sélection sur le plateau, limitant la recherche de mouvement à ceux partant de ce pion
-	\item Lancement de l'algorithme avec les bons paramètres
-	\item Sauvegarde du reporting
-	\item Calcul du temps d'exécution total
-	\item Renvoie une erreur si aucun mouvement n'a été trouvé
-	\item Renvoie un mouvement au hasard parmi les meilleurs mouvements
+	\item[\textbullet] Initialisation du reporting
+	\item[\textbullet] Initialisation du temps de début d'exécution de l'algorithme
+	\item[\textbullet] Recherche d'un pion en cours de sélection sur le plateau, limitant la recherche de mouvement à ceux partant de ce pion
+	\item[\textbullet] Lancement de l'algorithme avec les bons paramètres
+	\item[\textbullet] Sauvegarde du reporting
+	\item[\textbullet] Calcul du temps d'exécution total
+	\item[\textbullet] Renvoie une erreur si aucun mouvement n'a été trouvé
+	\item[\textbullet] Renvoie un mouvement au hasard parmi les meilleurs mouvements
 \end{itemize}
 
 \subsection{Les fonctions récursives}
@@ -131,63 +131,91 @@ int ySelect);
 
 Ces fonctions prennent en paramètres :
 \begin{itemize}
-	\item Le plateau de jeux du n{\oe}ud actuel dans l'arbre de l'algorithme
-	\item Le niveau de profondeur actuel
-	\item La couleur du joueur dont le mouvement est simulé dans le niveau actuel
-	\item Les joueurs de la partie
-	\item La liste des meilleurs mouvements trouvés actuellement
-	\item Les coordonnées (xSelect, ySelect) de la case sélectionnée si le coup en cours de calcul est un coup à plusieurs prises : le joueur ne peut pas désélectionner son pion et le calcul des mouvement doit se faire depuis ce pion
+	\item[\textbullet] Le plateau de jeux du n{\oe}ud actuel dans l'arbre de l'algorithme
+	\item[\textbullet] Le niveau de profondeur actuel
+	\item[\textbullet] La couleur du joueur dont le mouvement est simulé dans le niveau actuel
+	\item[\textbullet] Les joueurs de la partie
+	\item[\textbullet] La liste des meilleurs mouvements trouvés actuellement
+	\item[\textbullet] Les coordonnées (xSelect, ySelect) de la case sélectionnée si le coup en cours de calcul est un coup à plusieurs prises : le joueur ne peut pas désélectionner son pion et le calcul des mouvement doit se faire depuis ce pion
+\end{itemize}
+
+Fonctionnement :
+\begin{itemize}
+	\item[\textbullet] Teste si le n{\oe}ud actuel est une feuille. Le n{\oe}ud actuel est une feuille dans 2 cas :
+	\item Il y a un gagnant ou une égalité sur le n{\oe}ud actuel
+	\item Le niveau de profondeur est celui indiqué comme maximal par le niveau de l'IA choisie
+	\item[\textbullet] Dans le cas où le n{\oe}ud est une feuille, la fonction retourne la valeur retournée par l'appel à la fonction de coût sur le plateau feuille
+	\item[\textbullet] Sinon, l'algorithme poursuit avec la recherche de tout les n{\oe}uds fils via la fonction « findChild »
+	\item[\textbullet] Un appel récursif à l'algorithme est appliqué à chaque n{\oe}ud fils
+	\item[\textbullet] La fonction retourne la meilleure valeur de fonction coût issue de l'appel récursif de tout ses fils
+\end{itemize}
+
+\subsubsection{Les particularités de l'AlphaBeta :}
+Les fonctions AlphaBeta prennent 2 paramètres supplémentaires :
+\begin{itemize}
+	\item[\textbullet] maxprec : il s'agit de la meilleure valeur de fonction de coût actuellement trouvées parmi les frères du n{\oe}ud père du n{\oe}ud actuel
+	\item[\textbullet] Ismaxprec : il s'agit d'un booléen indiquant si la valeur maxprec est à prendre en compte, celle-ci n'est pas à prendre en compte lorsque le n{\oe}ud père est le premier fils de ses frères car il n'y a alors pas encore de valeur maximal vu que que la première est en cours de calcul via le n{\oe}ud actuel
+\end{itemize}
+
+Elles ont de plus une variable locale \textit{nb\_child\_treated} qui a pour valeur le nombre de fils du n{\oe}ud actuel sauf si une coupure Alpha-Beta a pu être réalisée.
+Le test de réalisation possible d'une coupure AlphaBeta se situe à la condition suivante :
+
+\begin{verbatim}
+if (i!=0 && ismaxprec && value>maxprec && nb\_child\_treated==child.size());
+\end{verbatim}
+
+Une coupure AlphaBeta est possible si :
+\begin{itemize}
+	\item[\textbullet] Il ne s'agit pas du premier fils à étudier
+	\item[\textbullet] La valeur « maxprec » est à prendre en compte (le n{\oe}ud père n'est pas le premier fils de son père)
+	\item[\textbullet] La valeur actuelle est supérieure à la valeur actuellement trouvée parmi les frères de son père (ce qui signifie qu'une fois remontée au niveau de profondeur supérieur, elle sera inférieure ou égal à la valeur actuelle parmi les frères, voir fonctionnement de l'AlphaBeta dans le compte rendu)
+\end{itemize}
+
+\subsubsection{Les particularités des threads}
+
+\begin{itemize}
+	\item[\textbullet] L'appel initial aux fonctions récursives est implémenté de la manière suivante :
 \end{itemize}
 
 \begin{verbatim}
-int Game::negaMaxClassic(const Checkerboard & board, int depth, COLOR color,
-Player* P1, Player* P2, std::vector<MOVE> & best, int xSelect, int ySelect) {
-    // init the current player and opponent simulation
-    Player* player = (color==WHITE ? P1 : P2) ;
-    Player* opponent = (player==P1 ? P2 : P1) ;
-    int value ;
-    std::vector<CHILD> child ;
-    child.clear() ;
-    // cost function return if the depth is max are if the game is finish on the
-		current board
-    if (depth==0 || isFinishOnBoard(board, player)){
-        value = costFunction(board, color) ;
-        // reporting operations if necessary
-        if(with_reporting) {
-            timeval end ;
-            gettimeofday(&end , NULL) ;
-            add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),
-						child.size(),child.size()) ;
-        }
-        return value ;
-    }
-    // find all the child corresponding with the current node board
-    child = findChild(board,color, player, xSelect, ySelect) ;
-    // for each childs
-    for (int i = 0 ; i<(int)child.size() ; i++) {
-        // keep the graphism active
-        QCoreApplication::processEvents();
-        if (_stop) exit(EXIT_SUCCESS);
-        // indicate the threads informations
-        if (omp_get_num_threads()>1)
-            qDebug() << "nb threads = " << omp_get_num_threads() ;
-        // launch algorithm recursively and save cost value
-        child[i].value = - negaMaxClassic(child[i].board, depth - 1, (COLOR)
-				(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
-    }
-    // find the best child(s) and the best move(s) corresponding
-    value = findBestChild(child,best,child.size()) ;
-    // reporting operations if necessary
-    if(with_reporting) {
-        timeval end ;
-        gettimeofday(&end , NULL) ;
-        add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),
-				child.size(),child.size()) ;
-    }
-    return value;
-		}
-
+#pragma omp parallel
+{
+#pragma omp single
+Appel à la fonction récursive de l'algorithme
+}
 \end{verbatim}
+
+\begin{itemize}
+	\item \textit{\#pragma omp parallel} encadre l'ensemble de l'algorithme
+	\item \textit{\#pragma omp single} indique que l'on souhaite, pour le moment, que l'algorithme soit exécuté via un seul thread
+\end{itemize}
+
+\begin{itemize}
+	\item[\textbullet] Au sein des fonctions récursives se trouvent les indications suivantes :
+\end{itemize}
+
+\begin{verbatim}
+for each childs
+{
+...
+#pragma omp task shared(best)
+Appel récursif
+}
+#pragma omp taskwait
+\end{verbatim}
+
+\begin{itemize}
+	\item \textit{\#pragma omp task shared(best)} indique le début d'une tâche exécutable par un autre thread, l'appel récursif de la fonction sur chaque fils pourra donc être exécuté par d'autres threads. \textit{shared(best)} permet de partager le tableaux des meilleurs coups entre tout les threads pour que chacun puisse le mettre à jour
+	\item \textit{\#pragma omp taskwait} indique l'attente de tous les threads lancés précédemment avant de poursuivre l'exécution du code en ce point
+\end{itemize}
+
+\vspace{0.3cm}
+\begin{itemize}
+	\item[\textbullet] Les points critiques :
+\end{itemize}
+
+\begin{itemize}
+	\item \textit{\#pragma omp critical} : des blocs de code ont été protégés via cette indication, il s'agit des instructions modifiant la variable best, partagés entre chaque thread comme indiqué précédemment. Ainsi, pour éviter les conflits, un seul thread à la fois pourra modifier ce tableau. Une autre protection a été ajoutée pour protéger l'affectation de la meilleure valeur actuelle, nécessaire d'être modifiée au fur et à mesure par chaque thread dans le cas d'un algorithme AlphaBeta pouvant effectuer une coupure selon cette valeur en cours de boucle	\end{itemize}
 
 \end{document}
 

@@ -49,9 +49,9 @@ Ces règles sont issues du site de la fédération Francaise du Jeu de Dames : http
 \subsection{La situation initiale}
 
 \begin{itemize}
-	\item Le jeu se joue sur les cases foncées du damier.
-	\item Le damier doit être placé de sorte que la première case de gauche, pour chaque joueur, soit une case foncée.
-	\item Le jeu de dames international se joue avec 20 pions clairs et 20 pions foncés. Avant de débuter une partie, les 20 pions noirs et les 20 pions blancs sont disposés sur les 4 premières rangées de chaque joueur. Dans le cadre de notre projet, nous avons choisi de pouvoir modifier la taille du damier ainsi que le nombre de lignes de pions de départ.
+	\item[\textbullet] Le jeu se joue sur les cases foncées du damier.
+	\item[\textbullet] Le damier doit être placé de sorte que la première case de gauche, pour chaque joueur, soit une case foncée.
+	\item[\textbullet] Le jeu de dames international se joue avec 20 pions clairs et 20 pions foncés. Avant de débuter une partie, les 20 pions noirs et les 20 pions blancs sont disposés sur les 4 premières rangées de chaque joueur. Dans le cadre de notre projet, nous avons choisi de pouvoir modifier la taille du damier ainsi que le nombre de lignes de pions de départ.
 \end{itemize}	
 
 \FigureEPS{h,t,b,p}{4cm}{./img/situationInit.eps}{Damier correspondant à la situation initale}{fig:sitInit}	
@@ -59,9 +59,9 @@ Ces règles sont issues du site de la fédération Francaise du Jeu de Dames : http
 \subsection{La marche des pièces}
 
 \begin{itemize}
-	\item Il existe deux types de pièces : les pions et les dames.
-	\item Le premier coup est toujours joué par les blancs. Les adversaires jouent un coup chacun à tour de rôle avec leurs pièces.
-	\item Un pion se déplace obligatoirement vers l'avant, en diagonale, d'une case sur une case libre de la rangée suivante.
+	\item[\textbullet] Il existe deux types de pièces : les pions et les dames.
+	\item[\textbullet] Le premier coup est toujours joué par les blancs. Les adversaires jouent un coup chacun à tour de rôle avec leurs pièces.
+	\item[\textbullet] Un pion se déplace obligatoirement vers l'avant, en diagonale, d'une case sur une case libre de la rangée suivante.
 \end{itemize}
 
 \FigureEPS{h,t,b,p}{4cm}{./img/deplacement.eps}{Déplacement d'un pion}{fig:depPion}		
@@ -69,34 +69,34 @@ Ces règles sont issues du site de la fédération Francaise du Jeu de Dames : http
 \newpage
 
 \begin{itemize}
-	\item Lorsqu'il atteint la dernière rangée, le pion devient dame. Pour cela, on couronne le pion en plaçant dessus un deuxième pion de la même couleur.
+	\item[\textbullet] Lorsqu'il atteint la dernière rangée, le pion devient dame. Pour cela, on couronne le pion en plaçant dessus un deuxième pion de la même couleur.
 \end{itemize}
 
 \FigureEPS{h,t,b,p}{4cm}{./img/dame2.eps}{Dame venant d'être créée}{fig:dame2}
 
 \begin{itemize}
-	\item Une dame doit attendre que l'adversaire ait joué au moins une fois avant d'entrer en action.
-	\item Une dame se déplace en arrière ou en avant sur les cases libres successives de la diagonale qu'elle occupe. Elle peut donc se poser, au-delà de cases libres, sur une case libre éloignée.
+	\item[\textbullet] Une dame doit attendre que l'adversaire ait joué au moins une fois avant d'entrer en action.
+	\item[\textbullet] Une dame se déplace en arrière ou en avant sur les cases libres successives de la diagonale qu'elle occupe. Elle peut donc se poser, au-delà de cases libres, sur une case libre éloignée.
 \end{itemize}
 
 \FigureEPS{h,t,b,p}{4cm}{./img/deplacementDame.eps}{Déplacement d'une dame}{fig:depDame}
 
 \subsection{La prise}
 \begin{itemize}
-	\item La prise des pièces adverse est obligatoire et s'effectue aussi bien en avant qu'en arrière.
-	\item Lorsqu'un pion se trouve en présence, diagonalement, d'une pièce adverse derrière laquelle se trouve une case libre, il doit obligatoirement sauter par-dessus cette pièce et occuper la case libre. Cette pièce adverse est alors enlevée du damier. Cette opération complète est la prise par un pion.
+	\item[\textbullet] La prise des pièces adverse est obligatoire et s'effectue aussi bien en avant qu'en arrière.
+	\item[\textbullet] Lorsqu'un pion se trouve en présence, diagonalement, d'une pièce adverse derrière laquelle se trouve une case libre, il doit obligatoirement sauter par-dessus cette pièce et occuper la case libre. Cette pièce adverse est alors enlevée du damier. Cette opération complète est la prise par un pion.
 \end{itemize}
 
 \FigureEPS{h,t,b,p}{4cm}{./img/prise.eps}{Prise d'un pion}{fig:prisePion}
 
 \begin{itemize}
-	\item Lorsqu'une dame se trouve en présence sur la même diagonale, directement ou à distance, d'une pièce adverse derrière laquelle se trouvent une ou plusieurs cases libres, elle doit obligatoirement passer par-dessus cette pièce et occuper, au choix, une des cases libres. Cette pièce est alors enlevée du damier. Cette opération complète est la prise par une dame.
+	\item[\textbullet] Lorsqu'une dame se trouve en présence sur la même diagonale, directement ou à distance, d'une pièce adverse derrière laquelle se trouvent une ou plusieurs cases libres, elle doit obligatoirement passer par-dessus cette pièce et occuper, au choix, une des cases libres. Cette pièce est alors enlevée du damier. Cette opération complète est la prise par une dame.
 \end{itemize}
 
 \FigureEPS{h,t,b,p}{4cm}{./img/priseDame.eps}{Prise d'un pion par une dame}{fig:priseDame}
 
 \begin{itemize}
-	\item Lorsqu'au cours d'une prise par un pion, celui-ci se trouve à nouveau en présence, diagonalement, d'une pièce adverse derrière laquelle se trouve une case libre, il doit obligatoirement sauter par-dessus cette seconde pièce, voire d'une troisième et ainsi de suite, et occuper la case libre se trouvant derrière la dernière pièce capturée. Les pièces adverses ainsi capturées sont ensuite enlevées du damier dans l'ordre de la prise. Cette opération complète est une rafle par un pion.
+	\item[\textbullet] Lorsqu'au cours d'une prise par un pion, celui-ci se trouve à nouveau en présence, diagonalement, d'une pièce adverse derrière laquelle se trouve une case libre, il doit obligatoirement sauter par-dessus cette seconde pièce, voire d'une troisième et ainsi de suite, et occuper la case libre se trouvant derrière la dernière pièce capturée. Les pièces adverses ainsi capturées sont ensuite enlevées du damier dans l'ordre de la prise. Cette opération complète est une rafle par un pion.
 \end{itemize}
 
 \FigureEPS{h,t,b,p}{4cm}{./img/priseMultiple.eps}{Prise multiple par un pion}{fig:priseMultPion}
@@ -104,39 +104,39 @@ Ces règles sont issues du site de la fédération Francaise du Jeu de Dames : http
 \newpage
 
 \begin{itemize}
-	\item Lorsqu'au cours d'une prise par une dame, celle-ci se trouve à nouveau en présence, sur une même diagonale, d'une pièce adverse derrière laquelle se trouve une ou plusieurs cases libres, elle doit obligatoirement sauter par-dessus cette seconde pièce, voire d'une troisième et ainsi de suite, et occuper au choix une case libre se trouvant derrière et sur la même diagonale que la dernière pièce capturée. Les pièces adverses ainsi capturées sont ensuite enlevées du damier dans l'ordre de la prise. Cette opération complète est une rafle par une dame.
+	\item[\textbullet] Lorsqu'au cours d'une prise par une dame, celle-ci se trouve à nouveau en présence, sur une même diagonale, d'une pièce adverse derrière laquelle se trouve une ou plusieurs cases libres, elle doit obligatoirement sauter par-dessus cette seconde pièce, voire d'une troisième et ainsi de suite, et occuper au choix une case libre se trouvant derrière et sur la même diagonale que la dernière pièce capturée. Les pièces adverses ainsi capturées sont ensuite enlevées du damier dans l'ordre de la prise. Cette opération complète est une rafle par une dame.
 \end{itemize}
 
 \FigureEPS{h,t,b,p}{4cm}{./img/priseMultDame.eps}{Prise multiple par une dame}{fig:priseMultDame}
 
 \begin{itemize}
-	\item Au cours d'une rafle, il est interdit de passer au-dessus de ses propres pièces.
-	\item Au cours d'une rafle, il est permis de passer plusieurs fois sur une même case libre mais il est interdit de passer plus d'une fois au-dessus d'une même pièce adverse.
-	\item Une rafle doit être clairement indiquée, pièce par pièce, en posant la pièce preneuse sur la case de saut, le temps d'y passer, et en déposant cette pièce sur la case terminale.
-	\item La prise du plus grand nombre de pièces est prioritaire, donc obligatoire. Dans ce cas, une dame compte pour une pièce, tout comme un pion. Elle ne confère nulle priorité et n'impose aucune obligation.
+	\item[\textbullet] Au cours d'une rafle, il est interdit de passer au-dessus de ses propres pièces.
+	\item[\textbullet] Au cours d'une rafle, il est permis de passer plusieurs fois sur une même case libre mais il est interdit de passer plus d'une fois au-dessus d'une même pièce adverse.
+	\item[\textbullet] Une rafle doit être clairement indiquée, pièce par pièce, en posant la pièce preneuse sur la case de saut, le temps d'y passer, et en déposant cette pièce sur la case terminale.
+	\item[\textbullet] La prise du plus grand nombre de pièces est prioritaire, donc obligatoire. Dans ce cas, une dame compte pour une pièce, tout comme un pion. Elle ne confère nulle priorité et n'impose aucune obligation.
 \end{itemize}
 
 \FigureEPS{h,t,b,p}{4cm}{./img/prisePrioritaire.eps}{Exemple de prise prioritaire}{fig:prisePrioritaire}
 
 \begin{itemize}
-	\item Si les pièces à prendre sont en nombre égal dans deux ou plusieurs possibilités de prise ou de rafle, le joueur est libre de choisir une de ces possibilités, soit avec un pion, soit avec une dame.
-	\item Un pion qui au cours d'une rafle, ne fait que passer sur une des 5 cases de la rangée de base adverse reste un pion lorsque la rafle est terminée.
+	\item[\textbullet] Si les pièces à prendre sont en nombre égal dans deux ou plusieurs possibilités de prise ou de rafle, le joueur est libre de choisir une de ces possibilités, soit avec un pion, soit avec une dame.
+	\item[\textbullet] Un pion qui au cours d'une rafle, ne fait que passer sur une des 5 cases de la rangée de base adverse reste un pion lorsque la rafle est terminée.
 \end{itemize}
 
 \subsection{Le résultat}
 \begin{itemize}
-	\item Le gain est obtenu par un joueur lorsque son adversaire : abandonne la partie ou n'a plus de pièces.
-	\item L'égalité, dénommée aussi remise ou nulle, est obtenue pour chacun des adversaires : qui la déclare, de commun accord, se trouve dans l'impossibilité de jouer alors qu'il a le trait ou lorsqu'aucun des deux ne parvient au gain.
+	\item[\textbullet] Le gain est obtenu par un joueur lorsque son adversaire : abandonne la partie ou n'a plus de pièces.
+	\item[\textbullet] L'égalité, dénommée aussi remise ou nulle, est obtenue pour chacun des adversaires : qui la déclare, de commun accord, se trouve dans l'impossibilité de jouer alors qu'il a le trait ou lorsqu'aucun des deux ne parvient au gain.
 \end{itemize}
 
 
 \section{Explications de l'interface}
 Au lancement du programme, le joueur a la possiblité de configurer plusieurs paramètres pour chacun des 2 joueurs :
 \begin{itemize}
-	\item La taille du damier : n cases x n cases
-	\item Le nombre de ligne avec des pions pour le joueur 1
-	\item Le mode de jeu du joueur blanc : soit manuel, soit un niveau de l'intelligence artificielle allant de 1 à 10.
-	\item La fonction de coût utilisée par l'intelligence artificielle.
+	\item[\textbullet] La taille du damier : n cases x n cases
+	\item[\textbullet] Le nombre de ligne avec des pions pour le joueur 1
+	\item[\textbullet] Le mode de jeu du joueur blanc : soit manuel, soit un niveau de l'intelligence artificielle allant de 1 à 10.
+	\item[\textbullet] La fonction de coût utilisée par l'intelligence artificielle.
 \end{itemize}
 Le joueur peut également utilisé la coupure alpha-beta ainsi que les threads s'il le souhaite. Ces réglages sont également applicable au joueur 2.
 

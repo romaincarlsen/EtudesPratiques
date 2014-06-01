@@ -54,8 +54,8 @@ Après avoir présenté son déroulement au cours de l'année, nous allons expliquer 
 L'objectif de ce projet était de développer un jeu à 2 joueurs en y incorporant une intelligence artificielle.
 Ce projet s'est décomposé en 2 parties: 
 \begin{itemize}
-	\item La première partie consistait en l'étude bibliographique de l'algorithme permettant de réaliser cette intelligence artificielle : l'algorithme MinMax. Nous avons aussi étudier la coupure Alpha-Beta permettant d'accélérer cet algorithme. Nous nous sommes également mis d'accord sur le jeu que nous allions développer et sur le langage de programmation que nous allions utiliser.  
-\item La deuxième partie de ce projet a été la réalisation pratique de ce jeu et l'application des algorithmes cités précédemment.  
+	\item[\textbullet] La première partie consistait en l'étude bibliographique de l'algorithme permettant de réaliser cette intelligence artificielle : l'algorithme MinMax. Nous avons aussi étudier la coupure Alpha-Beta permettant d'accélérer cet algorithme. Nous nous sommes également mis d'accord sur le jeu que nous allions développer et sur le langage de programmation que nous allions utiliser.  
+\item[\textbullet] La deuxième partie de ce projet a été la réalisation pratique de ce jeu et l'application des algorithmes cités précédemment.  
 \end{itemize}
 
 Nous avons choisi d'implémenter le jeu de dames parmi plusieurs jeux qui convenaient à cet algorithme. En effet, des jeux comme le morpion nous semblaient sans intérêt car les coups sont trop restreints. Le choix s'est fait entre les échecs et les dames, mais ce dernier nous était plus connu et ses règles sont plus simples.
@@ -72,14 +72,14 @@ Notre projet suit le modèle MVC qui permet de séparer la partie modèle de donnée
 \FigureEPS{h,t,b,p}{8.5cm}{./img/mvc.eps}{Schéma modèle MVC (Model View Controller)}{fig:mvc}
 
 \begin{itemize}
-	\item \underline{Modèle :}
+	\item[\textbullet] \underline{Modèle :}
 	
 	Il s'agit des classes où sont stockées les données du jeu.
 Classes Game, Checkerboard et Player (voir partie II - Le jeu)
-	\item \underline{Vue :}
+	\item[\textbullet] \underline{Vue :}
 
 	Il s'agit de l'interface graphique visible par l'utilisateur (voir partie III - le graphisme).
-	\item \underline{Contrôleur :}
+	\item[\textbullet] \underline{Contrôleur :}
 
 	Il s'agit des classes faisant le lien entre l'interface graphique (l'utilisateur) et le jeu en lui même (voir partie III - Le graphisme).
 \end{itemize}
@@ -169,16 +169,16 @@ rootNodeValue := -negamax( rootNode, depth, -1)
 
 Notre algorithme est donc une application de l'algorithme Negamax à notre jeu de dames :
 \begin{itemize}
-	\item Node = Il s'agit des n{\oe}uds de l'arbre = les damiers.
-	\item Depth = il s'agit de la profondeur restant à parcourir.
-	\item Color =  il s'agit du joueur à qui c'est le tour de jeu = blanc/noir = 1/-1.
-	\item Node is a terminal node = lorsqu'un n{\oe}ud est une feuille de l'arbre = lorsque la profondeur maximale a été atteinte ou que le damier admet un gagnant ou une égalité.
-	\item The heuristic value of node = la valeur de la fonction de coût.
-	\item BestValue = la valeur de fonction de coût maximal actuellement trouvée parmi les n{\oe}uds fils.
-	\item Foreach child of node = pour chaque fils du n{\oe}ud =  pour chaque mouvement possible par le joueur ayant le trait sur le damier fils..
-	\item val := -negamax(child, depth - 1, -color) = appel récursif de la fonction NegaMax pour chaque fils et inversement de la valeur de retour pour adapter la valeur au fait que le n{\oe}ud actuelle est un joueur différent.
-	\item bestValue := max( bestValue, val ) =  sélection de la valeur maximale.
-	\item return bestValue = on retourne la valeur maximale.
+	\item[\textbullet] Node = Il s'agit des n{\oe}uds de l'arbre = les damiers.
+	\item[\textbullet] Depth = il s'agit de la profondeur restant à parcourir.
+	\item[\textbullet] Color =  il s'agit du joueur à qui c'est le tour de jeu = blanc/noir = 1/-1.
+	\item[\textbullet] Node is a terminal node = lorsqu'un n{\oe}ud est une feuille de l'arbre = lorsque la profondeur maximale a été atteinte ou que le damier admet un gagnant ou une égalité.
+	\item[\textbullet] The heuristic value of node = la valeur de la fonction de coût.
+	\item[\textbullet] BestValue = la valeur de fonction de coût maximal actuellement trouvée parmi les n{\oe}uds fils.
+	\item[\textbullet] Foreach child of node = pour chaque fils du n{\oe}ud =  pour chaque mouvement possible par le joueur ayant le trait sur le damier fils..
+	\item[\textbullet] val := -negamax(child, depth - 1, -color) = appel récursif de la fonction NegaMax pour chaque fils et inversement de la valeur de retour pour adapter la valeur au fait que le n{\oe}ud actuelle est un joueur différent.
+	\item[\textbullet] bestValue := max( bestValue, val ) =  sélection de la valeur maximale.
+	\item[\textbullet] return bestValue = on retourne la valeur maximale.
 \end{itemize}
 		
 
@@ -198,8 +198,8 @@ Pour optimiser le temps d'exécution, nous avons aussi paralléliser les threads a
 
 Nous avons aussi essayé de représenter graphiquement l'exécution de l'algorithme. Ainsi, cela nous permettait de mieux vérifier que la méthode Alpha-Beta fonctionnait (en voyant si toutes les positions étaient analysées ou non). Ce travail se sépare en 2 étapes : 
 \begin{itemize}
-\item La première a été de créer un fichier texte contenant la taille du plateau et, pour chaque n{\oe}ud, le contenu du damier, le temps d'exécution, sa valeur, son nombre de n{\oe}ud fils et le nombre de noeud analysé.
-\item La deuxième est de créer un reporting graphique, codé en javascript via Canvas, et permettant de mieux visualiser les situations.
+\item[\textbullet] La première a été de créer un fichier texte contenant la taille du plateau et, pour chaque n{\oe}ud, le contenu du damier, le temps d'exécution, sa valeur, son nombre de n{\oe}ud fils et le nombre de noeud analysé.
+\item[\textbullet] La deuxième est de créer un reporting graphique, codé en javascript via Canvas, et permettant de mieux visualiser les situations.
 \end{itemize}
 
 \textbf{IMPRIM ECRAN DU REPORTING}
@@ -212,8 +212,8 @@ Dans un premier temps, nous avons défini une fonction de coût comparant le nombr
 
 Exemple : 	
 \begin{itemize}
-	\item Valeur d'un pion = 1 
-	\item Valeur d'une dame = 3
+	\item[\textbullet] Valeur d'un pion = 1 
+	\item[\textbullet] Valeur d'une dame = 3
 \end{itemize}
 
 \FigureEPS{h,t,b,p}{8.5cm}{./img/plateau2.eps}{Exemple de damier}{fig:damier}
