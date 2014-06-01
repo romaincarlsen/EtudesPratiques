@@ -53,6 +53,7 @@ public:
     void select(int x, int y);
     //déselectionne la case
     bool deselect();
+    bool isCurrentKill() const ;
     // return the board with caracters format
     string toString() const ;
 };

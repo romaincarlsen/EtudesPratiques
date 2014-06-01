@@ -105,17 +105,9 @@ void Checkerboard::select(int x, int y){
 
 //déselectionne la case
 bool Checkerboard::deselect(){
-    // verify qu'il n'y ai pas de movemeent en cours
-    bool enCours = false;
-    for(int i = 0; i<_size; i++){
-        for(int j = 0; j<_size; j++){
-            if(getQSquare(i,j).square == GHOST) {
-                enCours = true;
-            }
-        }
-    }
+
     // s'il n'y a pas de mouvement en cours, la piece est bien désélectionnée
-    if(!enCours){
+    if(!isCurrentKill()) {
         selection.select = false;
     }
     return !selection.select ;
@@ -131,6 +123,18 @@ bool Checkerboard::isWin() const {
             nbBlack += Tools::isBlack(_square[x][y].square) ;
         }
     return !nbWhite || !nbBlack ;
+}
+
+bool Checkerboard::isCurrentKill() const {
+    // verify qu'il n'y ai pas de movemeent en cours
+    for(int i = 0; i<_size; i++){
+        for(int j = 0; j<_size; j++){
+            if(getQSquare(i,j).square == GHOST) {
+                return true ;
+            }
+        }
+    }
+    return false ;
 }
 
 string Checkerboard::toString() const

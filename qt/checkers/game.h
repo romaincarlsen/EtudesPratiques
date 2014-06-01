@@ -98,7 +98,7 @@ public:
     // return all the struct MOVE possible for the player on the board parameters
     std::vector<MOVE> findMoveOnBoard(const Checkerboard & board, COLOR color, Player* player) ;
     // return all the struct MOVE possible for the player on the board parameters from xSelect ySelect square
-    std::vector<MOVE> findMoveOnBoardFrom(const Checkerboard & board, COLOR color, Player* player, int xSelect, int ySelect) ;
+    std::vector<MOVE> findMoveOnBoardFrom(const Checkerboard & board, COLOR color, Player* player, int x, int y) ;
     // return all the struct CHILD possible for the player on the board parameters from xSelect ySelect square
     std::vector<CHILD> findChild(const Checkerboard & board, COLOR color, Player* player, int xSelect, int ySelect) ;
     // return the best child value in the child treated et the struct MOVES corresponding

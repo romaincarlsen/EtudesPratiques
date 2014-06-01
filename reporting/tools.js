@@ -12,6 +12,8 @@ function char_to_img(c) {
 		case "O" : return img_black_king ;
 		case "v" : return img_empty ;
 		case "#" : return img_lock ;
+		case "g" : console.log("ghost finded") ;
+				   return img_empty ;
 		default : return null ;		
 	}
 }

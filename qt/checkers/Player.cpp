@@ -93,7 +93,7 @@ bool Player::isTheBestKillOnBoard(SQUARE piece, int x, int y, int xDest, int yDe
         moveOnBoard(x,y,xDest,yDest,copyBoard) ;
         // find the number of futur kill in the move
         int kill = 1 + theBestKillOnBoard(piece, xDest, yDest, copyBoard, with_thread) ;
-        // for each other destination square possible
+        // for each other moves possible
         for (int xt=0 ; xt<board.getSize() ; xt++) {
             for (int yt=0 ; yt<board.getSize() ; yt++) {
                 // return false if there is a best kill
@@ -101,6 +101,21 @@ bool Player::isTheBestKillOnBoard(SQUARE piece, int x, int y, int xDest, int yDe
                     return false;
             }
         }
+    }
+  return true ;
+}
+
+bool Player::isTheBestKillOnBoardFrom(SQUARE piece, int x, int y,int xDest, int yDest, const Checkerboard & board, bool with_thread) {
+    if (isMoveValidOnBoard(piece, x, y, xDest, yDest, board) && isKillOnBoard(piece, x, y, xDest, yDest, board)){
+        // copy the board
+        Checkerboard copyBoard(board) ;
+        // execute the move on the copy
+        moveOnBoard(x,y,xDest,yDest,copyBoard) ;
+        // find the number of futur kill in the move
+        int kill = 1 + theBestKillOnBoard(piece, xDest, yDest, copyBoard, with_thread) ;
+
+        // return false if there is a best kill
+        return theBestKillOnBoard(board.getSquare(x,y), x, y, board, with_thread) <= kill ;
     }
   return true ;
 }
@@ -142,6 +157,10 @@ bool Player::haveKillOnBoard(const Checkerboard & board) const {
             if (canKillOnBoard(board.getSquare(x,y), x, y, board))
 				return true ;
 	return false ;			 
+}
+
+bool Player::haveKillOnBoardFrom(const Checkerboard & board, int xFrom, int yFrom) {
+    return canKillOnBoard(board.getSquare(xFrom,yFrom), xFrom, yFrom, board) ;
 }
 
 bool Player::isWhite() const {

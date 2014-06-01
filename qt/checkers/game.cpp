@@ -77,7 +77,7 @@ bool Game::isFinish() {
 
 
 bool Game::isFinishOnBoard(const Checkerboard & board, Player * player) {
-    return board.isWin() || isEqualityOnBoard(board, player) ;
+    return !board.isCurrentKill() && (board.isWin() || isEqualityOnBoard(board, player)) ;
 }
 
 bool Game::isEqualityOnBoard(const Checkerboard & board, Player* player) {
@@ -189,18 +189,9 @@ STATE Game::dest(Player* player,  Player* opponent, int xDest, int yDest) {
 }
 
 bool Game::deselect(){
-    bool enCours = false;
     bool res = false ;
-    // verify if there is a current move
-    for(int i = 0; i<size; i++){
-        for(int j = 0; j<size; j++){
-            if(board.getQSquare(i,j).square == GHOST) {
-                enCours = true;
-            }
-        }
-    }
     // if there isn't, the piece is deselected and the player have to select another
-    if(!enCours){
+    if(!board.isCurrentKill()){
         if(isWhiteState(state)){
             state = WHITE_SELECT;
         }else state = BLACK_SELECT;
@@ -297,7 +288,8 @@ int Game::costFunction5(const Checkerboard & board, COLOR color) {
 
 std::vector<MOVE> Game::findMoveOnBoard(const Checkerboard & board, COLOR color, Player* player) {
     std::vector<MOVE> m ;
-    m.resize(0);
+    m.clear();
+    bool canKill = player->haveKillOnBoard(board) ;
     // for each piece to move
     for (int x=0 ; x<board.getSize() ; x++) {
         for (int y=0 ; y<board.getSize() ; y++) {
@@ -306,7 +298,6 @@ std::vector<MOVE> Game::findMoveOnBoard(const Checkerboard & board, COLOR color,
                     // for each destination corresponding
                     for (int xDest=0 ; xDest<board.getSize() ; xDest++) {
                         for (int yDest=0 ; yDest<board.getSize() ; yDest++) {
-                            bool canKill = player->haveKillOnBoard(board) ;
                             if (player->isMoveValidOnBoard(board.getSquare(x,y),x,y,xDest,yDest, board)) {
                                 bool wasKill = player->isKillOnBoard(board.getSquare(x,y),x,y,xDest,yDest,board) ;
                                 // verify if it isn't a case where the player can kill and the move isn't a kill
@@ -332,24 +323,22 @@ std::vector<MOVE> Game::findMoveOnBoard(const Checkerboard & board, COLOR color,
     return m ;
 }
 
-std::vector<MOVE> Game::findMoveOnBoardFrom(const Checkerboard & board, COLOR color, Player* player, int xSelect, int ySelect) {
+std::vector<MOVE> Game::findMoveOnBoardFrom(const Checkerboard & board, COLOR color, Player* player, int x, int y) {
     std::vector<MOVE> m ;
-    m.resize(0);
-    int x = xSelect ;
-    int y = ySelect ;
+    m.clear();
 
     if ((Tools::isWhite(board.getSquare(x,y)) && color==WHITE) || (Tools::isBlack(board.getSquare(x,y)) && color==BLACK)) {
         if (player->selectValidOnBoard(x,y, board)) {
+            bool canKill = player->haveKillOnBoardFrom(board, x,y) ;
             // for each destination corresponding from xSelect ySelect
             for (int xDest=0 ; xDest<board.getSize() ; xDest++) {
                 for (int yDest=0 ; yDest<board.getSize() ; yDest++) {
-                    bool canKill = player->haveKillOnBoard(board) ;
                     if (player->isMoveValidOnBoard(board.getSquare(x,y),x,y,xDest,yDest, board)) {
                         bool wasKill = player->isKillOnBoard(board.getSquare(x,y),x,y,xDest,yDest,board) ;
                         // verify if it isn't a case where the player can kill and the move isn't a kill
                         if (!(canKill && !wasKill)) {
                             // verify if it isn't a kill or if the kill is the best he can do
-                            if (!wasKill || player->isTheBestKillOnBoard(board.getSquare(x,y),x,y,xDest,yDest, board, with_thread)){
+                            if (!wasKill || player->isTheBestKillOnBoardFrom(board.getSquare(x,y),x,y,xDest,yDest, board, with_thread)){
                                 MOVE move ;
                                 move.x = x ;
                                 move.y = y ;
@@ -376,7 +365,7 @@ std::vector<CHILD> Game::findChild(const Checkerboard & board, COLOR color, Play
     else
         move = findMoveOnBoard(board,color, player) ;
     // for each move possible on the board by player
-    for (int i = 0 ; i<(int)move.size() ; i++) {
+    for (unsigned int i = 0 ; i<move.size() ; i++) {
         if (_stop) exit(EXIT_SUCCESS);
         CHILD test ;
         test.move = move[i] ;
@@ -416,7 +405,10 @@ std::vector<CHILD> Game::findChild(const Checkerboard & board, COLOR color, Play
 }
 
 int Game::findBestChild(std::vector<CHILD> child, std::vector<MOVE> & best, int nb_child_treated) {
-    int value = 0 ;
+    int value = 99999999 ;
+    if (child.empty()) {
+        qDebug() << "error : child is empty" ;
+    }
     // for each child treated
     for (int i = 0 ; i<nb_child_treated ; i++) {
         if (i==0 || child[i].value >= value) {
@@ -457,14 +449,23 @@ MOVE Game::negaMax(bool with_thread_param) {
     int value ;
     if (isWhiteState(state) && P1->isCP()) {
         if (with_thread_param) {
-            value = ((int)WHITE) * negaMaxThread(board, P1->getLevel(), WHITE, P1, P2, m, xSelect, ySelect) ;
+            #pragma omp parallel
+            {
+                #pragma omp single
+                value = ((int)WHITE) * negaMaxThread(board, P1->getLevel(), WHITE, P1, P2, m, xSelect, ySelect) ;
+
+            }
         }
         else
             value = ((int)WHITE) * negaMaxClassic(board, P1->getLevel(), WHITE, P1, P2, m,xSelect, ySelect) ;
     }
     if (isBlackState(state) && P2->isCP()) {
         if (with_thread_param) {
-            value = ((int)BLACK) * negaMaxThread(board, P2->getLevel(), BLACK, P1, P2, m, xSelect, ySelect) ;
+            #pragma omp parallel
+            {
+                #pragma omp single
+                value = ((int)BLACK) * negaMaxThread(board, P2->getLevel(), BLACK, P1, P2, m, xSelect, ySelect) ;
+            }
         }
         else
             value = ((int)BLACK) * negaMaxClassic(board, P2->getLevel(), BLACK, P1, P2, m, xSelect, ySelect) ;
@@ -490,30 +491,25 @@ int Game::negaMaxClassic(const Checkerboard & board, int depth, COLOR color, Pla
     // init the current player and opponent simulation
     Player* player = (color==WHITE ? P1 : P2) ;
     Player* opponent = (player==P1 ? P2 : P1) ;
-    int value ;
-    std::vector<CHILD> child ;
-    child.clear() ;
+    int value = 999999 ;
+    // find all the child corresponding with the current node board
+    std::vector<CHILD> child = findChild(board,color, player, xSelect, ySelect) ;
     // cost function return if the depth is max are if the game is finish on the current board
-    if (depth==0 || isFinishOnBoard(board, player)){
+    if (depth==0 || board.isWin() || child.size()==0){
         value = costFunction(board, color) ;
         // reporting operations if necessary
         if(with_reporting) {
             timeval end ;
             gettimeofday(&end , NULL) ;
-            add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),child.size()) ;
+            add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),0,0) ;
         }
         return value ;
     }
-    // find all the child corresponding with the current node board
-    child = findChild(board,color, player, xSelect, ySelect) ;
     // for each childs
-    for (int i = 0 ; i<(int)child.size() ; i++) {
+    for (unsigned int i = 0 ; i<child.size() ; i++) {
         // keep the graphism active
         QCoreApplication::processEvents();
         if (_stop) exit(EXIT_SUCCESS);
-        // indicate the threads informations
-        if (omp_get_num_threads()>1)
-            qDebug() << "nb threads = " << omp_get_num_threads() ;
         // launch algorithm recursively and save cost value
         child[i].value = - negaMaxClassic(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
     }
@@ -531,36 +527,32 @@ int Game::negaMaxClassic(const Checkerboard & board, int depth, COLOR color, Pla
 int Game::negaMaxThread(const Checkerboard & board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best , int xSelect, int ySelect) {
     // init the current player and opponent simulation
     Player* player = (color==WHITE ? P1 : P2) ;
-    int value ;
-    std::vector<CHILD> child ;
-    child.clear() ;
+    int value = 999999 ;
+    // find all the child corresponding with the current node board
+    std::vector<CHILD> child = findChild(board,color, player, xSelect, ySelect) ;
     // cost function return if the depth is max are if the game is finish on the current board
-    if (depth==0 || isFinishOnBoard(board, player)){
+    if (depth==0 || board.isWin() || child.size()==0){
         value = costFunction(board, color) ;
         return value ;
     }
-    // find all the child corresponding with the current node board
-    child = findChild(board,color, player, xSelect, ySelect) ;
 
-    /*#pragma omp single
-    {*/
-        // for each chidls
-        #pragma omp parallel for
-        for (int i = 0 ; i<(int)child.size() ; i++)
-        {
-            // keep the graphism active
-            QCoreApplication::processEvents();
-            if (_stop) exit(EXIT_SUCCESS);
-            // indicate the threads informations
-            if (omp_get_num_threads()>1)
-                qDebug() << "nb threads = " << omp_get_num_threads() ;
+    // for each chidls
+    for (unsigned int i = 0 ; i<child.size() ; i++)
+    {
+        // keep the graphism active
+        QCoreApplication::processEvents();
+        if (_stop) exit(EXIT_SUCCESS);
+        // indicate the threads informations
+        /*if (omp_get_num_threads()>1)
+            qDebug() << "nb threads = " << omp_get_num_threads() ;*/
 
-            #pragma omp task
-            // launch algorithm recursively and save cost value
-            child[i].value = - negaMaxThread(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
-            //#pragma omp taskwait
-        }
-    //}
+        // launch algorithm recursively and save cost value
+        #pragma omp task shared(best)
+        child[i].value = - negaMaxThread(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
+    }
+
+    #pragma omp taskwait
+
     // find the best child(s) and the best move(s) corresponding
     value = findBestChild(child,best,child.size()) ;
     return value ;
@@ -583,14 +575,22 @@ MOVE Game::alphaBeta(bool with_thread_param) {
     int value = 0 ;
     if (isWhiteState(state) && P1->isCP()) {
         if (with_thread_param) {
-            value = ((int)WHITE) * alphaBetaThread(board, P1->getLevel(), WHITE, P1, P2, m,-value,false, xSelect, ySelect) ;
+            #pragma omp parallel
+            {
+                #pragma omp single
+                value = ((int)WHITE) * alphaBetaThread(board, P1->getLevel(), WHITE, P1, P2, m,-value,false, xSelect, ySelect) ;
+            }
         }
         else
             value = ((int)WHITE) * alphaBetaClassic(board, P1->getLevel(), WHITE, P1, P2, m,-value,false, xSelect, ySelect) ;
     }
     if (isBlackState(state) && P2->isCP()) {
         if (with_thread_param) {
-            value = ((int)BLACK) * alphaBetaThread(board, P2->getLevel(), BLACK, P1, P2, m,-value,false, xSelect, ySelect) ;
+            #pragma omp parallel
+            {
+                #pragma omp single
+                value = ((int)BLACK) * alphaBetaThread(board, P2->getLevel(), BLACK, P1, P2, m,-value,false, xSelect, ySelect) ;
+            }
         }
         else
             value = ((int)BLACK) * alphaBetaClassic(board, P2->getLevel(), BLACK, P1, P2, m,-value,false, xSelect, ySelect) ;
@@ -614,25 +614,22 @@ MOVE Game::alphaBeta(bool with_thread_param) {
 int Game::alphaBetaClassic(const Checkerboard & board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec , int xSelect, int ySelect) {
     // init the current player and opponent simulation
     Player* player = (color==WHITE ? P1 : P2) ;
-    int value = 0 ;
-    std::vector<CHILD> child ;
-    child.clear() ;
-    int nb_child_treated = 0 ;
+    int value = 999999 ;
+    // find all the child corresponding with the current node board
+    std::vector<CHILD> child = findChild(board,color, player, xSelect, ySelect) ;
     // cost function return if the depth is max are if the game is finish on the current board
-    if (depth==0 || isFinishOnBoard(board, player)){
+    if (depth==0 || board.isWin() || child.size()==0){
         value = costFunction(board, color);
         // reporting operations if necessary
         if(with_reporting) {
             timeval end ;
             gettimeofday(&end , NULL) ;
-            add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),child.size(),nb_child_treated) ;
+            add_node_reporting(board,value,Tools::timediff(time_IA_begin,end),0,0) ;
         }
         return value ;
     }
-    // find all the child corresponding with the current node board
-    child = findChild(board,color, player, xSelect, ySelect) ;
     // begin by considering all childs will be treated
-    nb_child_treated = child.size() ;
+    unsigned int nb_child_treated = child.size() ;
     bool value_init = false ;
     // treat all the childs needed while nb_child_treated isn't changed
     for (int i = 0 ; i<nb_child_treated ; i++) {
@@ -643,13 +640,10 @@ int Game::alphaBetaClassic(const Checkerboard & board, int depth, COLOR color, P
         // - it isn't the first child treated
         // - the precedent value of tree has been affected (the root of the current node isn't a first child treated)
         // - the current value is already better than the root value, so negatively, in amont, the current root will not be chosen
-        if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==(int)child.size()) {
+        if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
             nb_child_treated = i ;
         }
         else {
-            // indicate the threads informations
-            if (omp_get_num_threads()>1)
-                qDebug() << "nb threads = " << omp_get_num_threads() ;
             // launch algorithm recursively and save cost value
             child[i].value = -alphaBetaClassic(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0, child[i].xSelect, child[i].ySelect) ;
             // change current max value if necessary
@@ -678,62 +672,61 @@ int Game::alphaBetaClassic(const Checkerboard & board, int depth, COLOR color, P
 int Game::alphaBetaThread(const Checkerboard & board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec, int xSelect, int ySelect) {
     // init the current player and opponent simulation
     Player* player = (color==WHITE ? P1 : P2) ;
-    int value ;
-    std::vector<CHILD> child ;
-    child.clear() ;
-    int nb_child_treated = 0 ;
+    int value = 999999 ;
+    // find all the child corresponding with the current node board
+    std::vector<CHILD> child = findChild(board,color, player, xSelect, ySelect) ;
     // cost function return if the depth is max are if the game is finish on the current board
-    if (depth==0 || isFinishOnBoard(board, player)){
+    if (depth==0 || board.isWin() || child.size()==0){
         value = costFunction(board, color);
         return value ;
     }
-    // find all the child corresponding with the current node board
-    child = findChild(board,color, player, xSelect, ySelect) ;
     // begin by considering all childs will be treated
-    nb_child_treated = child.size() ;
+    unsigned int nb_child_treated = child.size() ;
     bool value_init = false ;
 
-    /*#pragma omp single
-    {*/
-        // treat all the childs needed while nb_child_treated isn't changed
-        #pragma omp parallel for
-        for (int i = 0 ; i<nb_child_treated ; i++)
-        {
-            // keep the graphism active
-            QCoreApplication::processEvents();
-            if (_stop) exit(EXIT_SUCCESS);
-            // nb_child_treated can be stopped if
-            // - it isn't the first child treated
-            // - the precedent value of tree has been affected (the root of the current node isn't a first child treated)
-            // - the current value is already better than the root value, so negatively, in amont, the current root will not be chosen
-            if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==(int)child.size()) {
-                nb_child_treated = i ;
-            }
-            else {
-                // indicate the threads informations
-                if (omp_get_num_threads()>1)
-                    qDebug() << "nb threads = " << omp_get_num_threads() ;
+    // treat all the childs needed while nb_child_treated isn't changed
+    for (int i = 0 ; i<nb_child_treated ; i++)
+    {
+        // keep the graphism active
+        QCoreApplication::processEvents();
+        if (_stop) exit(EXIT_SUCCESS);
+        // nb_child_treated can be stopped if
+        // - it isn't the first child treated
+        // - the precedent value of tree has been affected (the root of the current node isn't a first child treated)
+        // - the current value is already better than the root value, so negatively, in amont, the current root will not be chosen
+        if (i!=0 && ismaxprec && value>maxprec && nb_child_treated==child.size()) {
+            nb_child_treated = i ;
+        }
+        else {
+            // indicate the threads informations
+            /*if (omp_get_num_threads()>1)
+                qDebug() << "nb threads = " << omp_get_num_threads() ;*/
 
-                #pragma omp task
-                // launch algorithm recursively and save cost value
-                child[i].value = -alphaBetaThread(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0, child[i].xSelect, child[i].ySelect) ;
-                // #pragma omp taskwait
+            // launch algorithm recursively and save cost value
+            #pragma omp task shared(best)
+            child[i].value = -alphaBetaThread(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0, child[i].xSelect, child[i].ySelect) ;
 
+            // change current max value if necessary
+            if (!value_init) {
                 #pragma omp critical
                 {
-                    // change current max value if necessary
-                    if (!value_init) {
+                value = child[i].value ;
+                value_init = true ;
+                }
+            }
+            else {
+                if (value<child[i].value) {
+                    #pragma omp critical
+                    {
                         value = child[i].value ;
-                        value_init = true ;
-                    }
-                    else {
-                        if (value<child[i].value)
-                            value = child[i].value ;
                     }
                 }
             }
         }
-    //}
+    }
+
+    #pragma omp taskwait
+
     // find the best child(s) and the best move(s) corresponding
     value = findBestChild(child,best,nb_child_treated) ;
     return value ;
@@ -763,7 +756,7 @@ void Game:: save_reporting() {
     flux<<board.getSize();
     flux<<";";
     qDebug() << "size reporting = " << reporting.size() ;
-    for (int i=0; i<(int)reporting.size();i++){
+    for (unsigned int i=0; i<reporting.size();i++){
         QString res =QString::fromStdString(reporting[i]);
         flux<<res;
         flux<<";";

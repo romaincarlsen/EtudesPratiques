@@ -17,13 +17,13 @@ public:
 	//Indicate direction of the offensive
 	DIRECTION direction ;
 	//Indicate how is coded the player king
-	SQUARE king ;
+    SQUARE king ;
 	//Indicate how is coded the player piece
-	SQUARE piece ;
+    SQUARE piece ;
 	//Indicate how is coded the opponent king
-	SQUARE oppKing ;
+    SQUARE oppKing ;
 	//Indicate how is coded the opponent piece
-	SQUARE oppPiece ;
+    SQUARE oppPiece ;
     // the enum STATE when the player have to select a piece
     STATE state_select ;
     // the enum STATE when the player have to select a destination
@@ -45,10 +45,12 @@ public:
     int theBestKillOnBoard(SQUARE piece, int x, int y, const Checkerboard & board, bool with_thread) ;
     // return true if the destination xDest yDest square chosen by player is one or is the begin of one of the best kill he can do
     bool isTheBestKillOnBoard(SQUARE piece, int x, int y,int xDest, int yDest, const Checkerboard & board, bool with_thread) ;
+    bool isTheBestKillOnBoardFrom(SQUARE piece, int x, int y,int xDest, int yDest, const Checkerboard & board, bool with_thread) ;
     // return true if the player can kill an opponent piece from x y square with the piece indicate
     bool canKillOnBoard(SQUARE piece, int x, int y, const Checkerboard & board) const ;
     // return true if the player can kill an opponenet piece on the board
     bool haveKillOnBoard(const Checkerboard & board) const ;
+    bool haveKillOnBoardFrom(const Checkerboard & board, int xFrom, int yFrom) ;
     // return true is the player is white
 	bool isWhite() const ;
     // return true if the player is black
