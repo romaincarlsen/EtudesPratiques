@@ -79,7 +79,7 @@ Elle comporte aussi des méthodes applicables sur ce plateau. Chacune d'entre ell
 
 La classe Player contient les informations propres à un joueur (level, fonction de coût associée, son pion, sa dame, son état SELECT, son état DEST, etc). Les attributs x, y, xDest et yDest correspondent aux coordonnées du dernier mouvement du joueur (ou du mouvement qu'il est en train de réaliser). Les coordonnées (x,y) définissent son pion sélectionné et les coordonnées (xDest,yDest) la case de déplacement choisie.
 
-La classe Player comportent la majorité des fonctions concernant le déplacement d'un pion sur un plateau de jeux, du fait que le déplacement d'un pion dépend du joueur : chaque joueur ne peux déplacer un pion que vers la ligne ennemie.
+La classe Player comportent la majorité des fonctions concernant le déplacement d'un pion sur un plateau de jeux, du fait que le déplacement d'un pion dépend du joueur : chaque joueur ne peut déplacer un pion que vers la ligne ennemie.
 
 \section{L'implémentation graphique}
 L'implémentation graphique du jeu a été réalisée en utilisant le framework Qt.  Afin de faciliter la mise en place de l'interface nous avons utilisé Qt Designer (voir image ci-dessous) pour positionner les éléments de base.
@@ -99,7 +99,7 @@ MOVE negaMax(bool with_thread_param)  ;
 MOVE alphaBeta(bool with_thread_param) ;
 \end{verbatim}
 
-Ces deux fonctions initialisent les paramètres nécessaires et lance l'exécution respective des algorithmes MegaMax et AlphaBeta dans l'ordre suivant :
+Ces deux fonctions initialisent les paramètres nécessaires et lance l'exécution respective des algorithmes NegaMax et AlphaBeta dans l'ordre suivant :
 \begin{itemize}
 	\item[\textbullet] Initialisation du reporting
 	\item[\textbullet] Initialisation du temps de début d'exécution de l'algorithme
@@ -136,25 +136,26 @@ Ces fonctions prennent en paramètres :
 	\item[\textbullet] La couleur du joueur dont le mouvement est simulé dans le niveau actuel
 	\item[\textbullet] Les joueurs de la partie
 	\item[\textbullet] La liste des meilleurs mouvements trouvés actuellement
-	\item[\textbullet] Les coordonnées (xSelect, ySelect) de la case sélectionnée si le coup en cours de calcul est un coup à plusieurs prises : le joueur ne peut pas désélectionner son pion et le calcul des mouvement doit se faire depuis ce pion
+	\item[\textbullet] Les coordonnées (xSelect, ySelect) de la case sélectionnée si le coup en cours de calcul est un coup à plusieurs prises : le joueur ne peut pas désélectionner son pion et le calcul des mouvements doit se faire depuis ce pion
 \end{itemize}
 
+\vspace{0.3cm}
 Fonctionnement :
 \begin{itemize}
 	\item[\textbullet] Teste si le n{\oe}ud actuel est une feuille. Le n{\oe}ud actuel est une feuille dans 2 cas :
 	\item Il y a un gagnant ou une égalité sur le n{\oe}ud actuel
 	\item Le niveau de profondeur est celui indiqué comme maximal par le niveau de l'IA choisie
 	\item[\textbullet] Dans le cas où le n{\oe}ud est une feuille, la fonction retourne la valeur retournée par l'appel à la fonction de coût sur le plateau feuille
-	\item[\textbullet] Sinon, l'algorithme poursuit avec la recherche de tout les n{\oe}uds fils via la fonction « findChild »
+	\item[\textbullet] Sinon, l'algorithme poursuit avec la recherche de tous les n{\oe}uds fils via la fonction « findChild »
 	\item[\textbullet] Un appel récursif à l'algorithme est appliqué à chaque n{\oe}ud fils
-	\item[\textbullet] La fonction retourne la meilleure valeur de fonction coût issue de l'appel récursif de tout ses fils
+	\item[\textbullet] La fonction retourne la meilleure valeur de fonction de coût issue de l'appel récursif de tous ses fils
 \end{itemize}
 
 \subsubsection{Les particularités de l'AlphaBeta :}
 Les fonctions AlphaBeta prennent 2 paramètres supplémentaires :
 \begin{itemize}
 	\item[\textbullet] maxprec : il s'agit de la meilleure valeur de fonction de coût actuellement trouvées parmi les frères du n{\oe}ud père du n{\oe}ud actuel
-	\item[\textbullet] Ismaxprec : il s'agit d'un booléen indiquant si la valeur maxprec est à prendre en compte, celle-ci n'est pas à prendre en compte lorsque le n{\oe}ud père est le premier fils de ses frères car il n'y a alors pas encore de valeur maximal vu que que la première est en cours de calcul via le n{\oe}ud actuel
+	\item[\textbullet] Ismaxprec : il s'agit d'un booléen indiquant si la valeur maxprec est à prendre en compte, celle-ci n'est pas à prendre en compte lorsque le n{\oe}ud père est le premier fils de ses frères car il n'y a alors pas encore de valeur maximal vu que la première est en cours de calcul via le n{\oe}ud actuel
 \end{itemize}
 
 Elles ont de plus une variable locale \textit{nb\_child\_treated} qui a pour valeur le nombre de fils du n{\oe}ud actuel sauf si une coupure Alpha-Beta a pu être réalisée.
@@ -190,6 +191,7 @@ Appel à la fonction récursive de l'algorithme
 	\item \textit{\#pragma omp single} indique que l'on souhaite, pour le moment, que l'algorithme soit exécuté via un seul thread
 \end{itemize}
 
+\vspace{0.3cm}
 \begin{itemize}
 	\item[\textbullet] Au sein des fonctions récursives se trouvent les indications suivantes :
 \end{itemize}
@@ -205,7 +207,7 @@ Appel récursif
 \end{verbatim}
 
 \begin{itemize}
-	\item \textit{\#pragma omp task shared(best)} indique le début d'une tâche exécutable par un autre thread, l'appel récursif de la fonction sur chaque fils pourra donc être exécuté par d'autres threads. \textit{shared(best)} permet de partager le tableaux des meilleurs coups entre tout les threads pour que chacun puisse le mettre à jour
+	\item \textit{\#pragma omp task shared(best)} indique le début d'une tâche exécutable par un autre thread, l'appel récursif de la fonction sur chaque fils pourra donc être exécuté par d'autres threads. \textit{shared(best)} permet de partager le tableaux des meilleurs coups entre tous les threads pour que chacun puisse le mettre à jour
 	\item \textit{\#pragma omp taskwait} indique l'attente de tous les threads lancés précédemment avant de poursuivre l'exécution du code en ce point
 \end{itemize}
 
