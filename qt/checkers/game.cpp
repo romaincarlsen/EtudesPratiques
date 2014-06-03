@@ -630,6 +630,7 @@ MOVE Game::alphaBeta(bool with_thread_param) {
     timeval end ;
     gettimeofday(&end , NULL) ;
     qDebug() <<  "Temps d'exécution = " << Tools::timediff(time_IA_begin,end) ;
+    qDebug() << "cost value = " << value ;
     // return error if the algorithm can't find a move
     if (m.empty()) {
         MOVE error ;

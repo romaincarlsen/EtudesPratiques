@@ -301,7 +301,7 @@ release/moc_mainwindow.cpp: ../checkers/include.h \
 		../checkers/Checkerboard.h \
 		../checkers/Player.h \
 		../checkers/mainwindow.h
-	C:\Qt\Qt5.3.0\5.3\mingw482_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.3.0/5.3/mingw482_32/mkspecs/win32-g++ -IC:/Users/fab/Documents/GitHub/EtudesPratiques/qt/checkers -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtGui -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore -I. ..\checkers\mainwindow.h -o release\moc_mainwindow.cpp
+	C:\Qt\Qt5.3.0\5.3\mingw482_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.3.0/5.3/mingw482_32/mkspecs/win32-g++ -IC:/Users/Utilisateur/Documents/GitHub/EtudesPratiques/qt/checkers -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtGui -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore -I. ..\checkers\mainwindow.h -o release\moc_mainwindow.cpp
 
 release/moc_labelcase.cpp: ../checkers/include.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore/QTimer \
@@ -446,7 +446,7 @@ release/moc_labelcase.cpp: ../checkers/include.h \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/QCheckBox \
 		C:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets/qcheckbox.h \
 		../checkers/labelcase.h
-	C:\Qt\Qt5.3.0\5.3\mingw482_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.3.0/5.3/mingw482_32/mkspecs/win32-g++ -IC:/Users/fab/Documents/GitHub/EtudesPratiques/qt/checkers -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtGui -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore -I. ..\checkers\labelcase.h -o release\moc_labelcase.cpp
+	C:\Qt\Qt5.3.0\5.3\mingw482_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.3.0/5.3/mingw482_32/mkspecs/win32-g++ -IC:/Users/Utilisateur/Documents/GitHub/EtudesPratiques/qt/checkers -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtWidgets -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtGui -IC:/Qt/Qt5.3.0/5.3/mingw482_32/include/QtCore -I. ..\checkers\labelcase.h -o release\moc_labelcase.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
