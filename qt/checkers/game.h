@@ -102,7 +102,7 @@ public:
     // return all the struct CHILD possible for the player on the board parameters from xSelect ySelect square
     std::vector<CHILD> findChild(const Checkerboard & board, COLOR color, Player* player, int xSelect, int ySelect) ;
     // return the best child value in the child treated et the struct MOVES corresponding
-    int findBestChild(std::vector<CHILD> child, std::vector<MOVE> & best, int nb_child_treated) ;
+    int findBestChild(std::vector<CHILD> child, std::vector<MOVE> & best, int depth) ;
     // init and launch the negamax algorithm
     // launch with threads if the parameter is true
     MOVE negaMax(bool with_thread_param) ;
