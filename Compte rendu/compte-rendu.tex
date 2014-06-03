@@ -42,8 +42,6 @@ Dans un monde où la puissance de calcul des ordinateurs ne cesse de s'accroître,
 Cette croissance de puissance a des conséquences sur la qualité des intelligences artificielles. En effet, cette augmentation permet d'exécuter les algorithmes de plus en plus rapidement et de pouvoir anticiper plus de coups. Tout ceci permet aux joueurs d'avoir l'impression de jouer contre un autre être humain, plutôt que contre une machine. Par exemple, le champion du monde d'échecs Garry Kasparov a été battu en 1997 par Deep Blue, un superordinateur spécialisé pour ce jeu.
 \end{abstract} 
 
-\newpage
-
 \section{Introduction}
 
 L'intelligence artificielle dans les jeux à 2 joueurs sans facteur aléatoire est le thème central de notre projet. 
@@ -59,7 +57,7 @@ Ce projet s'est décomposé en 2 parties:
 \end{itemize}
 
 Nous avons choisi d'implémenter le jeu de dames parmi plusieurs jeux qui convenaient à cet algorithme. En effet, des jeux comme le morpion nous semblaient sans intérêt car les coups sont trop restreints. Le choix s'est fait entre les échecs et les dames, mais ce dernier nous était plus connu et ses règles sont plus simples.
-\vspace{0.3cm}
+\vspace{0.2cm}
 
 Concernant le langage de programmation, nous avons choisi le C++, d'une part pour nous permettre d'apprendre ou d'approfondir ce langage, et d'autre part pour bénéficier de la librairie Qt, une bibliothèque multiplateforme pour créer des interfaces graphiques utilisateur conçue pour être utilisée en C++, et d'Open MP, une interface de programmation pour le calcul parallèle, pour pouvoir créer des threads aisément.
 
@@ -69,7 +67,7 @@ Concernant le langage de programmation, nous avons choisi le C++, d'une part pou
 
 Notre projet suit le modèle MVC qui permet de séparer la partie modèle de données de la partie interface utilisateur, avec un contrôleur permettant de faire le lien entre ces 2 parties :
 
-\FigureEPS{h,t,b,p}{8.5cm}{./img/mvc.eps}{Schéma modèle MVC (Model View Controller)}{fig:mvc}
+\FigureEPS{h,t,b,p}{4cm}{./img/mvc.eps}{Schéma modèle MVC (Model View Controller)}{fig:mvc}
 
 \begin{itemize}
 	\item[\textbullet] \underline{Modèle :}
@@ -84,13 +82,11 @@ Classes Game, Checkerboard et Player (voir partie II - Le jeu)
 	Il s'agit des classes faisant le lien entre l'interface graphique (l'utilisateur) et le jeu en lui même (voir partie III - Le graphisme).
 \end{itemize}
 
-\newpage
-
 \subsection{Le jeu}
 
 La structure de notre code concernant le fonctionnement du jeu en lui-même n'utilise que les classes Game, Checkerboard et Player selon le schéma suivant :
 
-\FigureEPS{h,t,b,p}{8.5cm}{./img/diagramme.eps}{Diagramme de classe}{fig:diag}
+\FigureEPS{h,t,b,p}{4cm}{./img/diagramme.eps}{Diagramme de classe}{fig:diag}
 
 Au cours de l'exécution, le jeu comporte une seule instance de classe Game auquel est associée une instance de classe Checkerboard et deux instances de classes Player.
 
@@ -102,7 +98,7 @@ Les méthodes de la classe Game coordonnent le déroulement du jeu, celles de la c
 	
 	Nous avons choisi de créer une interface simple : la partie gauche de la fenêtre est consacrée au plateau du jeu, tandis que celle de droite permet de choisir les différents réglages du jeu (joueurs humains ou IA, taille du plateau, utilisation ou non de la coupure alpha-beta ou du multithreading pour l'IA). Cela permet de commencer à jouer facilement et rapidement.
 	
-\FigureEPS{h,t,b,p}{1.2\textwidth}{./img/screen.eps}{Jeu de dames}{fig:dames}
+\FigureEPS{h,t,b,p}{5cm}{./img/screen.eps}{Jeu de dames}{fig:dames}
 	
 \section{L'intelligence artificielle}
 
@@ -129,7 +125,7 @@ L'évaluation se faisant selon les mêmes critères pour les 2 joueurs, la valeur t
 
 Exemple :
 
-\FigureEPS{h,t,b,p}{8.5cm}{./img/plateau.eps}{Damier correspondant à la fonction de coût}{fig:coût}
+\FigureEPS{h,t,b,p}{4cm}{./img/plateau.eps}{Damier correspondant à la fonction de coût}{fig:coût}
 
 Fonction de coût pour les blancs = X = 2
 
@@ -144,7 +140,7 @@ L'algorithme NegaMax ne va donc plus choisir alternativement la situation la plu
 \FigureEPS{h,t,b,p}{1\textwidth}{./img/arbre4.eps}{Arbre avec NegaMax, avec toutes les valeurs, les joueurs et les choix MaxMax}{fig:arbre4}
 
 
-\vspace{0.3cm}
+\vspace{0.2cm}
 L'algorithme NegaMax est donc une variante de l'algorithme MinMax permettant de toujours choisir le maximum au lieu d'alterner entre minimum et maximum. Il a pour seul but de simplifier l'implémentation.
 
 \subsubsection{Implémentation de l'algorithme}
@@ -187,7 +183,7 @@ Notre algorithme est donc une application de l'algorithme Negamax à notre jeu de
 Après avoir fini le jeu de Dames en mode automatique, nous avons essayé d'optimiser le jeu pour que le temps d'exécution soit le plus rapide possible. 
 Le premier moyen possible était d'améliorer l'algorithme MinMax en utilisant la méthode de la coupure alpha-beta. Cette méthode consiste à ne pas consulter certains n{\oe}uds lorsque l'on sait que le n{\oe}ud père ne sera pas le coup optimal. Cette méthode nous a permis de passer d'une profondeur maximale de 4 à une profondeur maximale 6 dans la recherche du meilleur coup. Voici un diagramme du temps gagné en utilisant cette méthode : 
 
-\vspace{0.3cm}
+\vspace{0.1cm}
 \begin{center}
 \begin{tabular}{|c|c|c|}
   \hline
@@ -200,14 +196,14 @@ Le premier moyen possible était d'améliorer l'algorithme MinMax en utilisant la 
   \hline
 \end{tabular}
 \end{center}
-\vspace{0.3cm}
+\vspace{0.1cm}
 
 Pour cette méthode, nous avons repris la méthode NegaMax à laquelle nous avons rajouté un paramètre (la valeur maximale actuelle au niveau du n{\oe}ud père). Il faut noter que la coupure alpha-beta utilise quand même la fonction NegaMax pour tous les n{\oe}uds fils gauches.
 
 
 Pour optimiser le temps d'exécution, nous avons aussi paralléliser les threads afin que le programme analyse plusieurs n{\oe}uds en même temps. Cette amélioration a été permise par l'utilisation d'Open MP, qui a été conçu afin de faciliter la mise ne place de calcul parallèle. Voici un diagramme du temps gagné grâce à cette méthode : 
 
-\vspace{0.3cm}
+\vspace{0.1cm}
 \begin{center}
 \begin{tabular}{|c|c|c|}
   \hline
@@ -220,7 +216,7 @@ Pour optimiser le temps d'exécution, nous avons aussi paralléliser les threads a
   \hline
 \end{tabular}
 \end{center}
-\vspace{0.3cm}
+\vspace{0.1cm}
 
 Nous avons aussi essayé de représenter graphiquement l'exécution de l'algorithme. Ainsi, cela nous permettait de mieux vérifier que la méthode Alpha-Beta fonctionnait (en voyant si toutes les positions étaient analysées ou non). Ce travail se sépare en 2 étapes : 
 \begin{itemize}
@@ -240,7 +236,7 @@ Exemple :
 	\item[\textbullet] Valeur d'une dame = 3
 \end{itemize}
 
-\FigureEPS{h,t,b,p}{8.5cm}{./img/plateau2.eps}{Exemple de damier}{fig:damier}
+\FigureEPS{h,t,b,p}{4cm}{./img/plateau2.eps}{Exemple de damier}{fig:damier}
 
 Si l'on se considère comme le joueur blanc, nous avons 4 pions et 1 dame alors que les noirs ont 2 pions et 1 dame.
 
@@ -254,10 +250,10 @@ Fonction de coût = (Nombre de pions blancs * valeur d'un pion + nombre de dames 
 
 La valeur étant positive la situation est avantageuse, donc plus la valeur est élevée, plus la situation est avantageuse.
 
-\vspace{0.3cm}
+\vspace{0.1cm}
 Pour améliorer l'algorithme, nous avons aussi essayé de perfectionner la fonction de coût. En effet, la fonction de départ ne regardait que le nombre de pions de chaque joueur. Cependant, la position des pions ont aussi leur importance. Donc nous avons essayé de prendre cela en compte dans le jugement de la position. Au final, nous avons réalisé plusieurs fonctions de coût que nous avons fait se rencontrer plusieurs fois pour voir la meilleure d'entre elles. Voici un tableau des confrontations :
 
-\vspace{0.3cm}
+\vspace{0.1cm}
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
   \hline
@@ -270,7 +266,7 @@ Pour améliorer l'algorithme, nous avons aussi essayé de perfectionner la fonctio
   \hline
 \end{tabular}
 \end{center}
-\vspace{0.3cm}
+\vspace{0.1cm}
 Dans ce tableau :
 \begin{itemize}
 	\item[\textbullet] 0 correspond à une défaite du joueur en ligne
@@ -282,7 +278,7 @@ Dans ce tableau :
 Nous avons donc atteint notre objectif premier qui était de créer une IA pour le jeu de Dames. Cet algorithme peut calculer jusqu'à 6 coups en avance.
  
 On peut cependant noter que certaines améliorations pourraient rendre l'IA encore plus rapide. Par exemple, on pourrait rajouter une fonction qui, avant d'utiliser la fonction de coût, vérifie si ce n{\oe}ud n'existe pas autre part dans l'arbre. On éviterait ainsi de refaire l'étude de tous ses n{\oe}uds fils.  
-\vspace{0.3cm}
+\vspace{0.2cm}
 
 Dans le cadre de l'étude pratique, nous avons donc établi des fondations idéales pour poursuivre l'expérience dans deux directions différentes, mais néanmoins complémentaires que sont la modélisation de jeux et l'Intelligence Artificielle.
 
