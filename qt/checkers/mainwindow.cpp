@@ -158,9 +158,6 @@ void MainWindow::start_click(){
 
     //redimensionnement du tableau des labels
     _square.resize(size,vector<LabelCase*>(size));
-    //Si il y avait déjà un jeu on interrompt les calculs qui pourraient être en court
-    if (game != NULL)
-        game->stop();
     game = new Game(size, nbLineP1, nbLineP2,_p1, costFunctionP1,_p2, costFunctionP2, with_alphabeta, with_thread, _reporting) ;
 
     for (int i = 0; i< game->getSize(); i++){
