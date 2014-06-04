@@ -200,13 +200,13 @@ bool MainWindow::deselect(){
 //modifie le type de joueur (manuel ou IA) et le niveau dans le cas de l'IA
 void MainWindow::selectLevelPlayer1(int lvl){
     if (lvl == 0) _p1 = -1;
-    else _p1 = lvl;
+    else _p1 = lvl*2;
 
 }
 
 void MainWindow::selectLevelPlayer2(int lvl){
     if (lvl == 0) _p2 = -1;
-    else _p2 = lvl;
+    else _p2 = lvl*2;
 }
 
 void MainWindow::setAlphaBeta(bool a){
