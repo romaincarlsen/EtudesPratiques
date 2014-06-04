@@ -241,9 +241,9 @@ int Game::costFunction2(const Checkerboard & board, COLOR color) {
     int nega = (player->isWhite() && color==WHITE) || (player->isBlack() && color==BLACK) ? 1 : -1 ;
     int nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing ;
     player->scanNumberOfOnBoard(nbMinePiece, nbMineKing, nbOpponentPiece, nbOpponentKing, board) ;
-    int value = (nbMinePiece - nbOpponentPiece)*3 + (nbMineKing - nbOpponentKing)*9 ;
-    value -= ((nbMinePiece + nbMineKing)==0)*20 ;
-    value += ((nbOpponentPiece + nbOpponentKing)==0)*20 ;
+    int value = (nbMinePiece - nbOpponentPiece)*10 + (nbMineKing - nbOpponentKing)*50 ;
+    value -= ((nbMinePiece + nbMineKing)==0)*100 ;
+    value += ((nbOpponentPiece + nbOpponentKing)==0)*100 ;
     for (int x=0 ; x<board.getSize() ; x++) {
         for (int y=0 ; y<board.getSize() ; y++) {
             if (player->isMine(board.getSquare(x,y))) {
