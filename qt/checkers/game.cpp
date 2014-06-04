@@ -583,8 +583,10 @@ int Game::negaMaxThread(const Checkerboard & board, int depth, COLOR color, Play
 
         // launch algorithm recursively and save cost value
         #pragma omp task shared(child,best)
-        child[i].value = - negaMaxThread(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
-        child[i].valued = true ;
+        {
+            child[i].value = - negaMaxThread(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
+            child[i].valued = true ;
+        }
     }
 
     #pragma omp taskwait
@@ -751,8 +753,10 @@ int Game::alphaBetaThread(const Checkerboard & board, int depth, COLOR color, Pl
 
                 // launch algorithm recursively and save cost value
                 #pragma omp task shared(child,best,nb_child_treated,value_init,value,loop_cut)
-                child[i].value = -alphaBetaThread(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, value_init, child[i].xSelect, child[i].ySelect) ;
-                child[i].valued = true ;
+                {
+                    child[i].value = -alphaBetaThread(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, value_init, child[i].xSelect, child[i].ySelect) ;
+                    child[i].valued = true ;
+                }
                 #pragma omp critical
                 {
                     nb_child_treated++ ;
