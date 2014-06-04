@@ -42,6 +42,11 @@ Player* Game::getP2(){
     return P2;
 }
 
+Player* Game::getCurrentPlayer(){
+    if(isWhiteState(state)) return getP1();
+    else return getP2();
+}
+
 bool Game::execMove(int x, int y, int xDest, int yDest){
     // select the piece if x y indicate to
     if(x!=-1 && y!=-1) {

@@ -85,7 +85,7 @@ void MainWindow::clear(){
 
 void MainWindow::launchIA() {
     if (game->isCPTurn()) {
-        this->ui->board_l->setText("Calcul du coup en cours");
+        this->ui->board_l->setText("Calcul du coup en cours pour le "+game->getCurrentPlayer()->toString()+".");
         if (!game->isFinish()) {
 
             MOVE mv ;

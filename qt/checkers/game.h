@@ -59,6 +59,7 @@ public:
     int getSize();
     Player* getP1() ;
     Player* getP2() ;
+    Player* getCurrentPlayer();
     // execute the move from x y to xDest yDest on the game board
     // return true if there is a winner at the end of the turn
     bool execMove(int x, int y, int xDest, int yDest) ;
