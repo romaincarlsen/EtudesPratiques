@@ -575,7 +575,7 @@ int Game::negaMaxThread(const Checkerboard & board, int depth, COLOR color, Play
             qDebug() << "nb threads = " << omp_get_num_threads() ;*/
 
         // launch algorithm recursively and save cost value
-        #pragma omp task shared(best)
+        #pragma omp task shared(child,best)
         child[i].value = - negaMaxThread(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, child[i].xSelect, child[i].ySelect) ;
         child[i].valued = true ;
     }
@@ -743,22 +743,19 @@ int Game::alphaBetaThread(const Checkerboard & board, int depth, COLOR color, Pl
                     qDebug() << "nb threads = " << omp_get_num_threads() ;*/
 
                 // launch algorithm recursively and save cost value
-                #pragma omp task shared(best)
+                #pragma omp task shared(child,best,nb_child_treated,value_init,value,loop_cut)
                 child[i].value = -alphaBetaThread(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0, child[i].xSelect, child[i].ySelect) ;
                 child[i].valued = true ;
-                nb_child_treated++ ;
-                // change current max value if necessary
-                if (!value_init) {
-                    #pragma omp critical
-                    {
-                    value = child[i].value ;
-                    value_init = true ;
+                #pragma omp critical
+                {
+                    nb_child_treated++ ;
+                    // change current max value if necessary
+                    if (!value_init) {
+                        value = child[i].value ;
+                        value_init = true ;
                     }
-                }
-                else {
-                    if (value<child[i].value) {
-                        #pragma omp critical
-                        {
+                    else {
+                        if (value<child[i].value) {
                             value = child[i].value ;
                         }
                     }
