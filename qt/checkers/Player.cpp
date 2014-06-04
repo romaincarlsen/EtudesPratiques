@@ -93,12 +93,18 @@ bool Player::isTheBestKillOnBoard(SQUARE piece, int x, int y, int xDest, int yDe
         moveOnBoard(x,y,xDest,yDest,copyBoard) ;
         // find the number of futur kill in the move
         int kill = 1 + theBestKillOnBoard(piece, xDest, yDest, copyBoard, with_thread) ;
+        if(board.isCurrentKill()) {
+            if (theBestKillOnBoard(board.getSquare(x,y), x, y, board, with_thread) > kill)
+                return false ;
+        }
+        else {
         // for each other moves possible
-        for (int xt=0 ; xt<board.getSize() ; xt++) {
-            for (int yt=0 ; yt<board.getSize() ; yt++) {
-                // return false if there is a best kill
-                if (theBestKillOnBoard(board.getSquare(xt,yt), xt, yt, board, with_thread) > kill)
-                    return false;
+            for (int xt=0 ; xt<board.getSize() ; xt++) {
+                for (int yt=0 ; yt<board.getSize() ; yt++) {
+                    // return false if there is a best kill
+                    if (theBestKillOnBoard(board.getSquare(xt,yt), xt, yt, board, with_thread) > kill)
+                        return false;
+                }
             }
         }
     }

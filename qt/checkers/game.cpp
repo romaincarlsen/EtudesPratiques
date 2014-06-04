@@ -756,18 +756,18 @@ int Game::alphaBetaThread(const Checkerboard & board, int depth, COLOR color, Pl
                 {
                     child[i].value = -alphaBetaThread(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, value_init, child[i].xSelect, child[i].ySelect) ;
                     child[i].valued = true ;
-                }
-                #pragma omp critical
-                {
-                    nb_child_treated++ ;
-                    // change current max value if necessary
-                    if (!value_init) {
-                        value = child[i].value ;
-                        value_init = true ;
-                    }
-                    else {
-                        if (value<child[i].value) {
+                    #pragma omp critical
+                    {
+                        nb_child_treated++ ;
+                        // change current max value if necessary
+                        if (!value_init) {
                             value = child[i].value ;
+                            value_init = true ;
+                        }
+                        else {
+                            if (value<child[i].value) {
+                                value = child[i].value ;
+                            }
                         }
                     }
                 }
