@@ -166,7 +166,7 @@
         <item>
          <widget class="QLabel" name="nbLineP1_l">
           <property name="text">
-           <string>nb line joueur 1</string>
+           <string>nb line joueur blanc</string>
           </property>
          </widget>
         </item>
@@ -186,7 +186,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Mode de jeu du joueur 1</string>
+           <string>Mode de jeu du joueur blanc</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -203,7 +203,7 @@
         <item>
          <widget class="QLineEdit" name="lineEdit_4">
           <property name="text">
-           <string>Fonction de coût du joueur 1</string>
+           <string>Fonction de coût du joueur blanc</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -233,7 +233,7 @@
         <item>
          <widget class="QLabel" name="nbLineP2_l">
           <property name="text">
-           <string>nb line joueur 2</string>
+           <string>nb line joueur noir</string>
           </property>
          </widget>
         </item>
@@ -253,7 +253,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Mode de jeu du joueur 2</string>
+           <string>Mode de jeu du joueur noir</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -270,7 +270,7 @@
         <item>
          <widget class="QLineEdit" name="lineEdit_3">
           <property name="text">
-           <string>Fonction de coût du joueur 2</string>
+           <string>Fonction de coût du joueur noir</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>

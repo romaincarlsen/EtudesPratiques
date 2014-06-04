@@ -300,12 +300,12 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Jeu de dames", 0));
         size_l->setText(QApplication::translate("MainWindow", "taille du plateau", 0));
-        nbLineP1_l->setText(QApplication::translate("MainWindow", "nb line joueur 1", 0));
-        lineEdit->setText(QApplication::translate("MainWindow", "Mode de jeu du joueur 1", 0));
-        lineEdit_4->setText(QApplication::translate("MainWindow", "Fonction de co\303\273t du joueur 1", 0));
-        nbLineP2_l->setText(QApplication::translate("MainWindow", "nb line joueur 2", 0));
-        lineEdit_2->setText(QApplication::translate("MainWindow", "Mode de jeu du joueur 2", 0));
-        lineEdit_3->setText(QApplication::translate("MainWindow", "Fonction de co\303\273t du joueur 2", 0));
+        nbLineP1_l->setText(QApplication::translate("MainWindow", "nb line joueur blanc", 0));
+        lineEdit->setText(QApplication::translate("MainWindow", "Mode de jeu du joueur blanc", 0));
+        lineEdit_4->setText(QApplication::translate("MainWindow", "Fonction de co\303\273t du joueur blanc", 0));
+        nbLineP2_l->setText(QApplication::translate("MainWindow", "nb line joueur noir", 0));
+        lineEdit_2->setText(QApplication::translate("MainWindow", "Mode de jeu du joueur noir", 0));
+        lineEdit_3->setText(QApplication::translate("MainWindow", "Fonction de co\303\273t du joueur noir", 0));
         start->setText(QApplication::translate("MainWindow", "start", 0));
         alphabeta->setText(QApplication::translate("MainWindow", "alpha-beta", 0));
         threads->setText(QApplication::translate("MainWindow", "threads", 0));
