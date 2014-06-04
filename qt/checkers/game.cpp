@@ -751,7 +751,7 @@ int Game::alphaBetaThread(const Checkerboard & board, int depth, COLOR color, Pl
 
                 // launch algorithm recursively and save cost value
                 #pragma omp task shared(child,best,nb_child_treated,value_init,value,loop_cut)
-                child[i].value = -alphaBetaThread(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, i!=0, child[i].xSelect, child[i].ySelect) ;
+                child[i].value = -alphaBetaThread(child[i].board, depth - 1, (COLOR)(-(int)color),P1, P2, best, -value, value_init, child[i].xSelect, child[i].ySelect) ;
                 child[i].valued = true ;
                 #pragma omp critical
                 {
