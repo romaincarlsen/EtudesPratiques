@@ -88,11 +88,7 @@ void MainWindow::launchIA() {
         this->ui->board_l->setText("Calcul du coup en cours pour le "+game->getCurrentPlayer()->toString()+".");
         if (!game->isFinish()) {
 
-            MOVE mv ;
-            if (game->with_alphabeta)
-                mv = game->alphaBeta(game->with_thread) ;
-            else
-                mv = game->negaMax(game->with_thread) ;
+            MOVE mv = game->negaMax() ;
 
             if (game->execMove(mv.x,mv.y,-1,-1)) {
                 this->ui->board_l->setText(game->toString()) ;

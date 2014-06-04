@@ -106,18 +106,9 @@ public:
     int findBestChild(std::vector<CHILD> child, std::vector<MOVE> & best, int depth) ;
     // init and launch the negamax algorithm
     // launch with threads if the parameter is true
-    MOVE negaMax(bool with_thread_param) ;
-    // launch recursively the negamax algorithm without threads
-    int negaMaxClassic(const Checkerboard & board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int xSelect, int ySelect) ;
-    // launch recursively the negamax algorithm with threads
-    int negaMaxThread(const Checkerboard & board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int xSelect, int ySelect) ;
-    // init and launch the alphabeta algorithm
-    // launch with threads if the parameter is true
-    MOVE alphaBeta(bool with_thread_param) ;
-    // launch recursively the alphabeta algorithm without threads
-    int alphaBetaClassic(const Checkerboard & board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec, int xSelect, int ySelect);
+    MOVE negaMax() ;
     // launch recursively the alphabeta algorithm with threads
-    int alphaBetaThread(const Checkerboard & board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec, int xSelect, int ySelect);
+    int negaMax(const Checkerboard & board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec, int xSelect, int ySelect);
     // return the player who have to play
     Player* playerTurn() ;
     // init the reporting creation
