@@ -108,7 +108,7 @@ public:
     // launch with threads if the parameter is true
     MOVE negaMax() ;
     // launch recursively the alphabeta algorithm with threads
-    int negaMax(const Checkerboard & board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec, int xSelect, int ySelect);
+    int negaMax(const Checkerboard & board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec, int xSelect, int ySelect, std::vector<bool*> path_cut);
     // return the player who have to play
     Player* playerTurn() ;
     // init the reporting creation

@@ -384,7 +384,6 @@ std::vector<CHILD> Game::findChild(const Checkerboard & board, COLOR color, Play
         move = findMoveOnBoard(board,color, player) ;
     // for each move possible on the board by player
     for (unsigned int i = 0 ; i<move.size() ; i++) {
-        if (_stop) exit(EXIT_SUCCESS);
         CHILD test ;
         test.move = move[i] ;
         // copy of the board
@@ -463,7 +462,7 @@ int Game::findBestChild(std::vector<CHILD> child, std::vector<MOVE> & best, int 
 
 MOVE Game::negaMax() {
     std::vector<MOVE> m ;
-    m.clear();
+    std::vector<bool*> path_cut ;
     init_reporting() ;
     // init the time begin of the IA launching
     gettimeofday(&time_IA_begin , NULL) ;
@@ -480,14 +479,14 @@ MOVE Game::negaMax() {
         #pragma omp parallel if(with_thread)
         {
             #pragma omp single
-            value = negaMax(board, P1->getLevel(), WHITE, P1, P2, m,-value,false, xSelect, ySelect) ;
+            value = negaMax(board, P1->getLevel(), WHITE, P1, P2, m,-value,false, xSelect, ySelect,path_cut) ;
         }
     }
     if (isBlackState(state) && P2->isCP()) {
         #pragma omp parallel if(with_thread)
         {
             #pragma omp single
-            value = negaMax(board, P2->getLevel(), BLACK, P1, P2, m,-value,false, xSelect, ySelect) ;
+            value = negaMax(board, P2->getLevel(), BLACK, P1, P2, m,-value,false, xSelect, ySelect,path_cut) ;
         }
     }
 
@@ -513,7 +512,8 @@ MOVE Game::negaMax() {
     return choice ;
 }
 
-int Game::negaMax(const Checkerboard & board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec, int xSelect, int ySelect) {
+int Game::negaMax(const Checkerboard & board, int depth, COLOR color, Player* P1, Player* P2, std::vector<MOVE> & best, int maxprec, bool ismaxprec, int xSelect, int ySelect, std::vector<bool*> path_cut) {
+
     // init the current player and opponent simulation
     Player* player = (color==WHITE ? P1 : P2) ;
     int value = 999999 ;
@@ -538,7 +538,7 @@ int Game::negaMax(const Checkerboard & board, int depth, COLOR color, Player* P1
     {
         // keep the graphism active
         QCoreApplication::processEvents();
-        if (_stop) exit(EXIT_SUCCESS);
+        if (_stop) loop_cut=true;
         // nb_child_treated can be stopped if
         // - it isn't the first child treated
         // - the precedent value of tree has been affected (the root of the current node isn't a first child treated)
@@ -553,22 +553,31 @@ int Game::negaMax(const Checkerboard & board, int depth, COLOR color, Player* P1
                     qDebug() << "nb threads = " << omp_get_num_threads() ;*/
 
                 // launch algorithm recursively and save cost value
-                #pragma omp task shared(child,best,nb_child_treated,value_init,value,loop_cut) if(with_thread)
+
+                #pragma omp task shared(child,best,nb_child_treated,value_init,value,loop_cut,path_cut) if(with_thread)
                 {
-                    child[i].value = -negaMax(child[i].board, depth - 1, (COLOR)(-color),P1, P2, best, -value, value_init, child[i].xSelect, child[i].ySelect) ;
-                    child[i].valued = true ;
-                    if (with_alphabeta) {
-                        #pragma omp critical
-                        {
-                            nb_child_treated++ ;
-                            // change current max value if necessary
-                            if (!value_init) {
-                                value = child[i].value ;
-                                value_init = true ;
-                            }
-                            else {
-                                if (value<child[i].value) {
+                    bool cut = false ;
+                    for (unsigned int p=0 ; p<path_cut.size() ; p++) {
+                        if (*path_cut[p])
+                            cut = true ;
+                    }
+                    if (!cut) {
+                        path_cut.push_back(&loop_cut);
+                        child[i].value = -negaMax(child[i].board, depth - 1, (COLOR)(-color),P1, P2, best, -value, value_init, child[i].xSelect, child[i].ySelect,path_cut) ;
+                        child[i].valued = true ;
+                        if (with_alphabeta) {
+                            #pragma omp critical
+                            {
+                                nb_child_treated++ ;
+                                // change current max value if necessary
+                                if (!value_init) {
                                     value = child[i].value ;
+                                    value_init = true ;
+                                }
+                                else {
+                                    if (value<child[i].value) {
+                                        value = child[i].value ;
+                                    }
                                 }
                             }
                         }
