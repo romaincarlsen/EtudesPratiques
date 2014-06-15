@@ -452,11 +452,11 @@ int Game::findBestChild(std::vector<CHILD> child, std::vector<MOVE> & best, int 
                 best.push_back(child[i].move) ;
         }
     }
-    if (depth = playerTurn()->getLevel()) {
+    /*if (depth = playerTurn()->getLevel()) {
         if (best.empty()) {
             qDebug() << "error" << "tableau des meilleurs coups vide" ;
         }
-    }
+    }*/
     return value ;
 }
 
